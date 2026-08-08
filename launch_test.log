@@ -1,0 +1,223 @@
+[INFO] [launch]: All log files can be found below /home/ubuntu/.ros/log/2026-08-08-14-54-14-663591-ubuntu-55
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [58]
+[INFO] [robot_state_publisher-2]: process started with pid [60]
+[INFO] [joint_state_publisher_gui-3]: process started with pid [62]
+[INFO] [static_transform_publisher-4]: process started with pid [64]
+[INFO] [python3-5]: process started with pid [66]
+[INFO] [python3-6]: process started with pid [70]
+[INFO] [rviz2-7]: process started with pid [89]
+[robot_state_publisher-1] Parsing robot urdf xml string.
+[robot_state_publisher-1] The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+[robot_state_publisher-1] Link boom_turret_link had 1 children
+[robot_state_publisher-1] Link boom_stage_0_link had 1 children
+[robot_state_publisher-1] Link boom_stage_1_link had 1 children
+[robot_state_publisher-1] Link boom_stage_2_link had 1 children
+[robot_state_publisher-1] Link boom_stage_3_link had 1 children
+[robot_state_publisher-1] Link boom_stage_4_link had 1 children
+[robot_state_publisher-1] Link platform_mount_link had 1 children
+[robot_state_publisher-1] Link c_channel_platform_link had 10 children
+[robot_state_publisher-1] Link c_channel_reference had 0 children
+[robot_state_publisher-1] Link center_range_sensor_link had 0 children
+[robot_state_publisher-1] Link left_45_range_sensor_link had 0 children
+[robot_state_publisher-1] Link left_side_range_sensor_link had 0 children
+[robot_state_publisher-1] Link platform_depth_camera_link had 1 children
+[robot_state_publisher-1] Link platform_depth_camera_optical_frame had 0 children
+[robot_state_publisher-1] Link predocking_reference had 0 children
+[robot_state_publisher-1] Link rail_carriage_link had 2 children
+[robot_state_publisher-1] Link cutting_arm_base_link had 1 children
+[robot_state_publisher-1] Link cutting_arm_extension_link had 1 children
+[robot_state_publisher-1] Link cutting_tool_link had 0 children
+[robot_state_publisher-1] Link cutting_reference had 0 children
+[robot_state_publisher-1] Link right_45_range_sensor_link had 0 children
+[robot_state_publisher-1] Link right_side_range_sensor_link had 0 children
+[robot_state_publisher-1] Link trunk_reference_estimate had 0 children
+[robot_state_publisher-1] Link front_left_wheel_link had 0 children
+[robot_state_publisher-1] Link front_right_wheel_link had 0 children
+[robot_state_publisher-1] Link rear_left_wheel_link had 0 children
+[robot_state_publisher-1] Link rear_right_wheel_link had 0 children
+[robot_state_publisher-1] Link vehicle_lidar_link had 0 children
+[robot_state_publisher-1] [INFO] [1786172055.594523999] [harvester_state_publisher]: got segment base_link
+[robot_state_publisher-1] [INFO] [1786172055.594782703] [harvester_state_publisher]: got segment boom_stage_0_link
+[robot_state_publisher-1] [INFO] [1786172055.594825169] [harvester_state_publisher]: got segment boom_stage_1_link
+[robot_state_publisher-1] [INFO] [1786172055.594855699] [harvester_state_publisher]: got segment boom_stage_2_link
+[robot_state_publisher-1] [INFO] [1786172055.594884213] [harvester_state_publisher]: got segment boom_stage_3_link
+[robot_state_publisher-1] [INFO] [1786172055.594940056] [harvester_state_publisher]: got segment boom_stage_4_link
+[robot_state_publisher-1] [INFO] [1786172055.594993083] [harvester_state_publisher]: got segment boom_turret_link
+[robot_state_publisher-1] [INFO] [1786172055.595024573] [harvester_state_publisher]: got segment c_channel_platform_link
+[robot_state_publisher-1] [INFO] [1786172055.595054783] [harvester_state_publisher]: got segment c_channel_reference
+[robot_state_publisher-1] [INFO] [1786172055.595083041] [harvester_state_publisher]: got segment center_range_sensor_link
+[robot_state_publisher-1] [INFO] [1786172055.595111170] [harvester_state_publisher]: got segment cutting_arm_base_link
+[robot_state_publisher-1] [INFO] [1786172055.595140516] [harvester_state_publisher]: got segment cutting_arm_extension_link
+[robot_state_publisher-1] [INFO] [1786172055.595168102] [harvester_state_publisher]: got segment cutting_reference
+[robot_state_publisher-1] [INFO] [1786172055.595195783] [harvester_state_publisher]: got segment cutting_tool_link
+[robot_state_publisher-1] [INFO] [1786172055.595224873] [harvester_state_publisher]: got segment front_left_wheel_link
+[robot_state_publisher-1] [INFO] [1786172055.595339632] [harvester_state_publisher]: got segment front_right_wheel_link
+[robot_state_publisher-1] [INFO] [1786172055.596510741] [harvester_state_publisher]: got segment left_45_range_sensor_link
+[robot_state_publisher-1] [INFO] [1786172055.596577113] [harvester_state_publisher]: got segment left_side_range_sensor_link
+[robot_state_publisher-1] [INFO] [1786172055.596611515] [harvester_state_publisher]: got segment platform_depth_camera_link
+[robot_state_publisher-1] [INFO] [1786172055.596639901] [harvester_state_publisher]: got segment platform_depth_camera_optical_frame
+[robot_state_publisher-1] [INFO] [1786172055.596670879] [harvester_state_publisher]: got segment platform_mount_link
+[robot_state_publisher-1] [INFO] [1786172055.596700192] [harvester_state_publisher]: got segment predocking_reference
+[robot_state_publisher-1] [INFO] [1786172055.596729954] [harvester_state_publisher]: got segment rail_carriage_link
+[robot_state_publisher-1] [INFO] [1786172055.596758116] [harvester_state_publisher]: got segment rear_left_wheel_link
+[robot_state_publisher-1] [INFO] [1786172055.596785894] [harvester_state_publisher]: got segment rear_right_wheel_link
+[robot_state_publisher-1] [INFO] [1786172055.596815271] [harvester_state_publisher]: got segment right_45_range_sensor_link
+[robot_state_publisher-1] [INFO] [1786172055.596844521] [harvester_state_publisher]: got segment right_side_range_sensor_link
+[robot_state_publisher-1] [INFO] [1786172055.596873451] [harvester_state_publisher]: got segment trunk_reference_estimate
+[robot_state_publisher-1] [INFO] [1786172055.596901900] [harvester_state_publisher]: got segment vehicle_lidar_link
+[robot_state_publisher-2] Parsing robot urdf xml string.
+[robot_state_publisher-2] Link trunk_link had 29 children
+[robot_state_publisher-2] Link branch_01 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_01 had 0 children
+[robot_state_publisher-2] Link branch_02 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_02 had 0 children
+[robot_state_publisher-2] Link branch_03 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_03 had 0 children
+[robot_state_publisher-2] Link branch_04 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_04 had 0 children
+[robot_state_publisher-2] Link branch_05 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_05 had 0 children
+[robot_state_publisher-2] Link branch_06 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_06 had 0 children
+[robot_state_publisher-2] Link branch_07 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_07 had 0 children
+[robot_state_publisher-2] Link branch_08 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_08 had 0 children
+[robot_state_publisher-2] Link branch_09 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_09 had 0 children
+[robot_state_publisher-2] Link branch_10 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_10 had 0 children
+[robot_state_publisher-2] Link branch_11 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_11 had 0 children
+[robot_state_publisher-2] Link branch_12 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_12 had 0 children
+[robot_state_publisher-2] Link branch_13 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_13 had 0 children
+[robot_state_publisher-2] Link branch_14 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_14 had 0 children
+[robot_state_publisher-2] Link branch_15 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_15 had 0 children
+[robot_state_publisher-2] Link branch_16 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_16 had 0 children
+[robot_state_publisher-2] Link branch_17 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_17 had 0 children
+[robot_state_publisher-2] Link branch_18 had 1 children
+[robot_state_publisher-2] Link branch_cut_target_18 had 0 children
+[robot_state_publisher-2] Link ffb_01 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_01 had 0 children
+[robot_state_publisher-2] Link ffb_02 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_02 had 0 children
+[robot_state_publisher-2] Link ffb_03 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_03 had 0 children
+[robot_state_publisher-2] Link ffb_04 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_04 had 0 children
+[robot_state_publisher-2] Link ffb_05 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_05 had 0 children
+[robot_state_publisher-2] Link ffb_06 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_06 had 0 children
+[robot_state_publisher-2] Link ffb_07 had 1 children
+[robot_state_publisher-2] Link ffb_cut_target_07 had 0 children
+[robot_state_publisher-2] Link crown_base_reference had 0 children
+[robot_state_publisher-2] Link crown_center_reference had 0 children
+[robot_state_publisher-2] Link trunk_center_reference had 0 children
+[robot_state_publisher-2] Link trunk_top_reference had 0 children
+[robot_state_publisher-2] [INFO] [1786172055.616291050] [tree_state_publisher]: got segment branch_01
+[robot_state_publisher-2] [INFO] [1786172055.616537561] [tree_state_publisher]: got segment branch_02
+[robot_state_publisher-2] [INFO] [1786172055.616577467] [tree_state_publisher]: got segment branch_03
+[robot_state_publisher-2] [INFO] [1786172055.616608797] [tree_state_publisher]: got segment branch_04
+[robot_state_publisher-2] [INFO] [1786172055.616637183] [tree_state_publisher]: got segment branch_05
+[robot_state_publisher-2] [INFO] [1786172055.616665408] [tree_state_publisher]: got segment branch_06
+[robot_state_publisher-2] [INFO] [1786172055.616718308] [tree_state_publisher]: got segment branch_07
+[robot_state_publisher-2] [INFO] [1786172055.616748581] [tree_state_publisher]: got segment branch_08
+[robot_state_publisher-2] [INFO] [1786172055.616779303] [tree_state_publisher]: got segment branch_09
+[robot_state_publisher-2] [INFO] [1786172055.616806921] [tree_state_publisher]: got segment branch_10
+[robot_state_publisher-2] [INFO] [1786172055.616834379] [tree_state_publisher]: got segment branch_11
+[robot_state_publisher-2] [INFO] [1786172055.616862252] [tree_state_publisher]: got segment branch_12
+[robot_state_publisher-2] [INFO] [1786172055.616889134] [tree_state_publisher]: got segment branch_13
+[robot_state_publisher-2] [INFO] [1786172055.616916271] [tree_state_publisher]: got segment branch_14
+[robot_state_publisher-2] [INFO] [1786172055.616943505] [tree_state_publisher]: got segment branch_15
+[robot_state_publisher-2] [INFO] [1786172055.616971027] [tree_state_publisher]: got segment branch_16
+[robot_state_publisher-2] [INFO] [1786172055.617001524] [tree_state_publisher]: got segment branch_17
+[robot_state_publisher-2] [INFO] [1786172055.617029974] [tree_state_publisher]: got segment branch_18
+[robot_state_publisher-2] [INFO] [1786172055.617057528] [tree_state_publisher]: got segment branch_cut_target_01
+[robot_state_publisher-2] [INFO] [1786172055.617085849] [tree_state_publisher]: got segment branch_cut_target_02
+[robot_state_publisher-2] [INFO] [1786172055.617113723] [tree_state_publisher]: got segment branch_cut_target_03
+[robot_state_publisher-2] [INFO] [1786172055.617143901] [tree_state_publisher]: got segment branch_cut_target_04
+[robot_state_publisher-2] [INFO] [1786172055.617181215] [tree_state_publisher]: got segment branch_cut_target_05
+[robot_state_publisher-2] [INFO] [1786172055.617211585] [tree_state_publisher]: got segment branch_cut_target_06
+[robot_state_publisher-2] [INFO] [1786172055.617240291] [tree_state_publisher]: got segment branch_cut_target_07
+[robot_state_publisher-2] [INFO] [1786172055.617270532] [tree_state_publisher]: got segment branch_cut_target_08
+[robot_state_publisher-2] [INFO] [1786172055.617297862] [tree_state_publisher]: got segment branch_cut_target_09
+[robot_state_publisher-2] [INFO] [1786172055.617326632] [tree_state_publisher]: got segment branch_cut_target_10
+[robot_state_publisher-2] [INFO] [1786172055.617372074] [tree_state_publisher]: got segment branch_cut_target_11
+[robot_state_publisher-2] [INFO] [1786172055.617413261] [tree_state_publisher]: got segment branch_cut_target_12
+[robot_state_publisher-2] [INFO] [1786172055.617441999] [tree_state_publisher]: got segment branch_cut_target_13
+[robot_state_publisher-2] [INFO] [1786172055.617470064] [tree_state_publisher]: got segment branch_cut_target_14
+[robot_state_publisher-2] [INFO] [1786172055.617497810] [tree_state_publisher]: got segment branch_cut_target_15
+[robot_state_publisher-2] [INFO] [1786172055.617551925] [tree_state_publisher]: got segment branch_cut_target_16
+[robot_state_publisher-2] [INFO] [1786172055.617586071] [tree_state_publisher]: got segment branch_cut_target_17
+[robot_state_publisher-2] [INFO] [1786172055.617616985] [tree_state_publisher]: got segment branch_cut_target_18
+[robot_state_publisher-2] [INFO] [1786172055.617645435] [tree_state_publisher]: got segment crown_base_reference
+[robot_state_publisher-2] [INFO] [1786172055.617674652] [tree_state_publisher]: got segment crown_center_reference
+[robot_state_publisher-2] [INFO] [1786172055.617702302] [tree_state_publisher]: got segment ffb_01
+[robot_state_publisher-2] [INFO] [1786172055.617729312] [tree_state_publisher]: got segment ffb_02
+[robot_state_publisher-2] [INFO] [1786172055.617756097] [tree_state_publisher]: got segment ffb_03
+[robot_state_publisher-2] [INFO] [1786172055.617783587] [tree_state_publisher]: got segment ffb_04
+[robot_state_publisher-2] [INFO] [1786172055.617811268] [tree_state_publisher]: got segment ffb_05
+[robot_state_publisher-2] [INFO] [1786172055.617838150] [tree_state_publisher]: got segment ffb_06
+[robot_state_publisher-2] [INFO] [1786172055.617864840] [tree_state_publisher]: got segment ffb_07
+[robot_state_publisher-2] [INFO] [1786172055.617892585] [tree_state_publisher]: got segment ffb_cut_target_01
+[robot_state_publisher-2] [INFO] [1786172055.617920299] [tree_state_publisher]: got segment ffb_cut_target_02
+[robot_state_publisher-2] [INFO] [1786172055.617950573] [tree_state_publisher]: got segment ffb_cut_target_03
+[robot_state_publisher-2] [INFO] [1786172055.617979662] [tree_state_publisher]: got segment ffb_cut_target_04
+[robot_state_publisher-2] [INFO] [1786172055.618007344] [tree_state_publisher]: got segment ffb_cut_target_05
+[robot_state_publisher-2] [INFO] [1786172055.618034770] [tree_state_publisher]: got segment ffb_cut_target_06
+[robot_state_publisher-2] [INFO] [1786172055.618104822] [tree_state_publisher]: got segment ffb_cut_target_07
+[robot_state_publisher-2] [INFO] [1786172055.618137368] [tree_state_publisher]: got segment tree_base
+[robot_state_publisher-2] [INFO] [1786172055.618166682] [tree_state_publisher]: got segment trunk_center_reference
+[robot_state_publisher-2] [INFO] [1786172055.618194203] [tree_state_publisher]: got segment trunk_link
+[robot_state_publisher-2] [INFO] [1786172055.618220925] [tree_state_publisher]: got segment trunk_top_reference
+[static_transform_publisher-4] [INFO] [1786172055.652305698] [harvester_to_tree_tf]: Spinning until killed publishing transform from 'base_link' to 'tree_base'
+[rviz2-7] QStandardPaths: could not set correct permissions on runtime directory /run/user/1000: Read-only file system
+[python3-6] [INFO] [1786172056.392693572] [tree_description_publisher]: Published /tree_description
+[python3-5] [INFO] [1786172056.512101100] [harvester_description_publisher]: Published /robot_description
+[rviz2-7] 
+[rviz2-7] (rviz2:89): dbind-WARNING **: 14:54:17.192: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-TKABUGql3b: Connection refused
+[python3-6] [INFO] [1786172057.395833691] [tree_description_publisher]: Published /tree_description
+[rviz2-7] QStandardPaths: could not set correct permissions on runtime directory /run/user/1000: Read-only file system
+[python3-5] [INFO] [1786172057.515158365] [harvester_description_publisher]: Published /robot_description
+[joint_state_publisher_gui-3] QStandardPaths: could not set correct permissions on runtime directory /run/user/1000: Read-only file system
+[python3-6] [INFO] [1786172058.395926772] [tree_description_publisher]: Published /tree_description
+[python3-5] [INFO] [1786172058.517529180] [harvester_description_publisher]: Published /robot_description
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] (python3:62): dbind-WARNING **: 14:54:18.827: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-TKABUGql3b: Connection refused
+[rviz2-7] NvRmMemInitNvmap failed with No such file or directory
+[rviz2-7] 549: Memory Manager Not supported
+[rviz2-7] 
+[rviz2-7] 
+[rviz2-7] 
+[rviz2-7] ****NvRmMemInit failed**** error type: 196626
+[rviz2-7] 
+[rviz2-7] 
+[rviz2-7] *** NvRmMemInit failed NvRmMemConstructor
+[joint_state_publisher_gui-3] QStandardPaths: could not set correct permissions on runtime directory /run/user/1000: Read-only file system
+[python3-6] [INFO] [1786172059.397003454] [tree_description_publisher]: Published /tree_description
+[python3-5] [INFO] [1786172059.515191291] [harvester_description_publisher]: Published /robot_description
+[ERROR] [rviz2-7]: process has died [pid 89, exit code -11, cmd '/opt/ros/foxy/lib/rviz2/rviz2 -d /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/harvester_tree_combined.rviz --ros-args'].
+[python3-6] [INFO] [1786172060.395519655] [tree_description_publisher]: Published /tree_description
+[python3-5] [INFO] [1786172060.514778466] [harvester_description_publisher]: Published /robot_description
+[joint_state_publisher_gui-3] [INFO] [1786172060.727674315] [joint_state_publisher_gui]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher_gui-3] [INFO] [1786172060.765221340] [joint_state_publisher_gui]: Centering
+[joint_state_publisher_gui-3] NvRmMemInitNvmap failed with No such file or directory
+[joint_state_publisher_gui-3] 549: Memory Manager Not supported
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] ****NvRmMemInit failed**** error type: 196626
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] 
+[joint_state_publisher_gui-3] *** NvRmMemInit failed NvRmMemConstructor
+[joint_state_publisher_gui-3] [INFO] [1786172061.303113980] [joint_state_publisher_gui]: Centering
+[python3-6] [INFO] [1786172061.395436474] [tree_description_publisher]: Published /tree_description
+[python3-5] [INFO] [1786172061.514774361] [harvester_description_publisher]: Published /robot_description

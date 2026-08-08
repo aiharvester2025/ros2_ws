@@ -1,0 +1,83 @@
+[0.087s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install
+[0.343s] -- The C compiler identification is GNU 9.4.0
+[0.578s] -- The CXX compiler identification is GNU 9.4.0
+[0.602s] -- Check for working C compiler: /usr/bin/cc
+[0.913s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.920s] -- Detecting C compiler ABI info
+[1.274s] -- Detecting C compiler ABI info - done
+[1.322s] -- Detecting C compile features
+[1.324s] -- Detecting C compile features - done
+[1.335s] -- Check for working CXX compiler: /usr/bin/c++
+[1.703s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.709s] -- Detecting CXX compiler ABI info
+[2.067s] -- Detecting CXX compiler ABI info - done
+[2.115s] -- Detecting CXX compile features
+[2.116s] -- Detecting CXX compile features - done
+[2.127s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[2.219s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[2.220s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[3.277s] -- Configuring done
+[3.290s] -- Generating done
+[3.300s] -- Build files have been written to: /home/ubuntu/ros2_ws/build/oil_palm_harvester_description
+[3.317s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install
+[3.328s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[3.535s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[3.593s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description
+[3.633s] -- Install configuration: ""
+[3.635s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf
+[3.635s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_estimated.urdf
+[3.636s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_kinematic.urdf
+[3.638s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes
+[3.641s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision
+[3.643s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/wheel.stl
+[3.643s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/depth_camera_estimated.stl
+[3.644s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/lidar_mid360_estimated.stl
+[3.644s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/range_sensor.stl
+[3.645s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/mesh_inventory.csv
+[3.645s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual
+[3.645s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl
+[3.646s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/wheel.stl
+[3.646s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_tool.stl
+[3.647s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl
+[3.647s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_0.stl
+[3.647s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_2.stl
+[3.648s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/rail_carriage.stl
+[3.648s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/platform_mount.stl
+[3.649s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/depth_camera_estimated.stl
+[3.649s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/lidar_mid360_estimated.stl
+[3.649s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_4.stl
+[3.650s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_turret.stl
+[3.651s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_1.stl
+[3.651s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/c_channel_platform.stl
+[3.651s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/range_sensor.stl
+[3.652s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/vehicle_body.stl
+[3.652s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_3.stl
+[3.653s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch
+[3.653s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display.launch.py
+[3.653s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_docking.launch.py
+[3.654s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display_harvester_and_tree.launch.py
+[3.654s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config
+[3.655s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/example_joint_positions.yaml
+[3.655s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/controllers.yaml
+[3.656s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds
+[3.657s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds/docking.world
+[3.657s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview
+[3.657s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/oil_palm_harvester_estimated.glb
+[3.658s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/estimated_model_preview.png
+[3.668s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/publish_urdf.py
+[3.669s] -- Installing: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description
+[3.670s] -- Installing: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/parent_prefix_path/oil_palm_harvester_description
+[3.671s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.sh
+[3.673s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.dsv
+[3.674s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.sh
+[3.681s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.dsv
+[3.687s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.bash
+[3.693s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.sh
+[3.693s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.zsh
+[3.697s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.dsv
+[3.698s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.dsv
+[3.698s] -- Installing: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/packages/oil_palm_harvester_description
+[3.703s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig.cmake
+[3.704s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig-version.cmake
+[3.706s] -- Installing: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.xml
+[3.713s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description

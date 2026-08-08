@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/ubuntu/ros2_ws/install/oil_palm_harvester_description")
+  set(CMAKE_INSTALL_PREFIX "/home/ubuntu/ros2_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,6 +45,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/config"
     "/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/worlds"
     "/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/preview"
+    "/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/rviz"
     )
 endif()
 

@@ -14,35 +14,40 @@ from std_msgs.msg import String
 
 
 class URDFPublisher(Node):
-    def __init__(self, urdf_path: str):
-        super().__init__('publish_urdf')
+    def __init__(self, urdf_path: str, topic: str = 'robot_description', node_name: str = 'publish_urdf'):
+        super().__init__(node_name)
         content = Path(urdf_path).read_text()
         qos = QoSProfile(depth=1)
         qos.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
-        self.pub = self.create_publisher(String, 'robot_description', qos)
+        self.pub = self.create_publisher(String, topic, qos)
         self.msg = String()
         self.msg.data = content
-        # publish a few times and exit so tools get the URDF without repeatedly
-        # re-publishing which can cause other nodes (e.g. joint_state_publisher)
-        # to reinitialize their state.
-        for _ in range(5):
-            self.pub.publish(self.msg)
-            self.get_logger().info('Published /robot_description')
-            rclpy.spin_once(self, timeout_sec=0.1)
-            time.sleep(0.05)
+        self._publish()
+
+    def _publish(self):
+        self.pub.publish(self.msg)
+        self.get_logger().info(f'Published {self.pub.topic_name}')
+
+    def start(self):
+        self._timer = self.create_timer(1.0, self._publish)
 
 
 def main():
     rclpy.init()
     if len(sys.argv) < 2:
-        print('Usage: publish_urdf.py /path/to/robot.urdf')
+        print('Usage: publish_urdf.py /path/to/robot.urdf [topic] [node_name]')
         return
-    node = URDFPublisher(sys.argv[1])
+    urdf_path = sys.argv[1]
+    robot_description_topic = sys.argv[2] if len(sys.argv) > 2 else 'robot_description'
+    if len(sys.argv) > 3:
+        node_name = sys.argv[3]
+    else:
+        sanitized_topic = robot_description_topic.strip('/').replace('/', '_')
+        node_name = f'publish_urdf_{sanitized_topic}'
+    node = URDFPublisher(urdf_path, robot_description_topic, node_name)
+    node.start()
     try:
-        # allow a short window for late subscribers to connect
-        for _ in range(20):
-            rclpy.spin_once(node, timeout_sec=0.1)
-            time.sleep(0.05)
+        rclpy.spin(node)
     except KeyboardInterrupt:
         pass
     finally:
