@@ -1,0 +1,772 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="oil_palm_harvester_estimated">
+  <material name="dark_grey">
+    <color rgba="0.24 0.27 0.32 1" />
+  </material>
+  <material name="mid_grey">
+    <color rgba="0.48 0.50 0.55 1" />
+  </material>
+  <material name="light_grey">
+    <color rgba="0.70 0.72 0.76 1" />
+  </material>
+  <material name="black">
+    <color rgba="0.03 0.03 0.03 1" />
+  </material>
+  <material name="sensor">
+    <color rgba="0.12 0.12 0.14 1" />
+  </material>
+  <material name="warning">
+    <color rgba="0.95 0.45 0.10 1" />
+  </material>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 1.25" rpy="0 0 0" />
+      <mass value="3100.0000" />
+      <inertia ixx="2451.583333" ixy="0" ixz="0" iyy="6391.166667" iyz="0" izz="5613.583333" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/vehicle_body.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.65" rpy="0 0 0" />
+      <geometry>
+        <box size="4.3 1.75 0.3" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-1.4 0 1.55" rpy="0 0 0" />
+      <geometry>
+        <box size="1.25 1.55 1.75" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.55 0 1.42" rpy="0 0 0" />
+      <geometry>
+        <box size="2.1 1.45 0.72" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="front_left_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="85.0000" />
+      <inertia ixx="6.122833" ixy="0" ixz="0" iyy="10.970667" iyz="0" izz="6.122833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/wheel.stl" scale="1 1 1" />
+      </geometry>
+      <material name="black">
+        <color rgba="0.03 0.03 0.03 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
+      <geometry>
+        <cylinder radius="0.44" length="0.3" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_left_wheel_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="front_left_wheel_link" />
+    <origin xyz="1.35 1.02 0.44" rpy="0 0 0" />
+  </joint>
+  <link name="front_right_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="85.0000" />
+      <inertia ixx="6.122833" ixy="0" ixz="0" iyy="10.970667" iyz="0" izz="6.122833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/wheel.stl" scale="1 1 1" />
+      </geometry>
+      <material name="black">
+        <color rgba="0.03 0.03 0.03 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
+      <geometry>
+        <cylinder radius="0.44" length="0.3" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_right_wheel_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="front_right_wheel_link" />
+    <origin xyz="1.35 -1.02 0.44" rpy="0 0 0" />
+  </joint>
+  <link name="rear_left_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="85.0000" />
+      <inertia ixx="6.122833" ixy="0" ixz="0" iyy="10.970667" iyz="0" izz="6.122833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/wheel.stl" scale="1 1 1" />
+      </geometry>
+      <material name="black">
+        <color rgba="0.03 0.03 0.03 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
+      <geometry>
+        <cylinder radius="0.44" length="0.3" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rear_left_wheel_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="rear_left_wheel_link" />
+    <origin xyz="-1.55 1.02 0.44" rpy="0 0 0" />
+  </joint>
+  <link name="rear_right_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="85.0000" />
+      <inertia ixx="6.122833" ixy="0" ixz="0" iyy="10.970667" iyz="0" izz="6.122833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/wheel.stl" scale="1 1 1" />
+      </geometry>
+      <material name="black">
+        <color rgba="0.03 0.03 0.03 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
+      <geometry>
+        <cylinder radius="0.44" length="0.3" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rear_right_wheel_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="rear_right_wheel_link" />
+    <origin xyz="-1.55 -1.02 0.44" rpy="0 0 0" />
+  </joint>
+  <link name="boom_turret_link">
+    <inertial>
+      <origin xyz="0 0 0.42" rpy="0 0 0" />
+      <mass value="280.0000" />
+      <inertia ixx="29.983333" ixy="0" ixz="0" iyy="29.983333" iyz="0" izz="26.250000" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_turret.stl" scale="1 1 1" />
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.24 0.27 0.32 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.42" rpy="0 0 0" />
+      <geometry>
+        <box size="0.65 0.72 0.82" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="boom_turret_joint" type="revolute">
+    <parent link="base_link" />
+    <child link="boom_turret_link" />
+    <origin xyz="-1.05 0 1.02" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.35" upper="0.35" effort="200000" velocity="0.15" />
+    <dynamics damping="800" friction="200" />
+  </joint>
+  <link name="boom_stage_0_link">
+    <inertial>
+      <origin xyz="1.31 0 0" rpy="0 0 0" />
+      <mass value="420.0000" />
+      <inertia ixx="31.598000" ixy="0" ixz="0" iyy="258.398000" iyz="0" izz="253.708000" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_stage_0.stl" scale="1 1 1" />
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.24 0.27 0.32 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.31 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="2.62 0.62 0.72" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="boom_stage_1_link">
+    <inertial>
+      <origin xyz="1.29 0 0" rpy="0 0 0" />
+      <mass value="270.0000" />
+      <inertia ixx="13.653000" ixy="0" ixz="0" iyy="157.338000" iyz="0" izz="155.853000" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_stage_1.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.29 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="2.58 0.52 0.58" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="boom_stage_2_link">
+    <inertial>
+      <origin xyz="1.27 0 0" rpy="0 0 0" />
+      <mass value="200.0000" />
+      <inertia ixx="7.066667" ixy="0" ixz="0" iyy="111.366667" iyz="0" izz="110.753333" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_stage_2.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.27 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="2.54 0.44 0.48" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="boom_stage_3_link">
+    <inertial>
+      <origin xyz="1.25 0 0" rpy="0 0 0" />
+      <mass value="145.0000" />
+      <inertia ixx="3.403875" ixy="0" ixz="0" iyy="77.358708" iyz="0" izz="77.086833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_stage_3.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.25 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="2.5 0.36 0.39" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="boom_stage_4_link">
+    <inertial>
+      <origin xyz="1.23 0 0" rpy="0 0 0" />
+      <mass value="100.0000" />
+      <inertia ixx="1.501667" ixy="0" ixz="0" iyy="51.230833" iyz="0" izz="51.130833" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/boom_stage_4.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="1.23 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="2.46 0.29 0.31" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="boom_elevation_joint" type="revolute">
+    <parent link="boom_turret_link" />
+    <child link="boom_stage_0_link" />
+    <origin xyz="0.18 0 0.74" rpy="0 0 0" />
+    <axis xyz="0 -1 0" />
+    <limit lower="0.0" upper="1.309" effort="350000" velocity="0.1" />
+    <dynamics damping="1200" friction="300" />
+  </joint>
+  <joint name="boom_extension_1_joint" type="prismatic">
+    <parent link="boom_stage_0_link" />
+    <child link="boom_stage_1_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="0.0" upper="2.4" effort="250000" velocity="0.2" />
+    <dynamics damping="1500" friction="500" />
+  </joint>
+  <joint name="boom_extension_2_joint" type="prismatic">
+    <parent link="boom_stage_1_link" />
+    <child link="boom_stage_2_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="0.0" upper="2.4" effort="250000" velocity="0.2" />
+    <dynamics damping="1500" friction="500" />
+  </joint>
+  <joint name="boom_extension_3_joint" type="prismatic">
+    <parent link="boom_stage_2_link" />
+    <child link="boom_stage_3_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="0.0" upper="2.4" effort="250000" velocity="0.2" />
+    <dynamics damping="1500" friction="500" />
+  </joint>
+  <joint name="boom_extension_4_joint" type="prismatic">
+    <parent link="boom_stage_3_link" />
+    <child link="boom_stage_4_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="0.0" upper="2.4" effort="250000" velocity="0.2" />
+    <dynamics damping="1500" friction="500" />
+  </joint>
+  <link name="platform_mount_link">
+    <inertial>
+      <origin xyz="0.45 0 0" rpy="0 0 0" />
+      <mass value="130.0000" />
+      <inertia ixx="8.324333" ixy="0" ixz="0" iyy="12.485417" iyz="0" izz="15.393083" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/platform_mount.stl" scale="1 1 1" />
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.24 0.27 0.32 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.45 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.95 0.7 0.48" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="platform_level_joint" type="revolute">
+    <parent link="boom_stage_4_link" />
+    <child link="platform_mount_link" />
+    <origin xyz="2.4 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="160000" velocity="0.12" />
+    <dynamics damping="700" friction="180" />
+  </joint>
+  <link name="c_channel_platform_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="520.0000" />
+      <inertia ixx="267.908333" ixy="0" ixz="0" iyy="267.908333" iyz="0" izz="499.200000" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/c_channel_platform.stl" scale="1 1 1" />
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.70 0.72 0.76 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.15281039634689877 0.8666308226507431 0" rpy="0 0 2.9670597283903604" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.4399999999999998 0.762102355330306 0" rpy="0 0 3.665191429188092" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.8269295062915993 0.30097772612658863 0" rpy="0 0 4.363323129985824" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.8269295062915994 -0.3009777261265884 0" rpy="0 0 5.061454830783555" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.4400000000000004 -0.7621023553303058 0" rpy="0 0 5.759586531581287" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.1528103963468984 -0.8666308226507432 0" rpy="0 0 6.457718232379019" />
+      <geometry>
+        <box size="0.7 0.4 0.42" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-1.15 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.48 0.72 0.42" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="platform_fixed_joint" type="fixed">
+    <parent link="platform_mount_link" />
+    <child link="c_channel_platform_link" />
+    <origin xyz="1.02 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="rail_carriage_link">
+    <inertial>
+      <origin xyz="0 0 0.1" rpy="0 0 0" />
+      <mass value="70.0000" />
+      <inertia ixx="0.961917" ixy="0" ixz="0" iyy="2.129167" iyz="0" izz="2.361917" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/rail_carriage.stl" scale="1 1 1" />
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.24 0.27 0.32 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.1" rpy="0 0 0" />
+      <geometry>
+        <box size="0.55 0.32 0.2" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rail_carriage_joint" type="revolute">
+    <parent link="c_channel_platform_link" />
+    <child link="rail_carriage_link" />
+    <origin xyz="-0.65 0 0.38" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.55" upper="2.55" effort="5000" velocity="0.2" />
+    <dynamics damping="30" friction="10" />
+  </joint>
+  <link name="cutting_arm_base_link">
+    <inertial>
+      <origin xyz="0.3 0 0.15" rpy="0 0 0" />
+      <mass value="55.0000" />
+      <inertia ixx="1.059667" ixy="0" ixz="0" iyy="2.775667" iyz="0" izz="2.775667" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.3 0 0.15" rpy="0 0 0" />
+      <geometry>
+        <box size="0.7 0.34 0.34" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="cutting_arm_lift_joint" type="revolute">
+    <parent link="rail_carriage_link" />
+    <child link="cutting_arm_base_link" />
+    <origin xyz="0 0 0.18" rpy="0 0 0" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-0.35" upper="1.05" effort="3000" velocity="0.25" />
+    <dynamics damping="20" friction="8" />
+  </joint>
+  <link name="cutting_arm_extension_link">
+    <inertial>
+      <origin xyz="0.45 0 0" rpy="0 0 0" />
+      <mass value="35.0000" />
+      <inertia ixx="0.233333" ixy="0" ixz="0" iyy="2.748958" iyz="0" izz="2.748958" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl" scale="1 1 1" />
+      </geometry>
+      <material name="mid_grey">
+        <color rgba="0.48 0.50 0.55 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.45 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.95 0.2 0.2" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="cutting_arm_extension_joint" type="prismatic">
+    <parent link="cutting_arm_base_link" />
+    <child link="cutting_arm_extension_link" />
+    <origin xyz="0.62 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="0.0" upper="0.75" effort="2200" velocity="0.2" />
+    <dynamics damping="15" friction="5" />
+  </joint>
+  <link name="cutting_tool_link">
+    <inertial>
+      <origin xyz="0.2 0 0" rpy="0 0 0" />
+      <mass value="18.0000" />
+      <inertia ixx="0.187500" ixy="0" ixz="0" iyy="0.468750" iyz="0" izz="0.468750" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_tool.stl" scale="1 1 1" />
+      </geometry>
+      <material name="warning">
+        <color rgba="0.95 0.45 0.10 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.45 0.22 0.18" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="cutting_tool_fixed_joint" type="fixed">
+    <parent link="cutting_arm_extension_link" />
+    <child link="cutting_tool_link" />
+    <origin xyz="0.92 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="center_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2000" />
+      <inertia ixx="0.000152" ixy="0" ixz="0" iyy="0.000237" iyz="0" izz="0.000248" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.065" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="center_range_sensor_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="center_range_sensor_link" />
+    <origin xyz="0.43 0 0.1" rpy="0 0 0" />
+  </joint>
+  <link name="left_45_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2000" />
+      <inertia ixx="0.000152" ixy="0" ixz="0" iyy="0.000237" iyz="0" izz="0.000248" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.065" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left_45_range_sensor_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="left_45_range_sensor_link" />
+    <origin xyz="0.42 0.63 0.1" rpy="0 0 -0.7853981633974483" />
+  </joint>
+  <link name="right_45_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2000" />
+      <inertia ixx="0.000152" ixy="0" ixz="0" iyy="0.000237" iyz="0" izz="0.000248" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.065" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_45_range_sensor_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="right_45_range_sensor_link" />
+    <origin xyz="0.42 -0.63 0.1" rpy="0 0 0.7853981633974483" />
+  </joint>
+  <link name="left_side_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2000" />
+      <inertia ixx="0.000152" ixy="0" ixz="0" iyy="0.000237" iyz="0" izz="0.000248" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.065" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left_side_range_sensor_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="left_side_range_sensor_link" />
+    <origin xyz="0.05 0.95 0.1" rpy="0 0 -1.5707963267948966" />
+  </joint>
+  <link name="right_side_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2000" />
+      <inertia ixx="0.000152" ixy="0" ixz="0" iyy="0.000237" iyz="0" izz="0.000248" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.065" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_side_range_sensor_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="right_side_range_sensor_link" />
+    <origin xyz="0.05 -0.95 0.1" rpy="0 0 1.5707963267948966" />
+  </joint>
+  <link name="platform_depth_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.3500" />
+      <inertia ixx="0.000146" ixy="0" ixz="0" iyy="0.000493" iyz="0" izz="0.000493" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/depth_camera_estimated.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.12 0.05 0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="platform_depth_camera_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="platform_depth_camera_link" />
+    <origin xyz="-0.42 0 0.72" rpy="0 -0.12 0" />
+  </joint>
+  <link name="platform_depth_camera_optical_frame" />
+  <joint name="platform_depth_camera_optical_joint" type="fixed">
+    <parent link="platform_depth_camera_link" />
+    <child link="platform_depth_camera_optical_frame" />
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966" />
+  </joint>
+  <link name="vehicle_lidar_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.4500" />
+      <inertia ixx="0.001500" ixy="0" ixz="0" iyy="0.001500" iyz="0" izz="0.001920" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/lidar_mid360_estimated.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.16 0.16 0.12" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="vehicle_lidar_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="vehicle_lidar_link" />
+    <origin xyz="-1.3 0 2.72" rpy="0 0 0" />
+  </joint>
+  <link name="predocking_reference" />
+  <joint name="predocking_reference_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="predocking_reference" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="c_channel_reference" />
+  <joint name="c_channel_reference_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="c_channel_reference" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="trunk_reference_estimate" />
+  <joint name="trunk_reference_estimate_joint" type="fixed">
+    <parent link="c_channel_platform_link" />
+    <child link="trunk_reference_estimate" />
+    <origin xyz="1.2 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="cutting_reference" />
+  <joint name="cutting_reference_joint" type="fixed">
+    <parent link="rail_carriage_link" />
+    <child link="cutting_reference" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+</robot>

@@ -1,0 +1,23 @@
+Panels:
+  - Class: rviz_common/Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Class: rviz_default_plugins/Grid
+      Name: Grid
+      Plane: XY
+      Cell Size: 1
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: Oil Palm Tree
+      Description Topic:
+        Value: /robot_description
+      Enabled: true
+    - Class: rviz_default_plugins/TF
+      Name: TF Targets
+      Enabled: true
+      Frame Timeout: 15
+  Global Options:
+    Fixed Frame: tree_base
+  Name: root
