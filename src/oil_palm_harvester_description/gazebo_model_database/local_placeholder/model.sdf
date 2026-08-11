@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+  <model name="local_placeholder">
+    <static>true</static>
+    <link name="link"/>
+  </model>
+</sdf>

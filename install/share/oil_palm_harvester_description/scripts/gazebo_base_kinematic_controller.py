@@ -1,0 +1,1 @@
+/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/scripts/gazebo_base_kinematic_controller.py

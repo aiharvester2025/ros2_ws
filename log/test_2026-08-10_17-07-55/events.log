@@ -1,0 +1,6 @@
+[0.000000] (-) TimerEvent: {}
+[0.000764] (oil_palm_harvester_description) JobQueued: {'identifier': 'oil_palm_harvester_description', 'dependencies': OrderedDict([('oil_palm_tree_description', '/home/ubuntu/ros2_ws/install'), ('oil_palm_harvester_description', '/home/ubuntu/ros2_ws/install')])}
+[0.001692] (oil_palm_harvester_description) JobStarted: {'identifier': 'oil_palm_harvester_description'}
+[0.098976] (oil_palm_harvester_description) JobEnded: {'identifier': 'oil_palm_harvester_description', 'rc': 0}
+[0.102621] (-) TimerEvent: {}
+[0.102777] (-) EventReactorShutdown: {}

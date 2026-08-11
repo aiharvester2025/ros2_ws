@@ -1,0 +1,1 @@
+/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/launch/gazebo_docking_with_camera_view.launch.py

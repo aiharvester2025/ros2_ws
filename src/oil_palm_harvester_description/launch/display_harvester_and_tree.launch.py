@@ -19,28 +19,33 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='harvester_state_publisher',
+            remappings=[('joint_states', '/harvester/joint_states')],
             parameters=[{'robot_description': harvester_urdf, 'use_sim_time': False}],
         ),
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='tree_state_publisher',
+            # Keep Foxy's automatic robot_description publisher for the tree
+            # off the harvester's /robot_description topic used by RViz.
+            namespace='tree',
             parameters=[{'robot_description': tree_urdf, 'use_sim_time': False}],
         ),
         Node(
             package='joint_state_publisher_gui',
             executable='joint_state_publisher_gui',
             name='joint_state_publisher_gui',
+            remappings=[('joint_states', '/harvester/joint_states')],
+            # Loading the file directly prevents a startup race with the
+            # description-topic subscriber.  The separate retained topic is
+            # still used by RViz's RobotModel display below.
+            arguments=[str(harvester_share / 'urdf' / 'oil_palm_harvester_kinematic.urdf')],
         ),
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='harvester_to_tree_tf',
             arguments=['5.0', '0.0', '0.0', '0', '0', '0', 'base_link', 'tree_base'],
-        ),
-        ExecuteProcess(
-            cmd=['python3', str(publisher_script), str(harvester_share / 'urdf' / 'oil_palm_harvester_kinematic.urdf'), '/robot_description', 'harvester_description_publisher'],
-            output='screen',
         ),
         ExecuteProcess(
             cmd=['python3', str(publisher_script), str(tree_share / 'urdf' / 'oil_palm_tree_lowpoly.urdf'), '/tree_description', 'tree_description_publisher'],

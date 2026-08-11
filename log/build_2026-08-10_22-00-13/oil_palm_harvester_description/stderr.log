@@ -1,0 +1,8 @@
+/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/src/harvester_kinematic_gazebo_plugin.cpp: In member function ‘void oil_palm_harvester_description::HarvesterKinematicGazeboPlugin::OnUpdate(const gazebo::common::UpdateInfo&)’:
+/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/src/harvester_kinematic_gazebo_plugin.cpp:86:31: error: ‘class gazebo::common::Time’ has no member named ‘isZero’; did you mean ‘Zero’?
+   86 |     if (!this->last_sim_time_.isZero()) {
+      |                               ^~~~~~
+      |                               Zero
+make[2]: *** [CMakeFiles/harvester_kinematic_gazebo_plugin.dir/build.make:63: CMakeFiles/harvester_kinematic_gazebo_plugin.dir/src/harvester_kinematic_gazebo_plugin.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/harvester_kinematic_gazebo_plugin.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

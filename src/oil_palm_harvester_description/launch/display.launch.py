@@ -15,9 +15,11 @@ def generate_launch_description():
     urdf_path = src_dir / 'urdf' / 'oil_palm_harvester_kinematic.urdf'
     return LaunchDescription([
         Node(package='robot_state_publisher', executable='robot_state_publisher',
+             remappings=[('joint_states', '/harvester/joint_states')],
              parameters=[{'robot_description': urdf, 'use_sim_time': False}]),
         Node(package='joint_state_publisher', executable='joint_state_publisher',
              name='joint_state_publisher',
+             remappings=[('joint_states', '/harvester/joint_states')],
              arguments=[str(urdf_path)]),
         # Publish the URDF on the /robot_description topic (transient local)
         ExecuteProcess(

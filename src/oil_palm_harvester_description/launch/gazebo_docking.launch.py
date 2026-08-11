@@ -21,9 +21,9 @@ def generate_launch_description():
     spawn = Node(package='gazebo_ros', executable='spawn_entity.py',
                  arguments=['-topic', 'robot_description', '-entity', 'oil_palm_harvester', '-z', '0.05'],
                  output='screen')
-    jsb = Node(package='controller_manager', executable='spawner',
+    jsb = Node(package='controller_manager', executable='spawner.py',
                arguments=['joint_state_broadcaster', '--controller-manager', '/controller_manager'])
-    boom = Node(package='controller_manager', executable='spawner',
+    boom = Node(package='controller_manager', executable='spawner.py',
                 arguments=['boom_controller', '--controller-manager', '/controller_manager'])
     return LaunchDescription([
         gazebo, state_pub, spawn,

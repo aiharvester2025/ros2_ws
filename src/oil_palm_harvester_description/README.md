@@ -49,6 +49,45 @@ Expected topics include:
 
 Plugin topic names can differ slightly by Gazebo/ROS package release. The pure URDF, mesh geometry and sensor frames are independent of those plugins.
 
+## Gazebo + RViz with the full tree
+
+Launch the harvester, the full collision-enabled oil-palm tree, Gazebo Classic and the combined RViz view:
+
+```bash
+source /opt/ros/foxy/setup.bash
+source install/setup.bash
+ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py
+```
+
+The tree is a static Gazebo world object at `world` position `(8.5, 0, 0)`.
+The harvester is a movable, fully assembled Gazebo model. For a headless
+simulator run, add `gui:=false rviz:=false`.
+This launch is separate from `display_harvester_and_tree.launch.py`, so the
+joint-state-publisher GUI workflow is unchanged.
+
+The slider GUI publishes `/harvester/joint_states`. The Gazebo harvester model
+subscribes to that topic directly, so slider and **Randomize pose** changes
+move the boom, platform and cutting arm in both Gazebo and RViz. The harvester
+model is non-static; its base is kinematically commanded at this stage through
+`geometry_msgs/msg/Twist` on `/harvester/cmd_vel`. It also publishes the
+matching `world -> base_link` TF for RViz. For example, drive forward briefly,
+then press `Ctrl-C` to stop the command:
+
+```bash
+ros2 topic pub -r 10 /harvester/cmd_vel geometry_msgs/msg/Twist \
+  "{linear: {x: 0.4}, angular: {z: 0.0}}"
+```
+
+The bridge has a 0.5-second command timeout, so the harvester stops safely if
+the velocity publisher exits unexpectedly.
+
+This is a commanded sensor-development simulation: it deliberately avoids
+free-body contact forces while distance, depth-camera and LiDAR sensor models
+are added. By default the harvester's own contact bodies are disabled for
+stable GUI pose control, while the tree remains a static, collidable world
+object. The tree description publisher is used only for its RViz visual and
+TF tree.
+
 ## Suggested docking control sequence
 
 1. Move the boom/platform only while the current checkpoint is invalid.

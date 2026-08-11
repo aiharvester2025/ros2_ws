@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """Publish the package URDF on the /robot_description topic (transient local QoS).
 
-Usage: publish_urdf.py /path/to/robot.urdf
+Usage: publish_urdf.py /path/to/robot.urdf [topic] [node_name] [old::=new ...]
+
+Pass ``-`` as the path to publish XML supplied in OIL_PALM_URDF_XML.  This is
+used by launch files that generate a Gazebo-specific URDF in memory.
 """
+import os
 import sys
 import time
 from pathlib import Path
@@ -14,9 +18,15 @@ from std_msgs.msg import String
 
 
 class URDFPublisher(Node):
-    def __init__(self, urdf_path: str, topic: str = 'robot_description', node_name: str = 'publish_urdf'):
+    def __init__(self, urdf_path: str, topic: str = 'robot_description',
+                 node_name: str = 'publish_urdf', replacements=()):
         super().__init__(node_name)
-        content = Path(urdf_path).read_text()
+        if urdf_path == '-':
+            content = os.environ['OIL_PALM_URDF_XML']
+        else:
+            content = Path(urdf_path).read_text()
+        for old, new in replacements:
+            content = content.replace(old, new)
         qos = QoSProfile(depth=1)
         qos.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
         self.pub = self.create_publisher(String, topic, qos)
@@ -29,13 +39,16 @@ class URDFPublisher(Node):
         self.get_logger().info(f'Published {self.pub.topic_name}')
 
     def start(self):
-        self._timer = self.create_timer(1.0, self._publish)
+        # TRANSIENT_LOCAL retains the initial message for late subscribers.
+        # Re-publishing the description makes joint_state_publisher_gui reload
+        # the model and recenter its sliders, so do not use a periodic timer.
+        pass
 
 
 def main():
     rclpy.init()
     if len(sys.argv) < 2:
-        print('Usage: publish_urdf.py /path/to/robot.urdf [topic] [node_name]')
+        print('Usage: publish_urdf.py /path/to/robot.urdf [topic] [node_name] [old::=new ...]')
         return
     urdf_path = sys.argv[1]
     robot_description_topic = sys.argv[2] if len(sys.argv) > 2 else 'robot_description'
@@ -44,7 +57,12 @@ def main():
     else:
         sanitized_topic = robot_description_topic.strip('/').replace('/', '_')
         node_name = f'publish_urdf_{sanitized_topic}'
-    node = URDFPublisher(urdf_path, robot_description_topic, node_name)
+    replacements = []
+    for replacement in sys.argv[4:]:
+        if '::=' not in replacement:
+            raise ValueError(f'Invalid replacement {replacement!r}; expected old::=new')
+        replacements.append(tuple(replacement.split('::=', 1)))
+    node = URDFPublisher(urdf_path, robot_description_topic, node_name, replacements)
     node.start()
     try:
         rclpy.spin(node)

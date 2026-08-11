@@ -1,0 +1,22 @@
+[0.049s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install
+[0.098s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.182s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.628s] Traceback (most recent call last):
+[0.628s]   File "/opt/ros/foxy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py", line 21, in <module>
+[0.629s]     from ament_package.templates import get_environment_hook_template_path
+[0.629s] ModuleNotFoundError: No module named 'ament_package'
+[0.688s] CMake Error at /opt/ros/foxy/share/ament_cmake_core/cmake/ament_cmake_package_templates-extras.cmake:41 (message):
+[0.689s]   execute_process(/usr/bin/python3
+[0.689s]   /opt/ros/foxy/share/ament_cmake_core/cmake/package_templates/templates_2_cmake.py
+[0.689s]   /home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_package_templates/templates.cmake)
+[0.690s]   returned error code 1
+[0.691s] Call Stack (most recent call first):
+[0.691s]   /opt/ros/foxy/share/ament_cmake_core/cmake/ament_cmake_coreConfig.cmake:41 (include)
+[0.692s]   /opt/ros/foxy/share/ament_cmake/cmake/ament_cmake_export_dependencies-extras.cmake:15 (find_package)
+[0.692s]   /opt/ros/foxy/share/ament_cmake/cmake/ament_cmakeConfig.cmake:41 (include)
+[0.693s]   CMakeLists.txt:3 (find_package)
+[0.693s] 
+[0.694s] 
+[0.697s] -- Configuring incomplete, errors occurred!
+[0.697s] See also "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/CMakeFiles/CMakeOutput.log".
+[0.702s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '1': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install

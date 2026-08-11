@@ -1,11 +1,1 @@
-# Example checkpoint pose. Values are radians for revolute joints and metres for prismatic joints.
-boom_turret_joint: 0.0
-boom_elevation_joint: 0.55
-boom_extension_1_joint: 1.10
-boom_extension_2_joint: 1.10
-boom_extension_3_joint: 1.10
-boom_extension_4_joint: 1.10
-platform_level_joint: -0.55
-rail_carriage_joint: 0.0
-cutting_arm_lift_joint: 0.25
-cutting_arm_extension_joint: 0.10
+/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/config/example_joint_positions.yaml

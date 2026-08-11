@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <!--
+    This deliberately contains visual geometry only.  It is a Gazebo-native,
+    static loading model used during scene bring-up.  The ROS URDF remains the
+    movable kinematic model used by robot_state_publisher and the RViz GUI.
+  -->
+  <model name="oil_palm_harvester">
+    <static>true</static>
+    <link name="harvester_visual_link">
+      <gravity>false</gravity>
+      <visual name="vehicle_body"><geometry><mesh><uri>../../meshes/visual/vehicle_body.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="front_left_wheel"><pose>1.35 1.02 0.44 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/wheel.stl</uri></mesh></geometry><material><diffuse>0.03 0.03 0.03 1</diffuse></material></visual>
+      <visual name="front_right_wheel"><pose>1.35 -1.02 0.44 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/wheel.stl</uri></mesh></geometry><material><diffuse>0.03 0.03 0.03 1</diffuse></material></visual>
+      <visual name="rear_left_wheel"><pose>-1.55 1.02 0.44 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/wheel.stl</uri></mesh></geometry><material><diffuse>0.03 0.03 0.03 1</diffuse></material></visual>
+      <visual name="rear_right_wheel"><pose>-1.55 -1.02 0.44 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/wheel.stl</uri></mesh></geometry><material><diffuse>0.03 0.03 0.03 1</diffuse></material></visual>
+
+      <visual name="boom_turret"><pose>-1.05 0 1.02 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_turret.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="boom_stage_0"><pose>-0.87 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_stage_0.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="boom_stage_1"><pose>-0.87 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_stage_1.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="boom_stage_2"><pose>-0.87 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_stage_2.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="boom_stage_3"><pose>-0.87 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_stage_3.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="boom_stage_4"><pose>-0.87 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/boom_stage_4.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+
+      <visual name="platform_mount"><pose>1.53 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/platform_mount.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="c_channel_platform"><pose>2.55 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/c_channel_platform.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="rail_carriage"><pose>1.90 0 2.14 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/rail_carriage.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
+      <visual name="cutting_arm_base"><pose>1.90 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_base.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="cutting_arm"><pose>2.52 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_link.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="cutting_tool"><pose>3.44 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_tool.stl</uri></mesh></geometry><material><diffuse>0.70 0.72 0.76 1</diffuse></material></visual>
+
+      <visual name="center_range_sensor"><pose>2.98 0 1.86 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="left_45_range_sensor"><pose>2.97 0.63 1.86 0 0 -0.785398</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="right_45_range_sensor"><pose>2.97 -0.63 1.86 0 0 0.785398</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="left_side_range_sensor"><pose>2.60 0.95 1.86 0 0 -1.570796</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="right_side_range_sensor"><pose>2.60 -0.95 1.86 0 0 1.570796</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="depth_camera"><pose>2.13 0 2.48 0 -0.12 0</pose><geometry><mesh><uri>../../meshes/visual/depth_camera_estimated.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+      <visual name="vehicle_lidar"><pose>-1.30 0 2.72 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/lidar_mid360_estimated.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+    </link>
+  </model>
+</sdf>

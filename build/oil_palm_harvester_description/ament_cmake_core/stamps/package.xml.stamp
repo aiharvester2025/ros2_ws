@@ -11,9 +11,17 @@
   <exec_depend>joint_state_publisher_gui</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
+  <depend>gazebo_dev</depend>
+  <depend>rclcpp</depend>
+  <exec_depend>gazebo_msgs</exec_depend>
+  <depend>sensor_msgs</depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <depend>tf2_ros</depend>
+  <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>
   <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>oil_palm_tree_description</exec_depend>
   <export><build_type>ament_cmake</build_type></export>
 </package>

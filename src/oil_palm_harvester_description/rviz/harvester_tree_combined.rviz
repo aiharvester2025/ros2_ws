@@ -14,12 +14,18 @@ Visualization Manager:
       Name: Harvester Robot
       Description Topic:
         Value: /robot_description
+      Visual Enabled: true
+      Collision Enabled: false
+      TF Prefix: ""
       Enabled: true
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Name: Oil Palm Tree
       Description Topic:
         Value: /tree_description
+      Visual Enabled: true
+      Collision Enabled: false
+      TF Prefix: ""
       Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
@@ -27,7 +33,7 @@ Visualization Manager:
       Frame Timeout: 15
   Enabled: true
   Global Options:
-    Fixed Frame: base_link
+    Fixed Frame: world
   Name: root
   Tools:
     - Class: rviz_default_plugins/Interact
