@@ -472,16 +472,16 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl" scale="1 1 1" />
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl" scale="0.5 1 1" />
       </geometry>
       <material name="mid_grey">
         <color rgba="0.48 0.50 0.55 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0.3 0 0.15" rpy="0 0 0" />
+      <origin xyz="0.15 0 0.15" rpy="0 0 0" />
       <geometry>
-        <box size="0.7 0.34 0.34" />
+        <box size="0.35 0.34 0.34" />
       </geometry>
     </collision>
   </link>
@@ -502,25 +502,25 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl" scale="1 1 1" />
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl" scale="0.5 1 1" />
       </geometry>
       <material name="mid_grey">
         <color rgba="0.48 0.50 0.55 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0.45 0 0" rpy="0 0 0" />
+      <origin xyz="0.225 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="0.95 0.2 0.2" />
+        <box size="0.475 0.2 0.2" />
       </geometry>
     </collision>
   </link>
   <joint name="cutting_arm_extension_joint" type="prismatic">
     <parent link="cutting_arm_base_link" />
     <child link="cutting_arm_extension_link" />
-    <origin xyz="0.62 0 0" rpy="0 0 0" />
+    <origin xyz="0.31 0 0" rpy="0 0 0" />
     <axis xyz="1 0 0" />
-    <limit lower="0.0" upper="0.75" effort="2200" velocity="0.2" />
+    <limit lower="0.0" upper="0.375" effort="2200" velocity="0.2" />
     <dynamics damping="15" friction="5" />
   </joint>
   <link name="cutting_tool_link">
@@ -532,24 +532,96 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_tool.stl" scale="1 1 1" />
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/cutting_tool.stl" scale="0.5 1 1" />
       </geometry>
       <material name="warning">
         <color rgba="0.95 0.45 0.10 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0.2 0 0" rpy="0 0 0" />
+      <origin xyz="0.1 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="0.45 0.22 0.18" />
+        <box size="0.225 0.22 0.18" />
       </geometry>
     </collision>
   </link>
   <joint name="cutting_tool_fixed_joint" type="fixed">
     <parent link="cutting_arm_extension_link" />
     <child link="cutting_tool_link" />
-    <origin xyz="0.92 0 0" rpy="0 0 0" />
+    <origin xyz="0.46 0 0" rpy="0 0 0" />
   </joint>
+  <!--
+    Compact sensor carrier fixed at the top centre of platform_mount_link.
+    This preserves the established C-channel, boom, arm, camera, LiDAR and
+    docking transforms.  +X points toward the trunk/C-channel opening.
+  -->
+  <link name="front_sensor_mount_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.0" />
+      <inertia ixx="0.0042" ixy="0" ixz="0" iyy="0.0082" iyz="0" izz="0.0082" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.30 0.30 0.16" />
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.24 0.27 0.32 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.30 0.30 0.16" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_sensor_mount_joint" type="fixed">
+    <parent link="platform_mount_link" />
+    <child link="front_sensor_mount_link" />
+    <!-- The platform collision proxy is centred at (0.45, 0, 0) and is
+         0.48 m tall.  This 0.16 m carrier therefore sits directly on its
+         top surface: z = 0.24 + 0.16 / 2 = 0.32 m. -->
+    <!-- Manual carrier adjustment: xyz/rpy are in platform_mount_link. -->
+    <origin xyz="0.55 0 0.2" rpy="0 0 0" />
+  </joint>
+  <link name="front_depth_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.3500" />
+      <inertia ixx="0.000146" ixy="0" ixz="0" iyy="0.000493" iyz="0" izz="0.000493" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/depth_camera_estimated.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.12 0.05 0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="front_depth_camera_joint" type="fixed">
+    <parent link="front_sensor_mount_link" />
+    <child link="front_depth_camera_link" />
+    <!-- Manual second-camera adjustment: xyz/rpy are in front_sensor_mount_link. -->
+    <origin xyz="0.2 0.0 0.00" rpy="0 0 0" />
+  </joint>
+  <link name="front_depth_camera_optical_frame" />
+  <joint name="front_depth_camera_optical_joint" type="fixed">
+    <parent link="front_depth_camera_link" />
+    <child link="front_depth_camera_optical_frame" />
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966" />
+  </joint>
+  <!-- The second camera is a visual/TF mount only for now.  Its Gazebo depth
+       sensor is deliberately not enabled until its final placement is reviewed. -->
   <link name="center_range_sensor_link">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -573,9 +645,10 @@
     </collision>
   </link>
   <joint name="center_range_sensor_joint" type="fixed">
-    <parent link="c_channel_platform_link" />
+    <parent link="front_sensor_mount_link" />
     <child link="center_range_sensor_link" />
-    <origin xyz="0.43 0 0.1" rpy="0 0 0" />
+    <!-- Manual centre-range adjustment: xyz/rpy are in front_sensor_mount_link. -->
+    <origin xyz="0.0 0 0.115" rpy="0 0 0" />
   </joint>
   <link name="left_45_range_sensor_link">
     <inertial>
@@ -656,7 +729,8 @@
   <joint name="left_side_range_sensor_joint" type="fixed">
     <parent link="c_channel_platform_link" />
     <child link="left_side_range_sensor_link" />
-    <origin xyz="0.05 0.95 0.1" rpy="0 0 -1.5707963267948966" />
+    <!-- Ahead of the C-channel front lip; +X in this sensor frame points left/outward. -->
+    <origin xyz="0.95 0.95 0.1" rpy="0 0 -1.5707963267948966" />
   </joint>
   <link name="right_side_range_sensor_link">
     <inertial>
@@ -683,7 +757,8 @@
   <joint name="right_side_range_sensor_joint" type="fixed">
     <parent link="c_channel_platform_link" />
     <child link="right_side_range_sensor_link" />
-    <origin xyz="0.05 -0.95 0.1" rpy="0 0 1.5707963267948966" />
+    <!-- Ahead of the C-channel front lip; +X in this sensor frame points right/outward. -->
+    <origin xyz="0.95 -0.95 0.1" rpy="0 0 1.5707963267948966" />
   </joint>
   <link name="platform_depth_camera_link">
     <inertial>
@@ -708,9 +783,18 @@
     </collision>
   </link>
   <joint name="platform_depth_camera_joint" type="fixed">
-    <parent link="c_channel_platform_link" />
+    <!--
+      Keep the established camera-frame names for compatibility, but mount the
+      camera on the cutting-arm base.  It therefore follows both the
+      rail-carriage yaw and cutting-arm lift, without following the extension.
+      The camera origin is at the centre of the visible cutting-arm base
+      block. The existing orientation remains aimed slightly inward/down toward the
+      cutter and trunk.
+    -->
+    <parent link="cutting_arm_base_link" />
     <child link="platform_depth_camera_link" />
-    <origin xyz="-0.42 0 0.72" rpy="0 -0.12 0" />
+    <!-- Manual camera-mount adjustment: xyz/rpy are in cutting_arm_base_link. -->
+    <origin xyz="0.125 0 0.25" rpy="0 0.0 0.0" />
   </joint>
   <link name="platform_depth_camera_optical_frame" />
   <joint name="platform_depth_camera_optical_joint" type="fixed">
@@ -741,9 +825,15 @@
     </collision>
   </link>
   <joint name="vehicle_lidar_joint" type="fixed">
-    <parent link="base_link" />
+    <!--
+      Keep the established LiDAR link/frame name for compatibility, but mount
+      it rigidly on the top centre of the cutting-arm base.  It follows the
+      rail-carriage yaw and cutting-arm lift, without following extension.
+    -->
+    <parent link="cutting_arm_base_link" />
     <child link="vehicle_lidar_link" />
-    <origin xyz="-1.3 0 2.72" rpy="0 0 0" />
+    <!-- Manual LiDAR-mount adjustment: xyz/rpy are in cutting_arm_base_link. -->
+    <origin xyz="0 0 0.3" rpy="0 0 0" />
   </joint>
   <link name="predocking_reference" />
   <joint name="predocking_reference_joint" type="fixed">
@@ -769,4 +859,86 @@
     <child link="cutting_reference" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
+  <!--
+    Keep this sensor extension deliberately small: the working combined launch
+    converts this kinematic URDF into its movable Gazebo model. This adds the
+    arm-mounted depth camera and LiDAR only; it does not import ros2_control
+    or the range sensors from the estimated URDF.
+  -->
+  <gazebo reference="platform_depth_camera_link">
+    <sensor name="platform_depth_camera" type="depth">
+      <always_on>true</always_on>
+      <update_rate>15</update_rate>
+      <visualize>false</visualize>
+      <camera>
+        <horizontal_fov>1.40</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>400</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.20</near>
+          <far>20.0</far>
+        </clip>
+      </camera>
+      <plugin name="platform_depth_camera_ros" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>/harvester/platform_camera</namespace>
+        </ros>
+        <camera_name>depth</camera_name>
+        <frame_name>platform_depth_camera_optical_frame</frame_name>
+        <min_depth>0.20</min_depth>
+        <max_depth>20.0</max_depth>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <gazebo reference="vehicle_lidar_link">
+    <sensor name="vehicle_lidar" type="gpu_ray">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <visualize>false</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <!-- Front working-area simulation: -60 to +60 degrees.  Keep
+                 approximately the former 1.125-degree horizontal spacing,
+                 so this costs only 107 x 64 x 10 = 68,480 GPU rays/s.
+                 This is deliberately lower than a full-rate MID-360 model
+                 to keep the Xavier stable; the real sensor's FOV-region
+                 feature is configured on the hardware separately. -->
+            <samples>107</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.0471975511965976</min_angle>
+            <max_angle>1.0471975511965976</max_angle>
+          </horizontal>
+          <vertical>
+            <!-- Livox Mid-360 coverage approximation. Gazebo gpu_ray uses a
+                 regular grid; it cannot reproduce Livox's non-repetitive
+                 scanning pattern. -->
+            <samples>64</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.12217304763960307</min_angle>
+            <max_angle>0.9075712110370514</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>40.0</max>
+          <resolution>0.02</resolution>
+        </range>
+      </ray>
+      <plugin name="vehicle_lidar_ros" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <namespace>/harvester</namespace>
+          <!-- Keep Gazebo's native simulation-time stream available here.
+               The combined launch republishes it as lidar/points with a
+               TF-compatible timestamp for RViz. -->
+          <remapping>~/out:=lidar/raw_points</remapping>
+        </ros>
+        <output_type>sensor_msgs/PointCloud2</output_type>
+        <frame_name>vehicle_lidar_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
 </robot>

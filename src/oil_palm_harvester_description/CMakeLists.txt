@@ -30,6 +30,7 @@ install(PROGRAMS
 	scripts/publish_urdf.py
 	scripts/gazebo_joint_state_bridge.py
 	scripts/gazebo_base_kinematic_controller.py
+	scripts/lidar_timestamp_bridge.py
 	DESTINATION share/${PROJECT_NAME}/scripts
 )
 ament_package()

@@ -34,7 +34,6 @@ public:
     this->model_ = std::move(model);
     this->ros_node_ = gazebo_ros::Node::Get(sdf);
     this->base_pose_ = this->model_->WorldPose();
-
     // The harvester is a commanded sensor-development model, not a free-body
     // contact-physics machine yet.  Disable gravity for every link.  GUI
     // targets are held by Gazebo's persistent position controller instead of
@@ -209,9 +208,9 @@ private:
   void PublishBaseTransform()
   {
     geometry_msgs::msg::TransformStamped transform;
-    // joint_state_publisher_gui and robot_state_publisher use wall-clock
-    // stamps.  Keep the root transform on that same clock for RViz; Gazebo's
-    // own node clock is simulation time.
+    // The GUI and robot_state_publisher use wall-clock stamps.  Sensor data
+    // destined for RViz is normalized to this same time domain by the launch
+    // relay, so the whole dynamic TF chain remains coherent in Foxy.
     rclcpp::Clock wall_clock(RCL_SYSTEM_TIME);
     transform.header.stamp = wall_clock.now();
     transform.header.frame_id = "world";

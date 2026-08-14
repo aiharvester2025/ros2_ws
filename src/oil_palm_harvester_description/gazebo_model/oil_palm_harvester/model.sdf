@@ -25,9 +25,9 @@
       <visual name="platform_mount"><pose>1.53 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/platform_mount.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
       <visual name="c_channel_platform"><pose>2.55 0 1.76 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/c_channel_platform.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
       <visual name="rail_carriage"><pose>1.90 0 2.14 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/rail_carriage.stl</uri></mesh></geometry><material><diffuse>0.24 0.27 0.32 1</diffuse></material></visual>
-      <visual name="cutting_arm_base"><pose>1.90 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_base.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
-      <visual name="cutting_arm"><pose>2.52 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_link.stl</uri></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
-      <visual name="cutting_tool"><pose>3.44 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_tool.stl</uri></mesh></geometry><material><diffuse>0.70 0.72 0.76 1</diffuse></material></visual>
+      <visual name="cutting_arm_base"><pose>1.90 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_base.stl</uri><scale>0.5 1 1</scale></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="cutting_arm"><pose>2.21 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_arm_link.stl</uri><scale>0.5 1 1</scale></mesh></geometry><material><diffuse>0.48 0.50 0.55 1</diffuse></material></visual>
+      <visual name="cutting_tool"><pose>2.67 0 2.32 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/cutting_tool.stl</uri><scale>0.5 1 1</scale></mesh></geometry><material><diffuse>0.70 0.72 0.76 1</diffuse></material></visual>
 
       <visual name="center_range_sensor"><pose>2.98 0 1.86 0 0 0</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
       <visual name="left_45_range_sensor"><pose>2.97 0.63 1.86 0 0 -0.785398</pose><geometry><mesh><uri>../../meshes/visual/range_sensor.stl</uri></mesh></geometry><material><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>

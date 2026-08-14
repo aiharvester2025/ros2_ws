@@ -1,0 +1,45 @@
+Panels:
+  - Class: rviz_common/Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.35
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Enabled: false
+      Name: Grid
+      Plane: XY
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Mid-360 Camera-Frame Point Cloud
+      Topic:
+        Value: /harvester/lidar/points
+      Queue Size: 30
+      Style: Points
+      Size (m): 0.02
+      Enabled: true
+  Enabled: true
+  Global Options:
+    # This fixed frame follows the arm-mounted camera.  The cloud is therefore
+    # rendered in camera-relative coordinates while the arm moves.
+    Fixed Frame: platform_depth_camera_optical_frame
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/FPS
+      Name: Camera-Frame View
+      Near Clip Distance: 0.01
+      Pitch: 0
+      Position:
+        X: 0
+        Y: 0
+        Z: 0
+      Target Frame: <Fixed Frame>
+      Value: FPS (rviz)
+      Yaw: 3.141593
+    Saved: ~

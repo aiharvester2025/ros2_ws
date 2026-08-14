@@ -1,6 +1,6 @@
 # Oil-Palm Harvester Estimated URDF Package
 
-This package is an estimated simulation model created from the supplied orthographic and isometric drawings. It models the vehicle, a yaw/elevation boom, four prismatic telescopic stages, a platform-level joint, a C-channel platform, five distance sensors, a vehicle-mounted 3D LiDAR, a platform depth camera, and a simplified rail-mounted cutting arm.
+This package is an estimated simulation model created from the supplied orthographic and isometric drawings. It models the vehicle, a yaw/elevation boom, four prismatic telescopic stages, a platform-level joint, a C-channel platform, five distance sensors, an arm-mounted 3D LiDAR, an arm-mounted depth camera, and a simplified rail-mounted cutting arm.
 
 ## Files
 
@@ -44,6 +44,7 @@ Expected topics include:
 /harvester/right_side_range
 /harvester/lidar/points
 /harvester/platform_camera/depth/image_raw
+/harvester/platform_camera/depth/depth/image_raw
 /harvester/platform_camera/depth/points
 ```
 
@@ -82,11 +83,31 @@ The bridge has a 0.5-second command timeout, so the harvester stops safely if
 the velocity publisher exits unexpectedly.
 
 This is a commanded sensor-development simulation: it deliberately avoids
-free-body contact forces while distance, depth-camera and LiDAR sensor models
-are added. By default the harvester's own contact bodies are disabled for
-stable GUI pose control, while the tree remains a static, collidable world
-object. The tree description publisher is used only for its RViz visual and
-TF tree.
+free-body contact forces while sensor models are added. By default the
+harvester's own contact bodies are disabled for stable GUI pose control, while
+the tree remains a static, collidable world object. The tree description
+publisher is used only for its RViz visual and TF tree.
+
+The arm-mounted depth camera is enabled in the combined launch. Its legacy
+frame/topic prefix remains `platform_depth_camera_*` /
+`/harvester/platform_camera` for compatibility, but its fixed joint is now on
+`cutting_arm_base_link`. It follows the rail-carriage and arm-lift motion, not
+the extension stroke. After launching, verify its expected outputs with:
+
+```bash
+ros2 topic list | grep '/harvester/platform_camera'
+```
+
+The depth image is expected on
+`/harvester/platform_camera/depth/depth/image_raw`; its point cloud is
+`/harvester/platform_camera/depth/points`. The colour image is
+`/harvester/platform_camera/depth/image_raw`. The supplied combined RViz
+configuration opens that colour stream in a separate **Cutting-Arm Camera
+Image** window while retaining the 3D robot/tree view.
+
+The arm-mounted 3D LiDAR is also enabled in the combined launch. Its
+`/harvester/lidar/points` stream appears as **Cutting-Arm LiDAR Point Cloud**
+in the supplied RViz configuration.
 
 ## Suggested docking control sequence
 

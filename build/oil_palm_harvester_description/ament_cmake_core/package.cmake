@@ -5,7 +5,7 @@ set(oil_palm_harvester_description_BUILD_DEPENDS "gazebo_dev" "rclcpp" "sensor_m
 set(oil_palm_harvester_description_BUILDTOOL_DEPENDS "ament_cmake")
 set(oil_palm_harvester_description_BUILD_EXPORT_DEPENDS "gazebo_dev" "rclcpp" "sensor_msgs" "tf2_ros")
 set(oil_palm_harvester_description_BUILDTOOL_EXPORT_DEPENDS )
-set(oil_palm_harvester_description_EXEC_DEPENDS "robot_state_publisher" "joint_state_publisher" "joint_state_publisher_gui" "rviz2" "gazebo_ros" "gazebo_msgs" "geometry_msgs" "gazebo_plugins" "gazebo_ros2_control" "controller_manager" "joint_trajectory_controller" "joint_state_broadcaster" "oil_palm_tree_description" "gazebo_dev" "rclcpp" "sensor_msgs" "tf2_ros")
+set(oil_palm_harvester_description_EXEC_DEPENDS "robot_state_publisher" "rclpy" "joint_state_publisher" "joint_state_publisher_gui" "rviz2" "gazebo_ros" "gazebo_msgs" "geometry_msgs" "gazebo_plugins" "gazebo_ros2_control" "controller_manager" "joint_trajectory_controller" "joint_state_broadcaster" "oil_palm_tree_description" "gazebo_dev" "rclcpp" "sensor_msgs" "tf2_ros")
 set(oil_palm_harvester_description_TEST_DEPENDS )
 set(oil_palm_harvester_description_GROUP_DEPENDS )
 set(oil_palm_harvester_description_MEMBER_OF_GROUPS )

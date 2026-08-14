@@ -138,6 +138,21 @@ cutting_arm_lift_joint
 cutting_arm_extension_joint
 ```
 
+### 4.1.1 Half-length cutting-arm layout
+
+The cutting-arm base, extension link, and cutter are half their original
+length along X.  Their mounting chain is shortened by the same factor.
+
+```text
+rail_carriage_joint:        -2.55 to +2.55 rad
+cutting_arm_lift_joint:     -0.35 to +1.05 rad
+cutting_arm_extension_joint: 0.00 to 0.375 m
+```
+
+The arm meshes use X scale `0.5` while preserving their original width and
+height.  The lift-joint position is unchanged; the extension-joint origin is
+0.31 m and the cutter attachment is 0.46 m, so no visual gap is introduced.
+
 ### 4.2 Harvester base motion
 
 Publish a standard velocity command while the combined Gazebo launch is
@@ -387,11 +402,14 @@ physics assumptions that can reintroduce the earlier stability problems.
 | Right 45° range sensor | `right_45_range_sensor_link` | `/harvester/right_45_range` | Ray sensor, 20 Hz |
 | Left side range sensor | `left_side_range_sensor_link` | `/harvester/left_side_range` | Ray sensor, 20 Hz |
 | Right side range sensor | `right_side_range_sensor_link` | `/harvester/right_side_range` | Ray sensor, 20 Hz |
-| Vehicle 3D LiDAR | `vehicle_lidar_link` | `/harvester/lidar/points` | GPU ray, 720 × 16, 10 Hz |
-| Platform depth camera | `platform_depth_camera_link` / `platform_depth_camera_optical_frame` | Under `/harvester/platform_camera/...` | Depth camera, 640 × 400, 15 Hz |
+| Cutting-arm 3D LiDAR | `vehicle_lidar_link` | `/harvester/lidar/points` | GPU ray, 720 × 16, 10 Hz; fixed to `cutting_arm_base_link` |
+| Cutting-arm depth camera | `platform_depth_camera_link` / `platform_depth_camera_optical_frame` | `/harvester/platform_camera/depth/depth/image_raw`, `/harvester/platform_camera/depth/points` | Depth camera, 640 × 400, 15 Hz; fixed to `cutting_arm_base_link` |
 
-The candidate topic names must be verified with `ros2 topic list` after the
-sensor plugins are integrated; Gazebo plugin versions can vary slightly.
+The depth-camera and LiDAR blocks are integrated in the active kinematic URDF.
+Confirm the live topics after a fresh launch with
+`ros2 topic list | grep '/harvester/'`; Gazebo plugin versions can vary
+slightly. Range-sensor blocks remain in the estimated URDF as source material
+only.
 
 ### Required approach for the next sensor task
 
@@ -399,11 +417,11 @@ sensor plugins are integrated; Gazebo plugin versions can vary slightly.
 2. Keep the tree static at `(8.5, 0, 0)` and collidable.
 3. Keep the harvester model non-static, base kinematic, and its collision mode
    off during initial sensor testing.
-4. Add/merge only the required Gazebo sensor blocks from the estimated URDF
-   into the generated SDF model or a controlled sensor extension of it.
+4. Keep the integrated depth-camera Gazebo block in the kinematic URDF. Add
+   only one further sensor block at a time from the estimated URDF.
 5. Do not add a second harvester, a second tree state publisher, or another
    `robot_description` publisher.
-6. Test one sensor type at a time: range sensors first, then depth camera,
+6. Test one sensor type at a time: depth camera first, then range sensors,
    then 3D LiDAR.
 7. For each sensor, verify its ROS topic, frame ID, values versus distance to
    the fixed tree, and response while the base moves through `/harvester/cmd_vel`.
@@ -440,7 +458,8 @@ Important constraints:
 - Keep harvester_collision_mode:=off during initial sensor development.
 - Do not reintroduce repeated Joint::SetPosition calls or unbounded joint PID commands.
 
-Next requested task: add reliable simulated five range sensors, platform depth-camera data,
-and 3D LiDAR data that respond to the harvester motion relative to the static tree.
+Next requested task: verify the arm-mounted depth-camera data after a fresh
+launch, then add reliable simulated five range sensors and 3D LiDAR data that
+respond to the harvester motion relative to the static tree.
 Preserve the currently working Gazebo/RViz/GUI behavior while doing so.
 ```

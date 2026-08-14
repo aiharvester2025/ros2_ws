@@ -316,8 +316,8 @@ ament_cmake_symlink_install_directory("/home/ubuntu/ros2_ws/src/oil_palm_harvest
 # install("TARGETS" "harvester_kinematic_gazebo_plugin" "LIBRARY_DESTINATION" "lib")
 include("/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_symlink_install_targets_0_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install(PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
-ament_cmake_symlink_install_programs("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+# install(PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+ament_cmake_symlink_install_programs("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
 
 # install(FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")

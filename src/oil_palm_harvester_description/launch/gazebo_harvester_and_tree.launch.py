@@ -25,7 +25,7 @@ from launch.actions import (
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 
 def _dynamic_world_from_urdf(
@@ -190,6 +190,7 @@ def _start_gazebo(context, *, urdf_path, harvester_share, gazebo_share, gui):
 def generate_launch_description():
     gui = LaunchConfiguration('gui')
     rviz = LaunchConfiguration('rviz')
+    camera_lidar_view = LaunchConfiguration('camera_lidar_view')
     harvester_share = Path(get_package_share_directory('oil_palm_harvester_description'))
     tree_share = Path(get_package_share_directory('oil_palm_tree_description'))
     gazebo_share = Path(get_package_share_directory('gazebo_ros'))
@@ -198,6 +199,7 @@ def generate_launch_description():
     harvester_rviz_urdf_path = harvester_share / 'urdf' / 'oil_palm_harvester_kinematic.urdf'
     tree_urdf_path = tree_share / 'urdf' / 'oil_palm_tree_lowpoly.urdf'
     publisher_script = harvester_share / 'scripts' / 'publish_urdf.py'
+    lidar_stamp_bridge_script = harvester_share / 'scripts' / 'lidar_timestamp_bridge.py'
 
     tree_model_path = str(tree_share / 'gazebo_model')
     existing_model_path = os.environ.get('GAZEBO_MODEL_PATH', '')
@@ -270,10 +272,30 @@ def generate_launch_description():
         condition=IfCondition(rviz),
         output='screen',
     )
+    # A dedicated, camera-relative 3-D LiDAR window complements the Image
+    # display in the combined RViz window.  Arrange the two windows side by
+    # side with the desktop window manager for live image/cloud comparison.
+    camera_lidar_rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='camera_lidar_rviz',
+        arguments=['-d', str(harvester_share / 'rviz' / 'harvester_camera_lidar.rviz')],
+        condition=IfCondition(PythonExpression([
+            "'", rviz, "' == 'true' and '", camera_lidar_view, "' == 'true'",
+        ])),
+        output='screen',
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true', description='Start the Gazebo client GUI.'),
         DeclareLaunchArgument('rviz', default_value='true', description='Start RViz with the combined scene.'),
+        DeclareLaunchArgument(
+            'camera_lidar_view', default_value='false',
+            description=(
+                'Start an optional second RViz window with the LiDAR cloud in the '
+                'cutting-arm camera frame for side-by-side comparison with '
+                'the camera Image display. Disabled by default to conserve '
+                'embedded-GPU memory and rendering capacity.')),
         DeclareLaunchArgument(
             'render_mode', default_value='mesh',
             description=(
@@ -299,6 +321,19 @@ def generate_launch_description():
             cmd=['python3', str(publisher_script), str(tree_urdf_path), '/tree_description', 'tree_description_publisher'],
             output='screen',
         ),
+        # Gazebo stamps sensor messages in simulation time, but the stable
+        # Foxy GUI/TF path uses wall time.  Preserve the raw Gazebo stream and
+        # present a latest-TF copy to RViz on the public topic.  A zero stamp
+        # tells TF2 to use the most recent arm transform rather than requiring
+        # an exact historical timestamp through the GUI-controlled chain.
+        ExecuteProcess(
+            cmd=[
+                'python3', str(lidar_stamp_bridge_script),
+                '/harvester/lidar/raw_points', '/harvester/lidar/points',
+            ],
+            output='screen',
+        ),
         # RViz does not wait for Gazebo model creation.
         rviz_node,
+        camera_lidar_rviz_node,
     ])

@@ -1,0 +1,749 @@
+[0.000000] (-) TimerEvent: {}
+[0.001402] (-) JobUnselected: {'identifier': 'oil_palm_tree_description'}
+[0.001703] (oil_palm_harvester_description) JobQueued: {'identifier': 'oil_palm_harvester_description', 'dependencies': OrderedDict([('oil_palm_tree_description', '/home/ubuntu/ros2_ws/install')])}
+[0.003204] (oil_palm_harvester_description) JobStarted: {'identifier': 'oil_palm_harvester_description'}
+[0.047379] (oil_palm_harvester_description) JobProgress: {'identifier': 'oil_palm_harvester_description', 'progress': 'cmake'}
+[0.051740] (oil_palm_harvester_description) JobProgress: {'identifier': 'oil_palm_harvester_description', 'progress': 'build'}
+[0.055567] (oil_palm_harvester_description) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description', '--', '-j8', '-l8'], 'cwd': '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/ubuntu'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('CODEX_HOME', '/home/ubuntu/.codex'), ('USER', 'ubuntu'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en","osLocale":"en","resolvedLanguage":"en","defaultMessagesFile":"/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/out/nls.messages.json","locale":"en","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('SSH_AGENT_PID', '3361'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', 'release'), ('ROS_PACKAGE_PATH', '/home/ubuntu/ros2_ws/install/share'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:'), ('BROWSER', '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/helpers/browser.sh'), ('HOME', '/home/ubuntu'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_RECONNECTION_GRACE_TIME', '10800000'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-b6a3dbef-c793-4340-b582-f9a358161632.sock'), ('JETSON_L4T', '35.2.1'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GRADLE_HOME', '/home/ubuntu/.sdkman/candidates/gradle/current'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'Jetson-AGX'), ('PAGER', 'cat'), ('MANAGERPID', '3244'), ('LC_CTYPE', 'C.UTF-8'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('_CE_M', ''), ('IM_CONFIG_PHASE', '1'), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('ROS_DISTRO', 'foxy'), ('LOGNAME', 'ubuntu'), ('JETSON_MODULE', 'NVIDIA Jetson AGX Xavier (32 GB ram)'), ('JETSON_SERIAL_NUMBER', '0420419029811'), ('VSCODE_HANDLES_SIGPIPE', 'true'), ('SDKMAN_CANDIDATES_API', 'https://api.sdkman.io/2'), ('JOURNAL_STREAM', '7:57846'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('JETSON_CODENAME', 'Galen'), ('XDG_SESSION_CLASS', 'user'), ('RUST_LOG', 'warn'), ('PKG_CONFIG_PATH', '/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig'), ('USERNAME', 'ubuntu'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('_CE_CONDA', ''), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/foxy/bin:/home/ubuntu/.codex/tmp/arg0/codex-arg0sMJ4vo:/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli:/home/ubuntu/anaconda3/bin:/home/ubuntu/anaconda3/condabin:/home/ubuntu/.sdkman/candidates/gradle/current/bin:/usr/local/cuda-11.4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/ubuntu/.vscode-server/extensions/openai.chatgpt-26.803.61601-linux-arm64/bin/linux-aarch64'), ('SESSION_MANAGER', 'local/ubuntu:@/tmp/.ICE-unix/3396,unix/ubuntu:/tmp/.ICE-unix/3396'), ('SDKMAN_CANDIDATES_DIR', '/home/ubuntu/.sdkman/candidates'), ('INVOCATION_ID', '66d1d3cbc2dd42feaee8647ac5bf1d73'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/825abeae_69a7_4791_94e9_edc066c2125d'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('JETSON_SOC', 'tegra194'), ('GNOME_TERMINAL_SERVICE', ':1.534'), ('SDKMAN_DIR', '/home/ubuntu/.sdkman'), ('SDKMAN_PLATFORM', 'linuxarm64'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/foxy'), ('CONDA_PYTHON_EXE', '/home/ubuntu/anaconda3/bin/python'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CONDA_DEFAULT_ENV', 'base'), ('CODEX_THREAD_ID', '019fea80-fcf6-7050-b9ee-71e910b093e5'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '7.2'), ('PWD', '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description'), ('VSCODE_CLI', '1'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/ubuntu/anaconda3/bin/conda'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/home/ubuntu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/foxy/lib/python3.8/site-packages'), ('CONDA_PREFIX', '/home/ubuntu/anaconda3'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('JETSON_JETPACK', '5.1'), ('JETSON_P_NUMBER', 'p2888-0004'), ('CMAKE_PREFIX_PATH', '/opt/ros/foxy:/home/ubuntu/ros2_ws/install')]), 'shell': False}
+[0.099839] (-) TimerEvent: {}
+[0.184781] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)\n'}
+[0.200001] (-) TimerEvent: {}
+[0.268567] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.300209] (-) TimerEvent: {}
+[0.400628] (-) TimerEvent: {}
+[0.501010] (-) TimerEvent: {}
+[0.601391] (-) TimerEvent: {}
+[0.701753] (-) TimerEvent: {}
+[0.802204] (-) TimerEvent: {}
+[0.892226] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.902402] (-) TimerEvent: {}
+[0.920129] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found gazebo_dev: 3.5.3 (/opt/ros/foxy/share/gazebo_dev/cmake)\n'}
+[1.002617] (-) TimerEvent: {}
+[1.082068] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found DART: /usr/include (Required is at least version "6.6") found components: dart \n'}
+[1.102823] (-) TimerEvent: {}
+[1.200873] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/aarch64-linux-gnu/libprotobuf.so;-lpthread (found version "3.6.1") \n'}
+[1.202926] (-) TimerEvent: {}
+[1.208093] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[1.221341] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-math6\n'}
+[1.226598] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE...\n'}
+[1.247599] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found Ogre Ghadamon (1.9.0)\n'}
+[1.249744] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE: optimized;/usr/lib/aarch64-linux-gnu/libOgreMain.so;debug;/usr/lib/aarch64-linux-gnu/libOgreMain.so\n'}
+[1.282774] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_Paging...\n'}
+[1.284310] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_Paging: optimized;/usr/lib/aarch64-linux-gnu/libOgrePaging.so;debug;/usr/lib/aarch64-linux-gnu/libOgrePaging.so\n'}
+[1.285578] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_Terrain...\n'}
+[1.286070] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_Terrain: optimized;/usr/lib/aarch64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/aarch64-linux-gnu/libOgreTerrain.so\n'}
+[1.286486] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_Property...\n'}
+[1.286791] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_Property: optimized;/usr/lib/aarch64-linux-gnu/libOgreProperty.so;debug;/usr/lib/aarch64-linux-gnu/libOgreProperty.so\n'}
+[1.287063] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_RTShaderSystem...\n'}
+[1.287352] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_RTShaderSystem: optimized;/usr/lib/aarch64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/aarch64-linux-gnu/libOgreRTShaderSystem.so\n'}
+[1.287674] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_Volume...\n'}
+[1.287992] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_Volume: optimized;/usr/lib/aarch64-linux-gnu/libOgreVolume.so;debug;/usr/lib/aarch64-linux-gnu/libOgreVolume.so\n'}
+[1.288238] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for OGRE_Overlay...\n'}
+[1.289081] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found OGRE_Overlay: optimized;/usr/lib/aarch64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/aarch64-linux-gnu/libOgreOverlay.so\n'}
+[1.303767] (-) TimerEvent: {}
+[1.404173] (-) TimerEvent: {}
+[1.504609] (-) TimerEvent: {}
+[1.605020] (-) TimerEvent: {}
+[1.705416] (-) TimerEvent: {}
+[1.805844] (-) TimerEvent: {}
+[1.846703] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[1.847705] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-transport8 -- found version 8.3.0\n'}
+[1.849485] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-transport8\n'}
+[1.906074] (-) TimerEvent: {}
+[1.910940] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/aarch64-linux-gnu/libprotobuf.so;-lpthread (found suitable version "3.6.1", minimum required is "3") \n'}
+[1.938163] (oil_palm_harvester_description) StdoutLine: {'line': b"-- Checking for module 'uuid'\n"}
+[2.006271] (-) TimerEvent: {}
+[2.018823] (oil_palm_harvester_description) StdoutLine: {'line': b'--   Found uuid, version 2.34.0\n'}
+[2.106515] (-) TimerEvent: {}
+[2.206999] (-) TimerEvent: {}
+[2.215047] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.10.0\n'}
+[2.216802] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-msgs5\n'}
+[2.284625] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[2.305521] (oil_palm_harvester_description) StdoutLine: {'line': b"-- Checking for module 'tinyxml2'\n"}
+[2.307123] (-) TimerEvent: {}
+[2.380893] (oil_palm_harvester_description) StdoutLine: {'line': b'--   Found tinyxml2, version 6.2.0\n'}
+[2.407334] (-) TimerEvent: {}
+[2.507899] (-) TimerEvent: {}
+[2.583523] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.10.0\n'}
+[2.584673] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.2\n'}
+[2.586721] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3\n'}
+[2.587630] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for dlfcn.h - found\n'}
+[2.588080] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for libdl - found\n'}
+[2.608094] (-) TimerEvent: {}
+[2.622394] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for <ignition-common3> component [graphics]\n'}
+[2.623483] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-common3-graphics -- found version 3.14.2\n'}
+[2.625272] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3-graphics\n'}
+[2.626339] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[2.630502] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-fuel_tools4 -- found version 4.6.0\n'}
+[2.632066] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-fuel_tools4\n'}
+[2.708249] (-) TimerEvent: {}
+[2.745293] (oil_palm_harvester_description) StdoutLine: {'line': b"-- Checking for module 'jsoncpp'\n"}
+[2.808446] (-) TimerEvent: {}
+[2.823752] (oil_palm_harvester_description) StdoutLine: {'line': b'--   Found jsoncpp, version 1.7.4\n'}
+[2.908619] (-) TimerEvent: {}
+[3.009038] (-) TimerEvent: {}
+[3.045406] (oil_palm_harvester_description) StdoutLine: {'line': b"-- Checking for module 'libzip'\n"}
+[3.110036] (-) TimerEvent: {}
+[3.123009] (oil_palm_harvester_description) StdoutLine: {'line': b'--   Found libzip, version 1.5.1\n'}
+[3.210197] (-) TimerEvent: {}
+[3.310655] (-) TimerEvent: {}
+[3.321522] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.2\n'}
+[3.322652] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[3.323678] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.10.0\n'}
+[3.328492] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Gazebo version: 11.11\n'}
+[3.329404] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found gazebo_ros: 3.5.3 (/opt/ros/foxy/share/gazebo_ros/cmake)\n'}
+[3.410833] (-) TimerEvent: {}
+[3.435894] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[3.448541] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)\n'}
+[3.511042] (-) TimerEvent: {}
+[3.611433] (-) TimerEvent: {}
+[3.711849] (-) TimerEvent: {}
+[3.812293] (-) TimerEvent: {}
+[3.884366] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[3.912500] (-) TimerEvent: {}
+[4.013555] (-) TimerEvent: {}
+[4.047512] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)\n'}
+[4.051941] (oil_palm_harvester_description) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[4.113813] (-) TimerEvent: {}
+[4.214287] (-) TimerEvent: {}
+[4.314747] (-) TimerEvent: {}
+[4.415157] (-) TimerEvent: {}
+[4.507777] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)\n'}
+[4.515322] (-) TimerEvent: {}
+[4.615789] (-) TimerEvent: {}
+[4.716289] (-) TimerEvent: {}
+[4.816672] (-) TimerEvent: {}
+[4.824213] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Found tf2_ros: 0.13.14 (/opt/ros/foxy/share/tf2_ros/cmake)\n'}
+[4.916846] (-) TimerEvent: {}
+[5.017271] (-) TimerEvent: {}
+[5.117682] (-) TimerEvent: {}
+[5.218241] (-) TimerEvent: {}
+[5.318670] (-) TimerEvent: {}
+[5.419090] (-) TimerEvent: {}
+[5.519480] (-) TimerEvent: {}
+[5.619889] (-) TimerEvent: {}
+[5.720303] (-) TimerEvent: {}
+[5.820731] (-) TimerEvent: {}
+[5.921190] (-) TimerEvent: {}
+[5.969675] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Configuring done\n'}
+[6.021350] (-) TimerEvent: {}
+[6.121760] (-) TimerEvent: {}
+[6.189498] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Generating done\n'}
+[6.221999] (-) TimerEvent: {}
+[6.254866] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Build files have been written to: /home/ubuntu/ros2_ws/build/oil_palm_harvester_description\n'}
+[6.322176] (-) TimerEvent: {}
+[6.422584] (-) TimerEvent: {}
+[6.523035] (-) TimerEvent: {}
+[6.623484] (-) TimerEvent: {}
+[6.723907] (-) TimerEvent: {}
+[6.824339] (-) TimerEvent: {}
+[6.832872] (oil_palm_harvester_description) StdoutLine: {'line': b'Scanning dependencies of target harvester_kinematic_gazebo_plugin\n'}
+[6.924742] (-) TimerEvent: {}
+[6.931531] (oil_palm_harvester_description) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/harvester_kinematic_gazebo_plugin.dir/src/harvester_kinematic_gazebo_plugin.cpp.o\n'}
+[7.024923] (-) TimerEvent: {}
+[7.125367] (-) TimerEvent: {}
+[7.225803] (-) TimerEvent: {}
+[7.326283] (-) TimerEvent: {}
+[7.426706] (-) TimerEvent: {}
+[7.527139] (-) TimerEvent: {}
+[7.627535] (-) TimerEvent: {}
+[7.727928] (-) TimerEvent: {}
+[7.828347] (-) TimerEvent: {}
+[7.928777] (-) TimerEvent: {}
+[8.029203] (-) TimerEvent: {}
+[8.129603] (-) TimerEvent: {}
+[8.230045] (-) TimerEvent: {}
+[8.330433] (-) TimerEvent: {}
+[8.430850] (-) TimerEvent: {}
+[8.531285] (-) TimerEvent: {}
+[8.631714] (-) TimerEvent: {}
+[8.732139] (-) TimerEvent: {}
+[8.832608] (-) TimerEvent: {}
+[8.933043] (-) TimerEvent: {}
+[9.033426] (-) TimerEvent: {}
+[9.133906] (-) TimerEvent: {}
+[9.234357] (-) TimerEvent: {}
+[9.334889] (-) TimerEvent: {}
+[9.435346] (-) TimerEvent: {}
+[9.535734] (-) TimerEvent: {}
+[9.636170] (-) TimerEvent: {}
+[9.736731] (-) TimerEvent: {}
+[9.837189] (-) TimerEvent: {}
+[9.937652] (-) TimerEvent: {}
+[10.038206] (-) TimerEvent: {}
+[10.138616] (-) TimerEvent: {}
+[10.239031] (-) TimerEvent: {}
+[10.339424] (-) TimerEvent: {}
+[10.439864] (-) TimerEvent: {}
+[10.540295] (-) TimerEvent: {}
+[10.640728] (-) TimerEvent: {}
+[10.741155] (-) TimerEvent: {}
+[10.841571] (-) TimerEvent: {}
+[10.942135] (-) TimerEvent: {}
+[11.042560] (-) TimerEvent: {}
+[11.143059] (-) TimerEvent: {}
+[11.243501] (-) TimerEvent: {}
+[11.343931] (-) TimerEvent: {}
+[11.444334] (-) TimerEvent: {}
+[11.544755] (-) TimerEvent: {}
+[11.645165] (-) TimerEvent: {}
+[11.745624] (-) TimerEvent: {}
+[11.846073] (-) TimerEvent: {}
+[11.946519] (-) TimerEvent: {}
+[12.046976] (-) TimerEvent: {}
+[12.147429] (-) TimerEvent: {}
+[12.247854] (-) TimerEvent: {}
+[12.348307] (-) TimerEvent: {}
+[12.448736] (-) TimerEvent: {}
+[12.549161] (-) TimerEvent: {}
+[12.649632] (-) TimerEvent: {}
+[12.750050] (-) TimerEvent: {}
+[12.850488] (-) TimerEvent: {}
+[12.950912] (-) TimerEvent: {}
+[13.051342] (-) TimerEvent: {}
+[13.151773] (-) TimerEvent: {}
+[13.252218] (-) TimerEvent: {}
+[13.352698] (-) TimerEvent: {}
+[13.453180] (-) TimerEvent: {}
+[13.553643] (-) TimerEvent: {}
+[13.654202] (-) TimerEvent: {}
+[13.754680] (-) TimerEvent: {}
+[13.855154] (-) TimerEvent: {}
+[13.955616] (-) TimerEvent: {}
+[14.056070] (-) TimerEvent: {}
+[14.156523] (-) TimerEvent: {}
+[14.257021] (-) TimerEvent: {}
+[14.357497] (-) TimerEvent: {}
+[14.457946] (-) TimerEvent: {}
+[14.558428] (-) TimerEvent: {}
+[14.658854] (-) TimerEvent: {}
+[14.759347] (-) TimerEvent: {}
+[14.859773] (-) TimerEvent: {}
+[14.960220] (-) TimerEvent: {}
+[15.060675] (-) TimerEvent: {}
+[15.161117] (-) TimerEvent: {}
+[15.261577] (-) TimerEvent: {}
+[15.362081] (-) TimerEvent: {}
+[15.462503] (-) TimerEvent: {}
+[15.562889] (-) TimerEvent: {}
+[15.663301] (-) TimerEvent: {}
+[15.763753] (-) TimerEvent: {}
+[15.864735] (-) TimerEvent: {}
+[15.965148] (-) TimerEvent: {}
+[16.065591] (-) TimerEvent: {}
+[16.166065] (-) TimerEvent: {}
+[16.266533] (-) TimerEvent: {}
+[16.366958] (-) TimerEvent: {}
+[16.467380] (-) TimerEvent: {}
+[16.567857] (-) TimerEvent: {}
+[16.668303] (-) TimerEvent: {}
+[16.768740] (-) TimerEvent: {}
+[16.869128] (-) TimerEvent: {}
+[16.969537] (-) TimerEvent: {}
+[17.069944] (-) TimerEvent: {}
+[17.170374] (-) TimerEvent: {}
+[17.270811] (-) TimerEvent: {}
+[17.371252] (-) TimerEvent: {}
+[17.471656] (-) TimerEvent: {}
+[17.572074] (-) TimerEvent: {}
+[17.672533] (-) TimerEvent: {}
+[17.772954] (-) TimerEvent: {}
+[17.873371] (-) TimerEvent: {}
+[17.973762] (-) TimerEvent: {}
+[18.074249] (-) TimerEvent: {}
+[18.174709] (-) TimerEvent: {}
+[18.275152] (-) TimerEvent: {}
+[18.375589] (-) TimerEvent: {}
+[18.476001] (-) TimerEvent: {}
+[18.576406] (-) TimerEvent: {}
+[18.676870] (-) TimerEvent: {}
+[18.777331] (-) TimerEvent: {}
+[18.877760] (-) TimerEvent: {}
+[18.978259] (-) TimerEvent: {}
+[19.078728] (-) TimerEvent: {}
+[19.179143] (-) TimerEvent: {}
+[19.279584] (-) TimerEvent: {}
+[19.380031] (-) TimerEvent: {}
+[19.480491] (-) TimerEvent: {}
+[19.580902] (-) TimerEvent: {}
+[19.681309] (-) TimerEvent: {}
+[19.781747] (-) TimerEvent: {}
+[19.882224] (-) TimerEvent: {}
+[19.982819] (-) TimerEvent: {}
+[20.083298] (-) TimerEvent: {}
+[20.183719] (-) TimerEvent: {}
+[20.284164] (-) TimerEvent: {}
+[20.384591] (-) TimerEvent: {}
+[20.485089] (-) TimerEvent: {}
+[20.585508] (-) TimerEvent: {}
+[20.685965] (-) TimerEvent: {}
+[20.786418] (-) TimerEvent: {}
+[20.886906] (-) TimerEvent: {}
+[20.987404] (-) TimerEvent: {}
+[21.087919] (-) TimerEvent: {}
+[21.188359] (-) TimerEvent: {}
+[21.288795] (-) TimerEvent: {}
+[21.389204] (-) TimerEvent: {}
+[21.489640] (-) TimerEvent: {}
+[21.590059] (-) TimerEvent: {}
+[21.690557] (-) TimerEvent: {}
+[21.790988] (-) TimerEvent: {}
+[21.891361] (-) TimerEvent: {}
+[21.991779] (-) TimerEvent: {}
+[22.092203] (-) TimerEvent: {}
+[22.192604] (-) TimerEvent: {}
+[22.293031] (-) TimerEvent: {}
+[22.393440] (-) TimerEvent: {}
+[22.493918] (-) TimerEvent: {}
+[22.594361] (-) TimerEvent: {}
+[22.694802] (-) TimerEvent: {}
+[22.795259] (-) TimerEvent: {}
+[22.895697] (-) TimerEvent: {}
+[22.996196] (-) TimerEvent: {}
+[23.096651] (-) TimerEvent: {}
+[23.197137] (-) TimerEvent: {}
+[23.297579] (-) TimerEvent: {}
+[23.398035] (-) TimerEvent: {}
+[23.498478] (-) TimerEvent: {}
+[23.598913] (-) TimerEvent: {}
+[23.699368] (-) TimerEvent: {}
+[23.799964] (-) TimerEvent: {}
+[23.900379] (-) TimerEvent: {}
+[24.000832] (-) TimerEvent: {}
+[24.101252] (-) TimerEvent: {}
+[24.201733] (-) TimerEvent: {}
+[24.302223] (-) TimerEvent: {}
+[24.402698] (-) TimerEvent: {}
+[24.503124] (-) TimerEvent: {}
+[24.603584] (-) TimerEvent: {}
+[24.704041] (-) TimerEvent: {}
+[24.804538] (-) TimerEvent: {}
+[24.904970] (-) TimerEvent: {}
+[25.005422] (-) TimerEvent: {}
+[25.105866] (-) TimerEvent: {}
+[25.206386] (-) TimerEvent: {}
+[25.306844] (-) TimerEvent: {}
+[25.407349] (-) TimerEvent: {}
+[25.507860] (-) TimerEvent: {}
+[25.608419] (-) TimerEvent: {}
+[25.708949] (-) TimerEvent: {}
+[25.809401] (-) TimerEvent: {}
+[25.909818] (-) TimerEvent: {}
+[26.010324] (-) TimerEvent: {}
+[26.110775] (-) TimerEvent: {}
+[26.211231] (-) TimerEvent: {}
+[26.311687] (-) TimerEvent: {}
+[26.412113] (-) TimerEvent: {}
+[26.512545] (-) TimerEvent: {}
+[26.612986] (-) TimerEvent: {}
+[26.713413] (-) TimerEvent: {}
+[26.814007] (-) TimerEvent: {}
+[26.914520] (-) TimerEvent: {}
+[27.014959] (-) TimerEvent: {}
+[27.115366] (-) TimerEvent: {}
+[27.215807] (-) TimerEvent: {}
+[27.316266] (-) TimerEvent: {}
+[27.416705] (-) TimerEvent: {}
+[27.517150] (-) TimerEvent: {}
+[27.617585] (-) TimerEvent: {}
+[27.718153] (-) TimerEvent: {}
+[27.818659] (-) TimerEvent: {}
+[27.919159] (-) TimerEvent: {}
+[28.019618] (-) TimerEvent: {}
+[28.120078] (-) TimerEvent: {}
+[28.220541] (-) TimerEvent: {}
+[28.320992] (-) TimerEvent: {}
+[28.421420] (-) TimerEvent: {}
+[28.521851] (-) TimerEvent: {}
+[28.622380] (-) TimerEvent: {}
+[28.722858] (-) TimerEvent: {}
+[28.823276] (-) TimerEvent: {}
+[28.923721] (-) TimerEvent: {}
+[29.024209] (-) TimerEvent: {}
+[29.124676] (-) TimerEvent: {}
+[29.225082] (-) TimerEvent: {}
+[29.325481] (-) TimerEvent: {}
+[29.425984] (-) TimerEvent: {}
+[29.526408] (-) TimerEvent: {}
+[29.626847] (-) TimerEvent: {}
+[29.727270] (-) TimerEvent: {}
+[29.827706] (-) TimerEvent: {}
+[29.928161] (-) TimerEvent: {}
+[30.028665] (-) TimerEvent: {}
+[30.129175] (-) TimerEvent: {}
+[30.230077] (-) TimerEvent: {}
+[30.330608] (-) TimerEvent: {}
+[30.431083] (-) TimerEvent: {}
+[30.531506] (-) TimerEvent: {}
+[30.631921] (-) TimerEvent: {}
+[30.732333] (-) TimerEvent: {}
+[30.832807] (-) TimerEvent: {}
+[30.933287] (-) TimerEvent: {}
+[31.033757] (-) TimerEvent: {}
+[31.134241] (-) TimerEvent: {}
+[31.234701] (-) TimerEvent: {}
+[31.335180] (-) TimerEvent: {}
+[31.435655] (-) TimerEvent: {}
+[31.536118] (-) TimerEvent: {}
+[31.636595] (-) TimerEvent: {}
+[31.737137] (-) TimerEvent: {}
+[31.837655] (-) TimerEvent: {}
+[31.938105] (-) TimerEvent: {}
+[32.038576] (-) TimerEvent: {}
+[32.139072] (-) TimerEvent: {}
+[32.239530] (-) TimerEvent: {}
+[32.340043] (-) TimerEvent: {}
+[32.440566] (-) TimerEvent: {}
+[32.541041] (-) TimerEvent: {}
+[32.641517] (-) TimerEvent: {}
+[32.742064] (-) TimerEvent: {}
+[32.842605] (-) TimerEvent: {}
+[32.943082] (-) TimerEvent: {}
+[33.043546] (-) TimerEvent: {}
+[33.144041] (-) TimerEvent: {}
+[33.244492] (-) TimerEvent: {}
+[33.344949] (-) TimerEvent: {}
+[33.445497] (-) TimerEvent: {}
+[33.546081] (-) TimerEvent: {}
+[33.646553] (-) TimerEvent: {}
+[33.746992] (-) TimerEvent: {}
+[33.847501] (-) TimerEvent: {}
+[33.947992] (-) TimerEvent: {}
+[34.048474] (-) TimerEvent: {}
+[34.148937] (-) TimerEvent: {}
+[34.249356] (-) TimerEvent: {}
+[34.349837] (-) TimerEvent: {}
+[34.450345] (-) TimerEvent: {}
+[34.550793] (-) TimerEvent: {}
+[34.651263] (-) TimerEvent: {}
+[34.751760] (-) TimerEvent: {}
+[34.852280] (-) TimerEvent: {}
+[34.952732] (-) TimerEvent: {}
+[35.053167] (-) TimerEvent: {}
+[35.153624] (-) TimerEvent: {}
+[35.254158] (-) TimerEvent: {}
+[35.354666] (-) TimerEvent: {}
+[35.455148] (-) TimerEvent: {}
+[35.555605] (-) TimerEvent: {}
+[35.656136] (-) TimerEvent: {}
+[35.756629] (-) TimerEvent: {}
+[35.857141] (-) TimerEvent: {}
+[35.957632] (-) TimerEvent: {}
+[36.058234] (-) TimerEvent: {}
+[36.158677] (-) TimerEvent: {}
+[36.259119] (-) TimerEvent: {}
+[36.359604] (-) TimerEvent: {}
+[36.460085] (-) TimerEvent: {}
+[36.560954] (-) TimerEvent: {}
+[36.661429] (-) TimerEvent: {}
+[36.761987] (-) TimerEvent: {}
+[36.862461] (-) TimerEvent: {}
+[36.962948] (-) TimerEvent: {}
+[37.063361] (-) TimerEvent: {}
+[37.163804] (-) TimerEvent: {}
+[37.264254] (-) TimerEvent: {}
+[37.364728] (-) TimerEvent: {}
+[37.465243] (-) TimerEvent: {}
+[37.565665] (-) TimerEvent: {}
+[37.666236] (-) TimerEvent: {}
+[37.766736] (-) TimerEvent: {}
+[37.867447] (-) TimerEvent: {}
+[37.967916] (-) TimerEvent: {}
+[38.068439] (-) TimerEvent: {}
+[38.168929] (-) TimerEvent: {}
+[38.269422] (-) TimerEvent: {}
+[38.370012] (-) TimerEvent: {}
+[38.470504] (-) TimerEvent: {}
+[38.570972] (-) TimerEvent: {}
+[38.671420] (-) TimerEvent: {}
+[38.771934] (-) TimerEvent: {}
+[38.872415] (-) TimerEvent: {}
+[38.972893] (-) TimerEvent: {}
+[39.073369] (-) TimerEvent: {}
+[39.173835] (-) TimerEvent: {}
+[39.274383] (-) TimerEvent: {}
+[39.374864] (-) TimerEvent: {}
+[39.475364] (-) TimerEvent: {}
+[39.575938] (-) TimerEvent: {}
+[39.676416] (-) TimerEvent: {}
+[39.776937] (-) TimerEvent: {}
+[39.877462] (-) TimerEvent: {}
+[39.978071] (-) TimerEvent: {}
+[40.078576] (-) TimerEvent: {}
+[40.179140] (-) TimerEvent: {}
+[40.279812] (-) TimerEvent: {}
+[40.380327] (-) TimerEvent: {}
+[40.480834] (-) TimerEvent: {}
+[40.581352] (-) TimerEvent: {}
+[40.681958] (-) TimerEvent: {}
+[40.782470] (-) TimerEvent: {}
+[40.882974] (-) TimerEvent: {}
+[40.983472] (-) TimerEvent: {}
+[41.083958] (-) TimerEvent: {}
+[41.184444] (-) TimerEvent: {}
+[41.284971] (-) TimerEvent: {}
+[41.385455] (-) TimerEvent: {}
+[41.485956] (-) TimerEvent: {}
+[41.586478] (-) TimerEvent: {}
+[41.687043] (-) TimerEvent: {}
+[41.787749] (-) TimerEvent: {}
+[41.888443] (-) TimerEvent: {}
+[41.988900] (-) TimerEvent: {}
+[42.089421] (-) TimerEvent: {}
+[42.189966] (-) TimerEvent: {}
+[42.290456] (-) TimerEvent: {}
+[42.390908] (-) TimerEvent: {}
+[42.491386] (-) TimerEvent: {}
+[42.591856] (-) TimerEvent: {}
+[42.692316] (-) TimerEvent: {}
+[42.792803] (-) TimerEvent: {}
+[42.893278] (-) TimerEvent: {}
+[42.993744] (-) TimerEvent: {}
+[43.094260] (-) TimerEvent: {}
+[43.194757] (-) TimerEvent: {}
+[43.295243] (-) TimerEvent: {}
+[43.395715] (-) TimerEvent: {}
+[43.496204] (-) TimerEvent: {}
+[43.596689] (-) TimerEvent: {}
+[43.697187] (-) TimerEvent: {}
+[43.797702] (-) TimerEvent: {}
+[43.898303] (-) TimerEvent: {}
+[43.998808] (-) TimerEvent: {}
+[44.099293] (-) TimerEvent: {}
+[44.199775] (-) TimerEvent: {}
+[44.300281] (-) TimerEvent: {}
+[44.400789] (-) TimerEvent: {}
+[44.501309] (-) TimerEvent: {}
+[44.601851] (-) TimerEvent: {}
+[44.702384] (-) TimerEvent: {}
+[44.802932] (-) TimerEvent: {}
+[44.903449] (-) TimerEvent: {}
+[45.003975] (-) TimerEvent: {}
+[45.104525] (-) TimerEvent: {}
+[45.205001] (-) TimerEvent: {}
+[45.305510] (-) TimerEvent: {}
+[45.406077] (-) TimerEvent: {}
+[45.506608] (-) TimerEvent: {}
+[45.607146] (-) TimerEvent: {}
+[45.707639] (-) TimerEvent: {}
+[45.808133] (-) TimerEvent: {}
+[45.908621] (-) TimerEvent: {}
+[46.009174] (-) TimerEvent: {}
+[46.109629] (-) TimerEvent: {}
+[46.210148] (-) TimerEvent: {}
+[46.310652] (-) TimerEvent: {}
+[46.411109] (-) TimerEvent: {}
+[46.511588] (-) TimerEvent: {}
+[46.612065] (-) TimerEvent: {}
+[46.712574] (-) TimerEvent: {}
+[46.813101] (-) TimerEvent: {}
+[46.913587] (-) TimerEvent: {}
+[47.014270] (-) TimerEvent: {}
+[47.114816] (-) TimerEvent: {}
+[47.215423] (-) TimerEvent: {}
+[47.316009] (-) TimerEvent: {}
+[47.416519] (-) TimerEvent: {}
+[47.517082] (-) TimerEvent: {}
+[47.617585] (-) TimerEvent: {}
+[47.718111] (-) TimerEvent: {}
+[47.818622] (-) TimerEvent: {}
+[47.919109] (-) TimerEvent: {}
+[48.019618] (-) TimerEvent: {}
+[48.120327] (-) TimerEvent: {}
+[48.220835] (-) TimerEvent: {}
+[48.321319] (-) TimerEvent: {}
+[48.421820] (-) TimerEvent: {}
+[48.522357] (-) TimerEvent: {}
+[48.622843] (-) TimerEvent: {}
+[48.723317] (-) TimerEvent: {}
+[48.823797] (-) TimerEvent: {}
+[48.924320] (-) TimerEvent: {}
+[49.024794] (-) TimerEvent: {}
+[49.125311] (-) TimerEvent: {}
+[49.225850] (-) TimerEvent: {}
+[49.326457] (-) TimerEvent: {}
+[49.426942] (-) TimerEvent: {}
+[49.527396] (-) TimerEvent: {}
+[49.627876] (-) TimerEvent: {}
+[49.728453] (-) TimerEvent: {}
+[49.828999] (-) TimerEvent: {}
+[49.929507] (-) TimerEvent: {}
+[50.030057] (-) TimerEvent: {}
+[50.130898] (-) TimerEvent: {}
+[50.231401] (-) TimerEvent: {}
+[50.332094] (-) TimerEvent: {}
+[50.432534] (-) TimerEvent: {}
+[50.533057] (-) TimerEvent: {}
+[50.633548] (-) TimerEvent: {}
+[50.734091] (-) TimerEvent: {}
+[50.834576] (-) TimerEvent: {}
+[50.935078] (-) TimerEvent: {}
+[51.035527] (-) TimerEvent: {}
+[51.135960] (-) TimerEvent: {}
+[51.236420] (-) TimerEvent: {}
+[51.337230] (-) TimerEvent: {}
+[51.437669] (-) TimerEvent: {}
+[51.538116] (-) TimerEvent: {}
+[51.639129] (-) TimerEvent: {}
+[51.739605] (-) TimerEvent: {}
+[51.840065] (-) TimerEvent: {}
+[51.940516] (-) TimerEvent: {}
+[52.042108] (-) TimerEvent: {}
+[52.142527] (-) TimerEvent: {}
+[52.243003] (-) TimerEvent: {}
+[52.343485] (-) TimerEvent: {}
+[52.443969] (-) TimerEvent: {}
+[52.544455] (-) TimerEvent: {}
+[52.644937] (-) TimerEvent: {}
+[52.745413] (-) TimerEvent: {}
+[52.845861] (-) TimerEvent: {}
+[52.946422] (-) TimerEvent: {}
+[53.047539] (-) TimerEvent: {}
+[53.147986] (-) TimerEvent: {}
+[53.248441] (-) TimerEvent: {}
+[53.348884] (-) TimerEvent: {}
+[53.384826] (oil_palm_harvester_description) StdoutLine: {'line': b'[100%] Linking CXX shared library libharvester_kinematic_gazebo_plugin.so\n'}
+[53.449105] (-) TimerEvent: {}
+[53.549570] (-) TimerEvent: {}
+[53.650119] (-) TimerEvent: {}
+[53.750533] (-) TimerEvent: {}
+[53.850982] (-) TimerEvent: {}
+[53.951462] (-) TimerEvent: {}
+[54.051945] (-) TimerEvent: {}
+[54.152439] (-) TimerEvent: {}
+[54.252914] (-) TimerEvent: {}
+[54.353364] (-) TimerEvent: {}
+[54.453817] (-) TimerEvent: {}
+[54.554333] (-) TimerEvent: {}
+[54.654785] (-) TimerEvent: {}
+[54.755337] (-) TimerEvent: {}
+[54.855849] (-) TimerEvent: {}
+[54.956319] (-) TimerEvent: {}
+[55.056760] (-) TimerEvent: {}
+[55.157246] (-) TimerEvent: {}
+[55.257680] (-) TimerEvent: {}
+[55.358185] (-) TimerEvent: {}
+[55.458629] (-) TimerEvent: {}
+[55.559126] (-) TimerEvent: {}
+[55.659573] (-) TimerEvent: {}
+[55.760015] (-) TimerEvent: {}
+[55.860436] (-) TimerEvent: {}
+[55.960932] (-) TimerEvent: {}
+[55.976049] (oil_palm_harvester_description) StdoutLine: {'line': b'[100%] Built target harvester_kinematic_gazebo_plugin\n'}
+[56.061155] (-) TimerEvent: {}
+[56.161612] (-) TimerEvent: {}
+[56.262032] (-) TimerEvent: {}
+[56.362510] (-) TimerEvent: {}
+[56.462981] (-) TimerEvent: {}
+[56.563445] (-) TimerEvent: {}
+[56.663915] (-) TimerEvent: {}
+[56.764316] (-) TimerEvent: {}
+[56.864708] (-) TimerEvent: {}
+[56.965144] (-) TimerEvent: {}
+[57.065787] (-) TimerEvent: {}
+[57.166599] (-) TimerEvent: {}
+[57.267068] (-) TimerEvent: {}
+[57.367491] (-) TimerEvent: {}
+[57.467943] (-) TimerEvent: {}
+[57.568369] (-) TimerEvent: {}
+[57.668902] (-) TimerEvent: {}
+[57.769306] (-) TimerEvent: {}
+[57.869743] (-) TimerEvent: {}
+[57.970237] (-) TimerEvent: {}
+[58.070668] (-) TimerEvent: {}
+[58.171117] (-) TimerEvent: {}
+[58.271558] (-) TimerEvent: {}
+[58.371995] (-) TimerEvent: {}
+[58.472426] (-) TimerEvent: {}
+[58.572873] (-) TimerEvent: {}
+[58.673283] (-) TimerEvent: {}
+[58.773712] (-) TimerEvent: {}
+[58.874205] (-) TimerEvent: {}
+[58.974650] (-) TimerEvent: {}
+[59.075111] (-) TimerEvent: {}
+[59.175582] (-) TimerEvent: {}
+[59.276030] (-) TimerEvent: {}
+[59.376501] (-) TimerEvent: {}
+[59.476985] (-) TimerEvent: {}
+[59.577445] (-) TimerEvent: {}
+[59.677962] (-) TimerEvent: {}
+[59.778392] (-) TimerEvent: {}
+[59.878837] (-) TimerEvent: {}
+[59.979302] (-) TimerEvent: {}
+[60.034283] (oil_palm_harvester_description) CommandEnded: {'returncode': 0}
+[60.037642] (oil_palm_harvester_description) JobProgress: {'identifier': 'oil_palm_harvester_description', 'progress': 'install'}
+[60.082488] (-) TimerEvent: {}
+[60.086523] (oil_palm_harvester_description) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description'], 'cwd': '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/ubuntu'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CONDA_PROMPT_MODIFIER', '(base)'), ('CODEX_CI', '1'), ('CODEX_HOME', '/home/ubuntu/.codex'), ('USER', 'ubuntu'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"en","osLocale":"en","resolvedLanguage":"en","defaultMessagesFile":"/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/out/nls.messages.json","locale":"en","availableLanguages":{}}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('SSH_AGENT_PID', '3361'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', 'release'), ('ROS_PACKAGE_PATH', '/home/ubuntu/ros2_ws/install/share'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:'), ('BROWSER', '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/helpers/browser.sh'), ('HOME', '/home/ubuntu'), ('CONDA_SHLVL', '1'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_RECONNECTION_GRACE_TIME', '10800000'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-b6a3dbef-c793-4340-b582-f9a358161632.sock'), ('JETSON_L4T', '35.2.1'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GRADLE_HOME', '/home/ubuntu/.sdkman/candidates/gradle/current'), ('GTK_MODULES', 'gail:atk-bridge'), ('JETSON_MODEL', 'Jetson-AGX'), ('PAGER', 'cat'), ('MANAGERPID', '3244'), ('LC_CTYPE', 'C.UTF-8'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('_CE_M', ''), ('IM_CONFIG_PHASE', '1'), ('CODEX_PERMISSION_PROFILE', ':workspace'), ('ROS_DISTRO', 'foxy'), ('LOGNAME', 'ubuntu'), ('JETSON_MODULE', 'NVIDIA Jetson AGX Xavier (32 GB ram)'), ('JETSON_SERIAL_NUMBER', '0420419029811'), ('VSCODE_HANDLES_SIGPIPE', 'true'), ('SDKMAN_CANDIDATES_API', 'https://api.sdkman.io/2'), ('JOURNAL_STREAM', '7:57846'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('JETSON_CODENAME', 'Galen'), ('XDG_SESSION_CLASS', 'user'), ('RUST_LOG', 'warn'), ('PKG_CONFIG_PATH', '/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig'), ('USERNAME', 'ubuntu'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('_CE_CONDA', ''), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/foxy/bin:/home/ubuntu/.codex/tmp/arg0/codex-arg0sMJ4vo:/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli:/home/ubuntu/anaconda3/bin:/home/ubuntu/anaconda3/condabin:/home/ubuntu/.sdkman/candidates/gradle/current/bin:/usr/local/cuda-11.4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/ubuntu/.vscode-server/extensions/openai.chatgpt-26.803.61601-linux-arm64/bin/linux-aarch64'), ('SESSION_MANAGER', 'local/ubuntu:@/tmp/.ICE-unix/3396,unix/ubuntu:/tmp/.ICE-unix/3396'), ('SDKMAN_CANDIDATES_DIR', '/home/ubuntu/.sdkman/candidates'), ('INVOCATION_ID', '66d1d3cbc2dd42feaee8647ac5bf1d73'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/825abeae_69a7_4791_94e9_edc066c2125d'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('JETSON_SOC', 'tegra194'), ('GNOME_TERMINAL_SERVICE', ':1.534'), ('SDKMAN_DIR', '/home/ubuntu/.sdkman'), ('SDKMAN_PLATFORM', 'linuxarm64'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/foxy'), ('CONDA_PYTHON_EXE', '/home/ubuntu/anaconda3/bin/python'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CONDA_DEFAULT_ENV', 'base'), ('CODEX_THREAD_ID', '019fea80-fcf6-7050-b9ee-71e910b093e5'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'ibus'), ('JETSON_CUDA_ARCH_BIN', '7.2'), ('PWD', '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description'), ('VSCODE_CLI', '1'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/ubuntu/anaconda3/bin/conda'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/home/ubuntu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/foxy/lib/python3.8/site-packages'), ('CONDA_PREFIX', '/home/ubuntu/anaconda3'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('JETSON_JETPACK', '5.1'), ('JETSON_P_NUMBER', 'p2888-0004'), ('CMAKE_PREFIX_PATH', '/opt/ros/foxy:/home/ubuntu/ros2_ws/install')]), 'shell': False}
+[60.132302] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[60.135107] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[60.137398] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_estimated.urdf\n'}
+[60.138489] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_kinematic.urdf\n'}
+[60.141772] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/depth_camera_estimated.stl\n'}
+[60.142762] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/lidar_mid360_estimated.stl\n'}
+[60.143500] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/range_sensor.stl\n'}
+[60.144324] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/wheel.stl\n'}
+[60.145118] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/mesh_inventory.csv\n'}
+[60.146228] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_0.stl\n'}
+[60.148085] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_1.stl\n'}
+[60.149504] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_2.stl\n'}
+[60.150641] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_3.stl\n'}
+[60.151020] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_4.stl\n'}
+[60.153293] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_turret.stl\n'}
+[60.153742] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/c_channel_platform.stl\n'}
+[60.154746] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl\n'}
+[60.155111] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl\n'}
+[60.156170] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_tool.stl\n'}
+[60.156448] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/depth_camera_estimated.stl\n'}
+[60.157347] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/lidar_mid360_estimated.stl\n'}
+[60.158752] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/platform_mount.stl\n'}
+[60.159774] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/rail_carriage.stl\n'}
+[60.160030] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/range_sensor.stl\n'}
+[60.161077] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/vehicle_body.stl\n'}
+[60.161543] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/wheel.stl\n'}
+[60.162643] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/display.launch.cpython-38.pyc\n'}
+[60.164596] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/display_harvester_and_tree.launch.cpython-38.pyc\n'}
+[60.166278] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/gazebo_docking.launch.cpython-38.pyc\n'}
+[60.166794] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/gazebo_harvester_and_tree.launch.cpython-38.pyc\n'}
+[60.168060] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display.launch.py\n'}
+[60.168421] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display_harvester_and_tree.launch.py\n'}
+[60.168668] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_docking.launch.py\n'}
+[60.169802] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_docking_with_camera_view.launch.py\n'}
+[60.170703] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_harvester_and_tree.launch.py\n'}
+[60.172305] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/controllers.yaml\n'}
+[60.173434] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/example_joint_positions.yaml\n'}
+[60.174644] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds/docking.world\n'}
+[60.175501] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds/harvester_tree.world\n'}
+[60.176924] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model/oil_palm_harvester/model.config\n'}
+[60.177719] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model/oil_palm_harvester/model.sdf\n'}
+[60.179917] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/database.config\n'}
+[60.181433] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/local_placeholder/model.config\n'}
+[60.181676] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/local_placeholder/model.sdf\n'}
+[60.182388] (-) TimerEvent: {}
+[60.183203] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/estimated_model_preview.png\n'}
+[60.184082] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/oil_palm_harvester_estimated.glb\n'}
+[60.187182] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/harvester_tree_combined.rviz\n'}
+[60.187457] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/lib/libharvester_kinematic_gazebo_plugin.so\n'}
+[60.188059] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/publish_urdf.py\n'}
+[60.188678] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/gazebo_joint_state_bridge.py\n'}
+[60.190092] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/gazebo_base_kinematic_controller.py\n'}
+[60.190500] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Symlinking: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/lidar_timestamp_bridge.py\n'}
+[60.228200] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description\n'}
+[60.229174] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/parent_prefix_path/oil_palm_harvester_description\n'}
+[60.230651] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.sh\n'}
+[60.232210] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.dsv\n'}
+[60.233444] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.sh\n'}
+[60.234603] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.dsv\n'}
+[60.236804] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.bash\n'}
+[60.237932] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.sh\n'}
+[60.239022] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.zsh\n'}
+[60.240356] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.dsv\n'}
+[60.241051] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Symlinking: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.dsv\n'}
+[60.279499] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/packages/oil_palm_harvester_description\n'}
+[60.280505] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig.cmake\n'}
+[60.281306] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig-version.cmake\n'}
+[60.282531] (oil_palm_harvester_description) StdoutLine: {'line': b'-- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.xml\n'}
+[60.282907] (-) TimerEvent: {}
+[60.293180] (oil_palm_harvester_description) CommandEnded: {'returncode': 0}
+[60.383149] (-) TimerEvent: {}
+[60.391398] (oil_palm_harvester_description) JobEnded: {'identifier': 'oil_palm_harvester_description', 'rc': 0}
+[60.394288] (-) EventReactorShutdown: {}
