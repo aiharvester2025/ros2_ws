@@ -1,10 +1,11 @@
 // Copyright 2026
 // SPDX-License-Identifier: Apache-2.0
 
-// Keep Gazebo and RViz in one kinematic state without depending on Gazebo
-// Classic's ROS service bridge.  On this Foxy installation those services can
-// be advertised while remaining unresponsive, whereas a ModelPlugin receives
-// ROS messages reliably through gazebo_ros::Node's executor.
+// Keep Gazebo and RViz in one measured kinematic state without depending on
+// Gazebo Classic's ROS service bridge.  On this Foxy installation those
+// services can be advertised while remaining unresponsive, whereas a
+// ModelPlugin receives ROS messages reliably through gazebo_ros::Node's
+// executor.
 
 #include <gazebo/common/Events.hh>
 #include <gazebo/common/PID.hh>
@@ -67,10 +68,15 @@ public:
       }
     }
 
+    // Commands and feedback deliberately use separate topics.  Publishing
+    // GUI target values directly to robot_state_publisher made RViz lead the
+    // PID-controlled Gazebo model and its simulated sensors.
     this->joint_subscription_ = this->ros_node_->create_subscription<
       sensor_msgs::msg::JointState>(
-      "/harvester/joint_states", rclcpp::QoS(10),
+      "/harvester/joint_commands", rclcpp::QoS(10),
       std::bind(&HarvesterKinematicGazeboPlugin::OnJointState, this, std::placeholders::_1));
+    this->joint_state_publisher_ = this->ros_node_->create_publisher<
+      sensor_msgs::msg::JointState>("/harvester/joint_states", rclcpp::QoS(10));
     this->velocity_subscription_ = this->ros_node_->create_subscription<
       geometry_msgs::msg::Twist>(
       "/harvester/cmd_vel", rclcpp::QoS(10),
@@ -81,7 +87,8 @@ public:
 
     RCLCPP_INFO(
       this->ros_node_->get_logger(),
-      "Harvester kinematic bridge ready: joint states on /harvester/joint_states and base velocity on /harvester/cmd_vel");
+      "Harvester kinematic bridge ready: joint commands on /harvester/joint_commands, "
+      "measured joint states on /harvester/joint_states, and base velocity on /harvester/cmd_vel");
   }
 
 private:
@@ -200,9 +207,36 @@ private:
     if (this->last_transform_sim_time_ == gazebo::common::Time::Zero ||
       (info.simTime - this->last_transform_sim_time_).Double() >= 0.05)
     {
+      this->PublishMeasuredJointStates();
       this->PublishBaseTransform();
       this->last_transform_sim_time_ = info.simTime;
     }
+  }
+
+  void PublishMeasuredJointStates()
+  {
+    sensor_msgs::msg::JointState joint_state;
+    // The GUI / robot_state_publisher TF chain is wall-clock stamped.  Keep
+    // this feedback in that same time domain; Gazebo sensor streams which need
+    // latest TF are normalized separately by their existing relays.
+    rclcpp::Clock wall_clock(RCL_SYSTEM_TIME);
+    joint_state.header.stamp = wall_clock.now();
+    for (const auto & joint : this->model_->GetJoints()) {
+      if (!joint || joint->DOF() == 0U) {
+        continue;
+      }
+      const double position = joint->Position(0);
+      if (!std::isfinite(position)) {
+        RCLCPP_WARN_THROTTLE(
+          this->ros_node_->get_logger(), *this->ros_node_->get_clock(), 5000,
+          "Skipping non-finite measured position from Gazebo joint '%s'",
+          joint->GetName().c_str());
+        continue;
+      }
+      joint_state.name.push_back(joint->GetName());
+      joint_state.position.push_back(position);
+    }
+    this->joint_state_publisher_->publish(joint_state);
   }
 
   void PublishBaseTransform()
@@ -215,13 +249,19 @@ private:
     transform.header.stamp = wall_clock.now();
     transform.header.frame_id = "world";
     transform.child_frame_id = "base_link";
-    transform.transform.translation.x = this->base_pose_.Pos().X();
-    transform.transform.translation.y = this->base_pose_.Pos().Y();
-    transform.transform.translation.z = this->base_pose_.Pos().Z();
-    transform.transform.rotation.x = this->base_pose_.Rot().X();
-    transform.transform.rotation.y = this->base_pose_.Rot().Y();
-    transform.transform.rotation.z = this->base_pose_.Rot().Z();
-    transform.transform.rotation.w = this->base_pose_.Rot().W();
+    // Use the measured Gazebo root pose, not the cmd_vel integration target.
+    // That keeps RViz, range rays, camera/lidar frames, and Gazebo aligned
+    // even during the 20 Hz base-pose update interval.
+    const auto base_link = this->model_->GetLink("base_link");
+    const ignition::math::Pose3d pose = base_link ?
+      base_link->WorldPose() : this->model_->WorldPose();
+    transform.transform.translation.x = pose.Pos().X();
+    transform.transform.translation.y = pose.Pos().Y();
+    transform.transform.translation.z = pose.Pos().Z();
+    transform.transform.rotation.x = pose.Rot().X();
+    transform.transform.rotation.y = pose.Rot().Y();
+    transform.transform.rotation.z = pose.Rot().Z();
+    transform.transform.rotation.w = pose.Rot().W();
     this->tf_broadcaster_->sendTransform(transform);
   }
 
@@ -230,6 +270,7 @@ private:
   gazebo_ros::Node::SharedPtr ros_node_;
   gazebo::event::ConnectionPtr update_connection_;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_subscription_;
+  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_publisher_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr velocity_subscription_;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   gazebo::common::Time last_sim_time_;

@@ -1,5 +1,7 @@
 Panels:
   - Class: rviz_common/Displays
+  - Class: oil_palm_harvester_description/RangeSensorPanel
+    Name: Docking Sensor Values
 Visualization Manager:
   Class: ""
   Displays:
@@ -28,10 +30,18 @@ Visualization Manager:
       TF Prefix: ""
       Enabled: true
     - Class: rviz_default_plugins/Image
-      Name: Cutting-Arm Colour Camera
+      Name: Active Camera View
       Topic:
-        Value: /harvester/platform_camera/depth/image_raw
+        Value: /harvester/camera_view/image_raw
       Enabled: true
+    - Class: rviz_default_plugins/Image
+      Name: Camera + LiDAR Overlay (optional)
+      Topic:
+        Value: /harvester/perception/camera_lidar/overlay_image
+      # The projection node is deliberately disabled by default in the launch
+      # to conserve Xavier resources. Enable this display after launching with
+      # camera_lidar_projection:=true; it uses this same RViz process.
+      Enabled: false
     - Class: rviz_default_plugins/PointCloud2
       Name: Cutting-Arm LiDAR Point Cloud
       Topic:
@@ -39,6 +49,19 @@ Visualization Manager:
       Queue Size: 30
       Style: Points
       Size (m): 0.02
+      Enabled: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Camera-Frame LiDAR Points (optional)
+      Topic:
+        Value: /harvester/perception/camera_lidar/visible_points
+      Queue Size: 10
+      Style: Points
+      Size (m): 0.012
+      Enabled: false
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Calibrated Docking Range Rays
+      Topic:
+        Value: /harvester/docking/range_markers
       Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF

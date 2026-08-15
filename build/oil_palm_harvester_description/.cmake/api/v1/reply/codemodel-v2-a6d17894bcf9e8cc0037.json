@@ -17,7 +17,9 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3,
+						4
 					]
 				}
 			],
@@ -34,7 +36,9 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3,
+						4
 					]
 				}
 			],
@@ -43,8 +47,22 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "harvester_kinematic_gazebo_plugin::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-harvester_kinematic_gazebo_plugin-1cccddc9095c4930b67e.json",
+					"jsonFile" : "target-harvester_kinematic_gazebo_plugin-1e274931f7776a236a46.json",
 					"name" : "harvester_kinematic_gazebo_plugin",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "harvester_range_sensor_panel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-harvester_range_sensor_panel-ecfc0884c52a2858d6f4.json",
+					"name" : "harvester_range_sensor_panel",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "harvester_range_sensor_panel_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-harvester_range_sensor_panel_autogen-29c8a979f38fc1ec2aa7.json",
+					"name" : "harvester_range_sensor_panel_autogen",
 					"projectIndex" : 0
 				},
 				{

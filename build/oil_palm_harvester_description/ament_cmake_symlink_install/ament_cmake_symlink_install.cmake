@@ -310,14 +310,23 @@ message(STATUS "Execute custom install script")
 
 # begin of custom install code
 
+# install(FILES "rviz/range_sensor_panel_plugin.xml" "DESTINATION" "share/oil_palm_harvester_description/rviz")
+ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "rviz/range_sensor_panel_plugin.xml" "DESTINATION" "share/oil_palm_harvester_description/rviz")
+
 # install(DIRECTORY "urdf" "meshes" "launch" "config" "worlds" "gazebo_model" "gazebo_model_database" "preview" "rviz" "DESTINATION" "share/oil_palm_harvester_description")
 ament_cmake_symlink_install_directory("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" DIRECTORY "urdf" "meshes" "launch" "config" "worlds" "gazebo_model" "gazebo_model_database" "preview" "rviz" "DESTINATION" "share/oil_palm_harvester_description")
 
-# install("TARGETS" "harvester_kinematic_gazebo_plugin" "LIBRARY_DESTINATION" "lib")
+# install(DIRECTORY "include/" "DESTINATION" "include")
+ament_cmake_symlink_install_directory("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" DIRECTORY "include/" "DESTINATION" "include")
+
+# install("TARGETS" "harvester_kinematic_gazebo_plugin" "harvester_range_sensor_panel" "LIBRARY_DESTINATION" "lib")
 include("/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_symlink_install_targets_0_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install(PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
-ament_cmake_symlink_install_programs("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+# install(PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "scripts/camera_view_selector.py" "scripts/camera_lidar_projection.py" "scripts/range_sensor_label_publisher.py" "scripts/range_sensor_calibration.py" "scripts/validate_range_sensor_calibration.py" "scripts/validate_camera_lidar_calibration.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+ament_cmake_symlink_install_programs("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" PROGRAMS "scripts/publish_urdf.py" "scripts/gazebo_joint_state_bridge.py" "scripts/gazebo_base_kinematic_controller.py" "scripts/lidar_timestamp_bridge.py" "scripts/camera_view_selector.py" "scripts/camera_lidar_projection.py" "scripts/range_sensor_label_publisher.py" "scripts/range_sensor_calibration.py" "scripts/validate_range_sensor_calibration.py" "scripts/validate_camera_lidar_calibration.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+
+# install(FILES "scripts/range_sensor_calibration_common.py" "scripts/camera_lidar_calibration_common.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
+ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "scripts/range_sensor_calibration_common.py" "scripts/camera_lidar_calibration_common.py" "DESTINATION" "share/oil_palm_harvester_description/scripts")
 
 # install(FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
@@ -354,6 +363,9 @@ ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_d
 
 # install(FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/packages/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/packages")
 ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/packages/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/packages")
+
+# install(FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/rviz_common__pluginlib__plugin/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/rviz_common__pluginlib__plugin")
+ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_index/share/ament_index/resource_index/rviz_common__pluginlib__plugin/oil_palm_harvester_description" "DESTINATION" "share/ament_index/resource_index/rviz_common__pluginlib__plugin")
 
 # install(FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_core/oil_palm_harvester_descriptionConfig.cmake" "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_core/oil_palm_harvester_descriptionConfig-version.cmake" "DESTINATION" "share/oil_palm_harvester_description/cmake")
 ament_cmake_symlink_install_files("/home/ubuntu/ros2_ws/src/oil_palm_harvester_description" FILES "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_core/oil_palm_harvester_descriptionConfig.cmake" "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/ament_cmake_core/oil_palm_harvester_descriptionConfig-version.cmake" "DESTINATION" "share/oil_palm_harvester_description/cmake")

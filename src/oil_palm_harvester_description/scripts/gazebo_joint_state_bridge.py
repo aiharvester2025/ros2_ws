@@ -58,7 +58,10 @@ class GazeboJointStateBridge(Node):
 
 
 def main():
-    topic = sys.argv[1] if len(sys.argv) > 1 else '/harvester/joint_states'
+    # The combined Gazebo launch reserves /harvester/joint_states for
+    # measured Gazebo feedback.  This legacy service bridge therefore follows
+    # the GUI command topic if it is used outside the normal ModelPlugin path.
+    topic = sys.argv[1] if len(sys.argv) > 1 else '/harvester/joint_commands'
     model_name = sys.argv[2] if len(sys.argv) > 2 else 'oil_palm_harvester'
     rclpy.init()
     node = GazeboJointStateBridge(topic, model_name)

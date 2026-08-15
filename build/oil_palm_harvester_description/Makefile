@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named harvester_range_sensor_panel
+
+# Build rule for target.
+harvester_range_sensor_panel: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 harvester_range_sensor_panel
+.PHONY : harvester_range_sensor_panel
+
+# fast build rule for target.
+harvester_range_sensor_panel/fast:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/build
+.PHONY : harvester_range_sensor_panel/fast
+
+#=============================================================================
 # Target rules for targets named harvester_kinematic_gazebo_plugin
 
 # Build rule for target.
@@ -206,6 +219,46 @@ uninstall/fast:
 	$(MAKE) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/build
 .PHONY : uninstall/fast
 
+#=============================================================================
+# Target rules for targets named harvester_range_sensor_panel_autogen
+
+# Build rule for target.
+harvester_range_sensor_panel_autogen: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 harvester_range_sensor_panel_autogen
+.PHONY : harvester_range_sensor_panel_autogen
+
+# fast build rule for target.
+harvester_range_sensor_panel_autogen/fast:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel_autogen.dir/build.make CMakeFiles/harvester_range_sensor_panel_autogen.dir/build
+.PHONY : harvester_range_sensor_panel_autogen/fast
+
+harvester_range_sensor_panel_autogen/mocs_compilation.o: harvester_range_sensor_panel_autogen/mocs_compilation.cpp.o
+
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.o
+
+# target to build an object file
+harvester_range_sensor_panel_autogen/mocs_compilation.cpp.o:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/harvester_range_sensor_panel_autogen/mocs_compilation.cpp.o
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.cpp.o
+
+harvester_range_sensor_panel_autogen/mocs_compilation.i: harvester_range_sensor_panel_autogen/mocs_compilation.cpp.i
+
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+harvester_range_sensor_panel_autogen/mocs_compilation.cpp.i:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/harvester_range_sensor_panel_autogen/mocs_compilation.cpp.i
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.cpp.i
+
+harvester_range_sensor_panel_autogen/mocs_compilation.s: harvester_range_sensor_panel_autogen/mocs_compilation.cpp.s
+
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+harvester_range_sensor_panel_autogen/mocs_compilation.cpp.s:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/harvester_range_sensor_panel_autogen/mocs_compilation.cpp.s
+.PHONY : harvester_range_sensor_panel_autogen/mocs_compilation.cpp.s
+
 src/harvester_kinematic_gazebo_plugin.o: src/harvester_kinematic_gazebo_plugin.cpp.o
 
 .PHONY : src/harvester_kinematic_gazebo_plugin.o
@@ -233,6 +286,33 @@ src/harvester_kinematic_gazebo_plugin.cpp.s:
 	$(MAKE) -f CMakeFiles/harvester_kinematic_gazebo_plugin.dir/build.make CMakeFiles/harvester_kinematic_gazebo_plugin.dir/src/harvester_kinematic_gazebo_plugin.cpp.s
 .PHONY : src/harvester_kinematic_gazebo_plugin.cpp.s
 
+src/range_sensor_panel.o: src/range_sensor_panel.cpp.o
+
+.PHONY : src/range_sensor_panel.o
+
+# target to build an object file
+src/range_sensor_panel.cpp.o:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/src/range_sensor_panel.cpp.o
+.PHONY : src/range_sensor_panel.cpp.o
+
+src/range_sensor_panel.i: src/range_sensor_panel.cpp.i
+
+.PHONY : src/range_sensor_panel.i
+
+# target to preprocess a source file
+src/range_sensor_panel.cpp.i:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/src/range_sensor_panel.cpp.i
+.PHONY : src/range_sensor_panel.cpp.i
+
+src/range_sensor_panel.s: src/range_sensor_panel.cpp.s
+
+.PHONY : src/range_sensor_panel.s
+
+# target to generate assembly for a file
+src/range_sensor_panel.cpp.s:
+	$(MAKE) -f CMakeFiles/harvester_range_sensor_panel.dir/build.make CMakeFiles/harvester_range_sensor_panel.dir/src/range_sensor_panel.cpp.s
+.PHONY : src/range_sensor_panel.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -245,13 +325,21 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... harvester_range_sensor_panel"
 	@echo "... install/local"
 	@echo "... harvester_kinematic_gazebo_plugin"
 	@echo "... oil_palm_harvester_description_uninstall"
 	@echo "... uninstall"
+	@echo "... harvester_range_sensor_panel_autogen"
+	@echo "... harvester_range_sensor_panel_autogen/mocs_compilation.o"
+	@echo "... harvester_range_sensor_panel_autogen/mocs_compilation.i"
+	@echo "... harvester_range_sensor_panel_autogen/mocs_compilation.s"
 	@echo "... src/harvester_kinematic_gazebo_plugin.o"
 	@echo "... src/harvester_kinematic_gazebo_plugin.i"
 	@echo "... src/harvester_kinematic_gazebo_plugin.s"
+	@echo "... src/range_sensor_panel.o"
+	@echo "... src/range_sensor_panel.i"
+	@echo "... src/range_sensor_panel.s"
 .PHONY : help
 
 

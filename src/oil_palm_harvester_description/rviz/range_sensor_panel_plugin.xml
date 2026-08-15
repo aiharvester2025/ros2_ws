@@ -1,0 +1,11 @@
+<library path="harvester_range_sensor_panel">
+  <class
+    name="oil_palm_harvester_description/RangeSensorPanel"
+    type="oil_palm_harvester_description::RangeSensorPanel"
+    base_class_type="rviz_common::Panel">
+    <description>
+      Compact upper-right RViz panel showing the five harvester docking-range
+      measurements in metres.
+    </description>
+  </class>
+</library>

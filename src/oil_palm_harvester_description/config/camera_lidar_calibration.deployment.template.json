@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "calibration_id": null,
+  "mode": "deployment_template",
+  "deployment_allowed": false,
+  "reference_frame": "cutting_arm_base_link",
+  "coordinate_convention": {
+    "mechanical_axes": "+X toward the tree, +Y left, +Z up",
+    "camera_optical_axes": "+X right, +Y down, +Z forward (ROS REP-103 optical frame)",
+    "lidar_axes": "+X forward, +Y left, +Z up",
+    "transform_notation": "T_parent_child maps a point expressed in child into parent",
+    "quaternion_order": "xyzw"
+  },
+  "commissioning": {
+    "camera_serial": null,
+    "lidar_serial": null,
+    "camera_intrinsics_uri": null,
+    "target_method": null,
+    "target_description": null,
+    "operator": null,
+    "date_utc": null,
+    "reprojection_rms_px": null,
+    "inlier_count": null,
+    "hardware_surveyed": false,
+    "time_sync_method": null,
+    "time_offset_ms": null,
+    "time_sync_verified": false,
+    "verified": false
+  },
+  "camera": {
+    "body_frame": "platform_depth_camera_link",
+    "optical_frame": "platform_depth_camera_optical_frame",
+    "color_image_topic": null,
+    "color_camera_info_topic": null,
+    "depth_image_topic": null,
+    "depth_camera_info_topic": null,
+    "depth_points_topic": null,
+    "intrinsics_source": null,
+    "nominal_image_geometry": null
+  },
+  "lidar": {
+    "frame": "vehicle_lidar_link",
+    "raw_points_topic": null,
+    "rviz_points_topic": null,
+    "nominal_scan_geometry": null
+  },
+  "relative_extrinsics": {
+    "urdf_expected_camera_optical_T_lidar": null,
+    "nominal_lidar_T_calibrated_lidar": null,
+    "translation_stddev_m": null,
+    "rotation_stddev_rad": null
+  },
+  "time_policy": {
+    "fusion_input_time_domain": null,
+    "maximum_image_lidar_skew_s": null,
+    "reject_zero_source_timestamps": true,
+    "rviz_lidar_topic_policy": "never_use_for_hardware_fusion"
+  },
+  "runtime": {
+    "projection_rate_hz": null,
+    "maximum_points_per_cloud": null,
+    "point_radius_px": null
+  },
+  "outputs": {
+    "overlay_image_topic": null,
+    "visible_points_raw_topic": null,
+    "visible_points_rviz_topic": null,
+    "status_topic": null
+  }
+}

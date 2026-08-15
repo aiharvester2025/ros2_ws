@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "calibration_id": null,
+  "mode": "deployment_template",
+  "deployment_allowed": false,
+  "reference_frame": "c_channel_reference",
+  "coordinate_convention": {
+    "mechanical_axes": "+X through the C-channel opening, +Y left, +Z up",
+    "range_beam_axis": "+X",
+    "transform_notation": "T_parent_child maps a point expressed in child into parent"
+  },
+  "commissioning_status": "survey_required",
+  "sensors": {
+    "center": {
+      "telemetry_key": "center_line",
+      "expected_frame_id": "center_range_sensor_link",
+      "sensor_T_calibrated_beam": null,
+      "range_scale": null,
+      "range_bias_m": null,
+      "standard_deviation_m": null,
+      "valid_range_m": null,
+      "verified": false
+    },
+    "left_45": {
+      "telemetry_key": "diagonal_left_45deg",
+      "expected_frame_id": "left_45_range_sensor_link",
+      "sensor_T_calibrated_beam": null,
+      "range_scale": null,
+      "range_bias_m": null,
+      "standard_deviation_m": null,
+      "valid_range_m": null,
+      "verified": false
+    },
+    "right_45": {
+      "telemetry_key": "diagonal_right_45deg",
+      "expected_frame_id": "right_45_range_sensor_link",
+      "sensor_T_calibrated_beam": null,
+      "range_scale": null,
+      "range_bias_m": null,
+      "standard_deviation_m": null,
+      "valid_range_m": null,
+      "verified": false
+    },
+    "left_side": {
+      "telemetry_key": "c_channel_left",
+      "expected_frame_id": "left_side_range_sensor_link",
+      "sensor_T_calibrated_beam": null,
+      "range_scale": null,
+      "range_bias_m": null,
+      "standard_deviation_m": null,
+      "valid_range_m": null,
+      "verified": false
+    },
+    "right_side": {
+      "telemetry_key": "c_channel_right",
+      "expected_frame_id": "right_side_range_sensor_link",
+      "sensor_T_calibrated_beam": null,
+      "range_scale": null,
+      "range_bias_m": null,
+      "standard_deviation_m": null,
+      "valid_range_m": null,
+      "verified": false
+    }
+  }
+}

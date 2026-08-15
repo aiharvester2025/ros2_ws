@@ -21,7 +21,7 @@ The supplied top, side, front and isometric drawings do not contain a dimensiona
 | Platform body height | 0.38 m plus top rail |
 | Cutting-arm maximum extension | 0.375 m from its retracted stop |
 | Five range sensors | centre, left/right 45°, left/right side |
-| Cutting-arm LiDAR | estimated 360° × 60° field of view |
+| Cutting-arm LiDAR | Gazebo Mid-360 coverage approximation: 120° horizontal, approximately -7° to +52° vertical, 107 × 64 rays |
 | Cutting-arm depth camera | estimated 640 × 400, 80° horizontal FOV |
 
 ## Coordinate convention
@@ -32,13 +32,13 @@ The supplied top, side, front and isometric drawings do not contain a dimensiona
 - `platform_depth_camera_optical_frame` follows the ROS optical convention: Z forward, X right, Y down.
 - The legacy `platform_depth_camera_*` frame names identify the arm-mounted
   depth camera.  Its fixed joint is parented to `cutting_arm_base_link` at
-  `(0.125, 0, 0.12)` m: the centre of that link's visible mesh. It
-  therefore follows the rail-carriage yaw and cutting-arm lift, but not the
+  `(0.125, 0, 0.25)` m: the current manual camera placement on the arm-base
+  block. It therefore follows the rail-carriage yaw and cutting-arm lift, but not the
   extension stroke. To tune it manually, edit the `xyz` and `rpy` attributes
   of `platform_depth_camera_joint` in `urdf/oil_palm_harvester_kinematic.urdf`.
 - The legacy `vehicle_lidar_link` name identifies the arm-mounted LiDAR. Its
-  fixed joint is parented to `cutting_arm_base_link` at `(0.125, 0, 0.41)` m:
-  centred over the visible arm base with clearance above it. It follows the
+  fixed joint is parented to `cutting_arm_base_link` at `(0, 0, 0.30)` m:
+  centred above the visible arm base. It follows the
   rail-carriage yaw and cutting-arm lift, but not the extension stroke. Tune
   `vehicle_lidar_joint` in the same kinematic URDF to adjust this mount.
 

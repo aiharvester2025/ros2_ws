@@ -16,8 +16,12 @@
   <depend>rclcpp</depend>
   <exec_depend>gazebo_msgs</exec_depend>
   <depend>sensor_msgs</depend>
+  <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
+  <depend>std_msgs</depend>
   <depend>tf2_ros</depend>
+  <depend>pluginlib</depend>
+  <depend>rviz_common</depend>
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>
   <exec_depend>controller_manager</exec_depend>

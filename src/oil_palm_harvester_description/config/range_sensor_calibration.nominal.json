@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "calibration_id": "gazebo_nominal_c_channel_v1",
+  "mode": "simulation_only",
+  "deployment_allowed": false,
+  "reference_frame": "c_channel_reference",
+  "coordinate_convention": {
+    "mechanical_axes": "+X through the C-channel opening, +Y left, +Z up",
+    "range_beam_axis": "+X",
+    "transform_notation": "T_parent_child maps a point expressed in child into parent"
+  },
+  "runtime": {
+    "range_timestamp_domain": "gazebo_sim_time",
+    "visualization_tf_policy": "latest_only",
+    "stale_receipt_timeout_s": 0.3,
+    "maximum_pair_skew_s": 0.1,
+    "visualization_rate_hz": 10.0
+  },
+  "side_pair_estimator": {
+    "left_sensor": "left_side",
+    "right_sensor": "right_side",
+    "minimum_diameter_m": 0.2,
+    "maximum_diameter_m": 1.2,
+    "maximum_longitudinal_difference_m": 0.1,
+    "position_stddev_m": 0.02
+  },
+  "sensors": {
+    "center": {
+      "telemetry_key": "center_line",
+      "topic": "/harvester/center_range",
+      "expected_frame_id": "center_range_sensor_link",
+      "sensor_T_calibrated_beam": {
+        "translation_m": [0.0, 0.0, 0.0],
+        "rpy_rad": [0.0, 0.0, 0.0],
+        "status": "nominal"
+      },
+      "range_scale": 1.0,
+      "range_bias_m": 0.0,
+      "standard_deviation_m": 0.003,
+      "valid_range_m": [0.05, 3.0]
+    },
+    "left_45": {
+      "telemetry_key": "diagonal_left_45deg",
+      "topic": "/harvester/left_45_range",
+      "expected_frame_id": "left_45_range_sensor_link",
+      "sensor_T_calibrated_beam": {
+        "translation_m": [0.0, 0.0, 0.0],
+        "rpy_rad": [0.0, 0.0, 0.0],
+        "status": "nominal"
+      },
+      "range_scale": 1.0,
+      "range_bias_m": 0.0,
+      "standard_deviation_m": 0.003,
+      "valid_range_m": [0.05, 3.0]
+    },
+    "right_45": {
+      "telemetry_key": "diagonal_right_45deg",
+      "topic": "/harvester/right_45_range",
+      "expected_frame_id": "right_45_range_sensor_link",
+      "sensor_T_calibrated_beam": {
+        "translation_m": [0.0, 0.0, 0.0],
+        "rpy_rad": [0.0, 0.0, 0.0],
+        "status": "nominal"
+      },
+      "range_scale": 1.0,
+      "range_bias_m": 0.0,
+      "standard_deviation_m": 0.003,
+      "valid_range_m": [0.05, 3.0]
+    },
+    "left_side": {
+      "telemetry_key": "c_channel_left",
+      "topic": "/harvester/left_side_range",
+      "expected_frame_id": "left_side_range_sensor_link",
+      "sensor_T_calibrated_beam": {
+        "translation_m": [0.0, 0.0, 0.0],
+        "rpy_rad": [0.0, 0.0, 0.0],
+        "status": "nominal"
+      },
+      "range_scale": 1.0,
+      "range_bias_m": 0.0,
+      "standard_deviation_m": 0.003,
+      "valid_range_m": [0.05, 3.0]
+    },
+    "right_side": {
+      "telemetry_key": "c_channel_right",
+      "topic": "/harvester/right_side_range",
+      "expected_frame_id": "right_side_range_sensor_link",
+      "sensor_T_calibrated_beam": {
+        "translation_m": [0.0, 0.0, 0.0],
+        "rpy_rad": [0.0, 0.0, 0.0],
+        "status": "nominal"
+      },
+      "range_scale": 1.0,
+      "range_bias_m": 0.0,
+      "standard_deviation_m": 0.003,
+      "valid_range_m": [0.05, 3.0]
+    }
+  }
+}

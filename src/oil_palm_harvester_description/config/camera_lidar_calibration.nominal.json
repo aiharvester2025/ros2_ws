@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "calibration_id": "gazebo_nominal_camera_lidar_v1",
+  "mode": "simulation_only",
+  "deployment_allowed": false,
+  "reference_frame": "cutting_arm_base_link",
+  "coordinate_convention": {
+    "mechanical_axes": "+X toward the tree, +Y left, +Z up",
+    "camera_optical_axes": "+X right, +Y down, +Z forward (ROS REP-103 optical frame)",
+    "lidar_axes": "+X forward, +Y left, +Z up",
+    "transform_notation": "T_parent_child maps a point expressed in child into parent",
+    "quaternion_order": "xyzw"
+  },
+  "commissioning": {
+    "geometry_source": "oil_palm_harvester_kinematic.urdf fixed joints",
+    "geometry_verified_against_urdf": true,
+    "hardware_surveyed": false,
+    "hardware_use_permitted": false,
+    "time_sync_verified": false
+  },
+  "camera": {
+    "body_frame": "platform_depth_camera_link",
+    "optical_frame": "platform_depth_camera_optical_frame",
+    "color_image_topic": "/harvester/platform_camera/depth/image_raw",
+    "color_camera_info_topic": "/harvester/platform_camera/depth/camera_info",
+    "depth_image_topic": "/harvester/platform_camera/depth/depth/image_raw",
+    "depth_camera_info_topic": "/harvester/platform_camera/depth/depth/camera_info",
+    "depth_points_topic": "/harvester/platform_camera/depth/points",
+    "intrinsics_source": "camera_info_topic",
+    "nominal_image_geometry": {
+      "size_px": [640, 400],
+      "horizontal_fov_rad": 1.4,
+      "clip_range_m": [0.2, 20.0],
+      "update_rate_hz": 15.0,
+      "model": "gazebo_ideal_pinhole"
+    }
+  },
+  "lidar": {
+    "frame": "vehicle_lidar_link",
+    "raw_points_topic": "/harvester/lidar/raw_points",
+    "rviz_points_topic": "/harvester/lidar/points",
+    "nominal_scan_geometry": {
+      "horizontal_samples": 107,
+      "vertical_samples": 64,
+      "horizontal_fov_rad": [-1.0471975511965976, 1.0471975511965976],
+      "vertical_fov_rad": [-0.12217304763960307, 0.9075712110370514],
+      "range_m": [0.1, 40.0],
+      "update_rate_hz": 10.0,
+      "model": "gazebo_gpu_ray_regular_grid_mid360_coverage_approximation"
+    }
+  },
+  "relative_extrinsics": {
+    "urdf_expected_camera_optical_T_lidar": {
+      "translation_m": [0.0, -0.05, -0.125],
+      "quaternion_xyzw": [0.5, -0.5, 0.5, 0.5],
+      "status": "derived_from_active_urdf"
+    },
+    "nominal_lidar_T_calibrated_lidar": {
+      "translation_m": [0.0, 0.0, 0.0],
+      "quaternion_xyzw": [0.0, 0.0, 0.0, 1.0],
+      "status": "identity_simulation_correction"
+    },
+    "translation_stddev_m": [0.0, 0.0, 0.0],
+    "rotation_stddev_rad": [0.0, 0.0, 0.0]
+  },
+  "time_policy": {
+    "fusion_input_time_domain": "gazebo_sim_time_raw_camera_and_raw_lidar",
+    "maximum_image_lidar_skew_s": 0.05,
+    "reject_zero_source_timestamps": true,
+    "rviz_lidar_topic_policy": "visualization_only_latest_tf"
+  },
+  "runtime": {
+    "projection_rate_hz": 5.0,
+    "maximum_points_per_cloud": 5000,
+    "point_radius_px": 2
+  },
+  "outputs": {
+    "overlay_image_topic": "/harvester/perception/camera_lidar/overlay_image",
+    "visible_points_raw_topic": "/harvester/perception/camera_lidar/visible_points_raw",
+    "visible_points_rviz_topic": "/harvester/perception/camera_lidar/visible_points",
+    "status_topic": "/harvester/perception/camera_lidar/status"
+  }
+}

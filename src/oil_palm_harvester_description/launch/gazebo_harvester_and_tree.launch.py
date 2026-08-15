@@ -21,6 +21,7 @@ from launch.actions import (
     IncludeLaunchDescription,
     OpaqueFunction,
     SetEnvironmentVariable,
+    TimerAction,
 )
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -30,7 +31,7 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 
 def _dynamic_world_from_urdf(
         urdf_path: Path, harvester_share: Path, render_mode: str,
-        harvester_collision_mode: str) -> str:
+        harvester_collision_mode: str, docking_camera: str) -> str:
     """Create an SDF world containing a movable, commanded harvester.
 
     Gazebo's own URDF converter handles the joint reference-frame semantics,
@@ -56,6 +57,11 @@ def _dynamic_world_from_urdf(
         raise RuntimeError(
             "harvester_collision_mode must be 'off' or 'on'; "
             f"received {harvester_collision_mode!r}.")
+    docking_camera = docking_camera.strip().lower()
+    if docking_camera not in ('true', 'false'):
+        raise RuntimeError(
+            "docking_camera must be 'true' or 'false'; "
+            f"received {docking_camera!r}.")
 
     converted_root = ET.fromstring(conversion.stdout)
     model = converted_root.find('model')
@@ -130,6 +136,14 @@ def _dynamic_world_from_urdf(
             for collision in link.findall('collision'):
                 link.remove(collision)
 
+        if docking_camera == 'false':
+            # ``always_on=false`` alone still leaves a rendered Gazebo camera
+            # attached to the model once a client subscribes.  Remove just the
+            # optional docking sensor from the generated SDF for a true
+            # low-resource fallback; its URDF mount/TF remains unchanged.
+            for sensor in link.findall("sensor[@name='docking_depth_camera']"):
+                link.remove(sensor)
+
     world_root = ET.Element('sdf', {'version': '1.7'})
     world = ET.SubElement(world_root, 'world', {'name': 'harvester_tree'})
     ET.SubElement(ET.SubElement(world, 'include'), 'uri').text = 'model://sun'
@@ -170,8 +184,10 @@ def _start_gazebo(context, *, urdf_path, harvester_share, gazebo_share, gui):
     render_mode = LaunchConfiguration('render_mode').perform(context)
     harvester_collision_mode = LaunchConfiguration(
         'harvester_collision_mode').perform(context)
+    docking_camera = LaunchConfiguration('docking_camera').perform(context)
     dynamic_world_path = _dynamic_world_from_urdf(
-        urdf_path, harvester_share, render_mode, harvester_collision_mode)
+        urdf_path, harvester_share, render_mode, harvester_collision_mode,
+        docking_camera)
     return [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gazebo_share / 'launch' / 'gazebo.launch.py')),
@@ -191,6 +207,10 @@ def generate_launch_description():
     gui = LaunchConfiguration('gui')
     rviz = LaunchConfiguration('rviz')
     camera_lidar_view = LaunchConfiguration('camera_lidar_view')
+    camera_lidar_projection = LaunchConfiguration('camera_lidar_projection')
+    camera_lidar_calibration_file = LaunchConfiguration('camera_lidar_calibration_file')
+    range_calibration = LaunchConfiguration('range_calibration')
+    range_calibration_file = LaunchConfiguration('range_calibration_file')
     harvester_share = Path(get_package_share_directory('oil_palm_harvester_description'))
     tree_share = Path(get_package_share_directory('oil_palm_tree_description'))
     gazebo_share = Path(get_package_share_directory('gazebo_ros'))
@@ -200,6 +220,13 @@ def generate_launch_description():
     tree_urdf_path = tree_share / 'urdf' / 'oil_palm_tree_lowpoly.urdf'
     publisher_script = harvester_share / 'scripts' / 'publish_urdf.py'
     lidar_stamp_bridge_script = harvester_share / 'scripts' / 'lidar_timestamp_bridge.py'
+    camera_view_selector_script = harvester_share / 'scripts' / 'camera_view_selector.py'
+    camera_lidar_projection_script = harvester_share / 'scripts' / 'camera_lidar_projection.py'
+    range_calibration_script = harvester_share / 'scripts' / 'range_sensor_calibration.py'
+    nominal_camera_lidar_calibration_file = (
+        harvester_share / 'config' / 'camera_lidar_calibration.nominal.json')
+    nominal_range_calibration_file = (
+        harvester_share / 'config' / 'range_sensor_calibration.nominal.json')
 
     tree_model_path = str(tree_share / 'gazebo_model')
     existing_model_path = os.environ.get('GAZEBO_MODEL_PATH', '')
@@ -234,6 +261,8 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         parameters=[{'robot_description': harvester_rviz_urdf}],
+        # The Gazebo bridge publishes measured feedback here.  RViz must use
+        # this actual state rather than the GUI's immediate command target.
         remappings=[('joint_states', '/harvester/joint_states')],
     )
     harvester_joint_gui = Node(
@@ -243,7 +272,9 @@ def generate_launch_description():
         # Load directly from disk to avoid the description-topic startup race
         # that made the previous slider values reset.
         arguments=[str(harvester_rviz_urdf_path)],
-        remappings=[('joint_states', '/harvester/joint_states')],
+        # Keep commands separate from the Gazebo-measured joint feedback used
+        # by robot_state_publisher above; otherwise RViz leads Gazebo/sensors.
+        remappings=[('joint_states', '/harvester/joint_commands')],
     )
     tree_state_publisher = Node(
         package='robot_state_publisher',
@@ -297,6 +328,25 @@ def generate_launch_description():
                 'the camera Image display. Disabled by default to conserve '
                 'embedded-GPU memory and rendering capacity.')),
         DeclareLaunchArgument(
+            'docking_camera', default_value='true',
+            description=(
+                'Enable the low-rate simulated docking depth camera. Set false '
+                'to retain the original single-camera Gazebo resource load; the '
+                'RViz selector then safely remains on the cutter camera.')),
+        DeclareLaunchArgument(
+            'camera_lidar_projection', default_value='false',
+            description=(
+                'Start the optional, low-rate camera/LiDAR projection node. It '
+                'uses raw Gazebo timestamps and publishes an RGB overlay plus '
+                'camera-frame points in the existing RViz process. Disabled by '
+                'default to preserve Xavier CPU/GPU capacity.')),
+        DeclareLaunchArgument(
+            'camera_lidar_calibration_file',
+            default_value=str(nominal_camera_lidar_calibration_file),
+            description=(
+                'Simulation-only camera/LiDAR calibration JSON. The deployment '
+                'template is intentionally rejected by the projection node.')),
+        DeclareLaunchArgument(
             'render_mode', default_value='mesh',
             description=(
                 "Gazebo harvester visual representation: 'mesh' (detailed default) "
@@ -306,6 +356,17 @@ def generate_launch_description():
             description=(
                 "Harvester contact geometry: 'off' (stable kinematic sensor "
                 "development default) or 'on' (future physics/controller work).")),
+        DeclareLaunchArgument(
+            'range_calibration', default_value='true',
+            description=(
+                'Project the five raw Range streams into c_channel_reference and '
+                'publish calibrated docking rays, endpoints, and a side-pair '
+                'trunk estimate. Raw sensor topics are never changed.')),
+        DeclareLaunchArgument(
+            'range_calibration_file', default_value=str(nominal_range_calibration_file),
+            description=(
+                'Simulation-only range calibration JSON. The deployment template '
+                'is deliberately rejected by the calibration projector.')),
         SetEnvironmentVariable('GAZEBO_MODEL_PATH', gazebo_model_path),
         SetEnvironmentVariable('GAZEBO_PLUGIN_PATH', gazebo_plugin_path),
         # Do not let Gazebo Classic block its client on the public online
@@ -333,7 +394,45 @@ def generate_launch_description():
             ],
             output='screen',
         ),
-        # RViz does not wait for Gazebo model creation.
-        rviz_node,
-        camera_lidar_rviz_node,
+        # This is a header-preserving image/CameraInfo selector for the one
+        # existing RViz Image display.  It publishes no TF and changes no
+        # Gazebo/control topic; the cutter camera remains the default.
+        ExecuteProcess(
+            cmd=['python3', str(camera_view_selector_script)],
+            output='screen',
+        ),
+        # This optional perception node derives the camera/LiDAR transform from
+        # the same fixed URDF joints used by Gazebo and RViz.  It reads the raw
+        # sim-time image/cloud pair; unlike the public LiDAR RViz stream it
+        # never requests a latest-TF timestamp and never changes control/TF.
+        ExecuteProcess(
+            cmd=[
+                'python3', str(camera_lidar_projection_script),
+                camera_lidar_calibration_file, str(harvester_rviz_urdf_path),
+            ],
+            condition=IfCondition(camera_lidar_projection),
+            output='screen',
+        ),
+        # This node leaves Gazebo ray geometry and the five raw Range topics
+        # untouched.  It uses the rigid URDF relationship between every range
+        # sensor and c_channel_reference to publish calibrated local endpoints
+        # without an unsafe simulation-time / wall-time TF lookup.
+        ExecuteProcess(
+            cmd=[
+                'python3', str(range_calibration_script),
+                range_calibration_file, str(harvester_rviz_urdf_path),
+            ],
+            condition=IfCondition(range_calibration),
+            output='screen',
+        ),
+        # RViz requires the dynamic joint TF chain emitted after the joint GUI
+        # and Gazebo bridge start.  Starting it immediately races that chain
+        # and produces harmless but distracting "frame does not exist"
+        # warnings for the boom links.  Eight seconds is deliberately longer
+        # than the normal Xavier bridge startup while preserving all model and
+        # control behaviour.
+        TimerAction(
+            period=8.0,
+            actions=[rviz_node, camera_lidar_rviz_node],
+        ),
     ])

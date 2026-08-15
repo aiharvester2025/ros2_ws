@@ -1,1 +1,1 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/libharvester_kinematic_gazebo_plugin.so" "TARGETS" "harvester_kinematic_gazebo_plugin" "LIBRARY_DESTINATION" "lib")
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/libharvester_kinematic_gazebo_plugin.so" "/home/ubuntu/ros2_ws/build/oil_palm_harvester_description/libharvester_range_sensor_panel.so" "TARGETS" "harvester_kinematic_gazebo_plugin" "harvester_range_sensor_panel" "LIBRARY_DESTINATION" "lib")

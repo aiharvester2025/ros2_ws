@@ -62,12 +62,11 @@ normally uses TCP port `11345`.
 
 ```text
 joint_state_publisher_gui
-          │  /harvester/joint_states
-          ├──────────────────────────────► robot_state_publisher ─► RViz harvester model
-          │
+          │  /harvester/joint_commands
           └──────────────────────────────► Gazebo harvester model plugin
                                                     │
-                                              Gazebo articulated model
+                                      measured /harvester/joint_states
+                                                    └──────────────► robot_state_publisher ─► RViz harvester model
 
 /harvester/cmd_vel ───────────────────────────────► Gazebo model plugin
                                                     ├─ moves Gazebo base
@@ -118,13 +117,15 @@ RViz to show tree links as the robot.
 Use the `joint_state_publisher_gui` window.  It publishes:
 
 ```text
-/harvester/joint_states   (sensor_msgs/msg/JointState)
+/harvester/joint_commands   (sensor_msgs/msg/JointState)
 ```
 
-It controls the RViz harvester immediately and sends the same target to the
-Gazebo model plugin.  Individual sliders and **Randomize pose** are supported.
-Gazebo moves toward the requested position within the joint limits, damping,
-and velocity limits; it may animate more smoothly than RViz.
+It sends the target to the Gazebo model plugin.  The plugin publishes its
+measured positions on `/harvester/joint_states`, which is the only joint-state
+stream consumed by `robot_state_publisher` and RViz. Individual sliders and
+**Randomize pose** are supported. Gazebo moves toward the requested position
+within the joint limits, damping, and velocity limits; RViz deliberately
+follows that actual motion instead of jumping ahead to the requested target.
 
 The movable joints include:
 
@@ -223,11 +224,12 @@ src/harvester_kinematic_gazebo_plugin.cpp
 
 Its responsibilities are:
 
-- subscribe to `/harvester/joint_states`;
+- subscribe to `/harvester/joint_commands`;
 - maintain Gazebo position-controller targets for changed joint values;
+- publish measured Gazebo joint positions on `/harvester/joint_states`;
 - subscribe to `/harvester/cmd_vel`;
 - integrate and apply the commanded base pose at 20 Hz;
-- publish the matching `world -> base_link` transform for RViz;
+- publish the measured `world -> base_link` transform for RViz;
 - stop base motion after 0.5 seconds without a new velocity command.
 
 Stability rules already encoded in the plugin:
@@ -249,7 +251,7 @@ Gazebo instability and robot flight.
 
 | Symptom | Root cause | Current protection |
 |---|---|---|
-| Slider pose appeared briefly, then returned | Competing description/joint-state startup paths | GUI loads the harvester URDF directly and owns `/harvester/joint_states`. |
+| Slider pose appeared briefly, then returned | Competing description/joint-state startup paths | GUI loads the harvester URDF directly and owns `/harvester/joint_commands`; only Gazebo publishes feedback `/harvester/joint_states`. |
 | Robot missing from Gazebo | Foxy large-URDF spawn path was unreliable | Harvester is embedded in a generated SDF world rather than spawned later. |
 | Gazebo splash stalled / only a partial scene appeared | Gazebo client waited on the online model database | Launch points `GAZEBO_MODEL_DATABASE_URI` to a local database. |
 | Boom/platform/arm fell or flew away | Repeated ODE position teleports and unbounded controller forces | Persistent bounded controller targets, kinematic base, no harvester contact bodies by default. |
@@ -271,8 +273,8 @@ ros2 topic info /robot_description -v
 # The tree's automatic description must be namespaced.
 ros2 topic info /tree/robot_description -v
 
-# Core controls must be visible.
-ros2 topic list | rg '/harvester/(joint_states|cmd_vel)'
+# Core command and measured-feedback streams must be visible.
+ros2 topic list | grep -E '/harvester/(joint_commands|joint_states|cmd_vel)'
 
 # Both root-frame chains must resolve.
 ros2 run tf2_ros tf2_echo world tree_base
@@ -341,19 +343,21 @@ Recovery:
 First check the terminal that launched Gazebo.  It must contain:
 
 ```text
-Harvester kinematic bridge ready: joint states on /harvester/joint_states ...
+Harvester kinematic bridge ready: joint commands on /harvester/joint_commands, measured joint states on /harvester/joint_states ...
 ```
 
 If it does not, `gzserver` did not start successfully.  Follow section A.
 
-Then check that only the intended GUI publishes the joint-state topic:
+Then check the command and feedback graph:
 
 ```bash
+ros2 topic info /harvester/joint_commands -v
 ros2 topic info /harvester/joint_states -v
 ```
 
-Do not start an additional `joint_state_publisher` or manual zero-joint-state
-publisher alongside `joint_state_publisher_gui`; it can overwrite GUI values.
+The GUI must be the command publisher and the Gazebo bridge must be the
+feedback publisher. Do not start an additional `joint_state_publisher` or
+manual feedback publisher alongside the combined launch.
 
 ### D. Robot flies, falls, or the Gazebo log grows rapidly
 
@@ -402,7 +406,7 @@ physics assumptions that can reintroduce the earlier stability problems.
 | Right 45° range sensor | `right_45_range_sensor_link` | `/harvester/right_45_range` | Ray sensor, 20 Hz |
 | Left side range sensor | `left_side_range_sensor_link` | `/harvester/left_side_range` | Ray sensor, 20 Hz |
 | Right side range sensor | `right_side_range_sensor_link` | `/harvester/right_side_range` | Ray sensor, 20 Hz |
-| Cutting-arm 3D LiDAR | `vehicle_lidar_link` | `/harvester/lidar/points` | GPU ray, 720 × 16, 10 Hz; fixed to `cutting_arm_base_link` |
+| Cutting-arm 3D LiDAR | `vehicle_lidar_link` | `/harvester/lidar/points` | GPU ray, 107 × 64, 10 Hz, -60° to +60° horizontal; fixed to `cutting_arm_base_link` |
 | Cutting-arm depth camera | `platform_depth_camera_link` / `platform_depth_camera_optical_frame` | `/harvester/platform_camera/depth/depth/image_raw`, `/harvester/platform_camera/depth/points` | Depth camera, 640 × 400, 15 Hz; fixed to `cutting_arm_base_link` |
 
 The depth-camera and LiDAR blocks are integrated in the active kinematic URDF.
@@ -451,7 +455,8 @@ Read src/oil_palm_harvester_description/SIMULATION_HANDOFF.md first.
 Important constraints:
 - The oil-palm tree is static at world=(8.5, 0, 0); do not attach it to base_link.
 - The harvester is non-static but has a kinematically commanded base.
-- GUI publishes /harvester/joint_states; the Gazebo model plugin mirrors it.
+- GUI publishes /harvester/joint_commands; the Gazebo model plugin publishes
+  measured /harvester/joint_states for RViz.
 - /harvester/cmd_vel moves the harvester base in Gazebo and RViz.
 - /robot_description must belong only to the harvester; tree RSP is namespaced /tree.
 - Do not run duplicate Gazebo launches or add static world->base_link TF.
