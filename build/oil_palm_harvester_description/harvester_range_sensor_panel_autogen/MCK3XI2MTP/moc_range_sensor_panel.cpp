@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_oil_palm_harvester_description__RangeSensorPanel_t {
-    QByteArrayData data[9];
-    char stringdata0[136];
+    QByteArrayData data[11];
+    char stringdata0[183];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,14 +37,17 @@ QT_MOC_LITERAL(2, 65, 0), // ""
 QT_MOC_LITERAL(3, 66, 5), // "index"
 QT_MOC_LITERAL(4, 72, 4), // "text"
 QT_MOC_LITERAL(5, 77, 8), // "in_range"
-QT_MOC_LITERAL(6, 86, 10), // "setReading"
-QT_MOC_LITERAL(7, 97, 18), // "selectCutterCamera"
-QT_MOC_LITERAL(8, 116, 19) // "selectDockingCamera"
+QT_MOC_LITERAL(6, 86, 25), // "cutterLeftReadingReceived"
+QT_MOC_LITERAL(7, 112, 10), // "setReading"
+QT_MOC_LITERAL(8, 123, 20), // "setCutterLeftReading"
+QT_MOC_LITERAL(9, 144, 18), // "selectCutterCamera"
+QT_MOC_LITERAL(10, 163, 19) // "selectDockingCamera"
 
     },
     "oil_palm_harvester_description::RangeSensorPanel\0"
     "readingReceived\0\0index\0text\0in_range\0"
-    "setReading\0selectCutterCamera\0"
+    "cutterLeftReadingReceived\0setReading\0"
+    "setCutterLeftReading\0selectCutterCamera\0"
     "selectDockingCamera"
 };
 #undef QT_MOC_LITERAL
@@ -55,26 +58,30 @@ static const uint qt_meta_data_oil_palm_harvester_description__RangeSensorPanel[
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    3,   34,    2, 0x06 /* Public */,
+       1,    3,   44,    2, 0x06 /* Public */,
+       6,    2,   51,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    3,   41,    2, 0x08 /* Private */,
-       7,    0,   48,    2, 0x08 /* Private */,
-       8,    0,   49,    2, 0x08 /* Private */,
+       7,    3,   56,    2, 0x08 /* Private */,
+       8,    2,   63,    2, 0x08 /* Private */,
+       9,    0,   68,    2, 0x08 /* Private */,
+      10,    0,   69,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::Bool,    3,    4,    5,
+    QMetaType::Void, QMetaType::QString, QMetaType::Bool,    4,    5,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::Bool,    3,    4,    5,
+    QMetaType::Void, QMetaType::QString, QMetaType::Bool,    4,    5,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -88,9 +95,11 @@ void oil_palm_harvester_description::RangeSensorPanel::qt_static_metacall(QObjec
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->readingReceived((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
-        case 1: _t->setReading((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
-        case 2: _t->selectCutterCamera(); break;
-        case 3: _t->selectDockingCamera(); break;
+        case 1: _t->cutterLeftReadingReceived((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 2: _t->setReading((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
+        case 3: _t->setCutterLeftReading((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 4: _t->selectCutterCamera(); break;
+        case 5: _t->selectDockingCamera(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -99,6 +108,13 @@ void oil_palm_harvester_description::RangeSensorPanel::qt_static_metacall(QObjec
             using _t = void (RangeSensorPanel::*)(int , const QString & , bool );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&RangeSensorPanel::readingReceived)) {
                 *result = 0;
+                return;
+            }
+        }
+        {
+            using _t = void (RangeSensorPanel::*)(const QString & , bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&RangeSensorPanel::cutterLeftReadingReceived)) {
+                *result = 1;
                 return;
             }
         }
@@ -134,13 +150,13 @@ int oil_palm_harvester_description::RangeSensorPanel::qt_metacall(QMetaObject::C
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 6)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 6;
     }
     return _id;
 }
@@ -150,6 +166,13 @@ void oil_palm_harvester_description::RangeSensorPanel::readingReceived(int _t1, 
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void oil_palm_harvester_description::RangeSensorPanel::cutterLeftReadingReceived(const QString & _t1, bool _t2)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

@@ -23,6 +23,12 @@ contains only metadata, a perception-only correction, timing rules, and output
 topic names. This prevents a visual URDF pose and the Gazebo sensor ray pose
 from diverging.
 
+The lower-rate platform docking camera is intentionally outside this contract.
+It is a second Gazebo camera stream selected for the one RViz image viewport;
+it is not a camera/LiDAR fusion input. The optional projection always uses the
+cutter camera (`platform_depth_camera_optical_frame`) and the arm-mounted
+LiDAR (`vehicle_lidar_link`).
+
 ## Frames and nominal extrinsics
 
 Mechanical frames use `+X` toward the tree, `+Y` left, and `+Z` upward. The
@@ -78,6 +84,13 @@ It is used by perception only; it never changes the URDF or TF tree.
 | `/harvester/platform_camera/depth/camera_info` | Authoritative synthetic camera intrinsics |
 | `/harvester/lidar/raw_points` | Raw Gazebo LiDAR fusion input |
 | `/harvester/lidar/points` | RViz-only copy; never use for fusion |
+
+The separate docking-camera streams are
+`/harvester/docking_camera/depth/image_raw` and
+`/harvester/docking_camera/depth/camera_info`. They are forwarded only when
+the RViz panel selects `docking` on `/harvester/camera_view/select`; the
+selector preserves headers and publishes no TF. They must not be substituted
+into the cutter camera/LiDAR calibration profile.
 
 The Gazebo camera and raw LiDAR use acquisition timestamps in Gazebo simulation
 time. The LiDAR bridge intentionally writes a zero stamp to

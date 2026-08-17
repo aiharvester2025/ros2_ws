@@ -1,6 +1,6 @@
 # Harvester–Tree Simulation Handoff
 
-**Baseline verified:** 2026-08-11
+**Baseline updated:** 2026-08-17
 **Workspace:** `/home/ubuntu/ros2_ws`
 **ROS / simulator:** ROS 2 Foxy with Gazebo Classic 11
 
@@ -20,6 +20,12 @@ The following behaviour is the approved baseline:
 - The harvester is **not static**.  Its base is moved kinematically with
   `/harvester/cmd_vel` so it can approach the fixed tree.
 - The slider interface no longer makes the Gazebo harvester fly away.
+- The active URDF supplies two depth cameras, a cropped Mid-360 coverage
+  LiDAR model, five docking range sensors, and one cutter-attached range
+  sensor. Their raw topics are live in Gazebo.
+- RViz uses one process: the right-side panel switches the single camera image
+  viewport and shows the raw range values. Calibrated docking rays, the
+  cutter ray, and the LiDAR cloud are available in the same 3-D view.
 
 This is a **commanded sensor-development simulation**, not yet a full
 force-accurate vehicle simulation.  The current priority is reliable movement
@@ -53,6 +59,11 @@ Useful launch options:
 | `rviz:=false` | `true` | Do not open RViz. |
 | `render_mode:=mesh` | `mesh` | Detailed STL mesh render. Use `primitive` only as a graphics-driver fallback. |
 | `harvester_collision_mode:=off` | `off` | Stable sensor-development mode; harvester contact bodies are removed. `on` is reserved for later physics/controller work. |
+| `articulation_control_mode:=kinematic` | `kinematic` | Safe 20 Hz, rate-limited articulation for sensor development. `pid` is a legacy diagnostic fallback only. |
+| `docking_camera:=true` | `true` | Enable the low-rate simulated docking depth camera. Disable it for a lower Xavier GPU load. |
+| `range_calibration:=true` | `true` | Publish the five fixed docking-sensor endpoints, markers, status, and side-pair trunk diagnostic. |
+| `camera_lidar_projection:=false` | `false` | Start optional cutter-camera/LiDAR RGB overlay and camera-frame cloud in the existing RViz process. |
+| `camera_lidar_view:=false` | `false` | Start a second RViz camera-frame cloud view. Keep false on the Xavier unless explicitly needed. |
 
 Before starting another run, stop the previous launch with `Ctrl-C`.  Do not
 run two copies of `gazebo_harvester_and_tree.launch.py` at once: Gazebo Classic
@@ -120,12 +131,14 @@ Use the `joint_state_publisher_gui` window.  It publishes:
 /harvester/joint_commands   (sensor_msgs/msg/JointState)
 ```
 
-It sends the target to the Gazebo model plugin.  The plugin publishes its
-measured positions on `/harvester/joint_states`, which is the only joint-state
-stream consumed by `robot_state_publisher` and RViz. Individual sliders and
-**Randomize pose** are supported. Gazebo moves toward the requested position
-within the joint limits, damping, and velocity limits; RViz deliberately
-follows that actual motion instead of jumping ahead to the requested target.
+It sends targets to the Gazebo model plugin. The plugin publishes measured
+positions on `/harvester/joint_states`, which is the only joint-state stream
+consumed by `robot_state_publisher` and RViz. Individual sliders and
+**Randomize pose** are supported. In the default kinematic articulation mode,
+the bridge clamps targets to URDF limits and rate-limits them at 20 Hz using
+the URDF velocity limits (the turret is capped at 0.05 rad/s). RViz
+deliberately follows that actual motion instead of jumping ahead to the
+requested target.
 
 The movable joints include:
 
@@ -225,7 +238,7 @@ src/harvester_kinematic_gazebo_plugin.cpp
 Its responsibilities are:
 
 - subscribe to `/harvester/joint_commands`;
-- maintain Gazebo position-controller targets for changed joint values;
+- apply changed articulated-joint targets kinematically at 20 Hz;
 - publish measured Gazebo joint positions on `/harvester/joint_states`;
 - subscribe to `/harvester/cmd_vel`;
 - integrate and apply the commanded base pose at 20 Hz;
@@ -234,16 +247,19 @@ Its responsibilities are:
 
 Stability rules already encoded in the plugin:
 
-- It uses Gazebo's persistent `JointController` with scoped joint names.
-- Position PID commands are bounded to `±2000`, preventing a large GUI jump
-  from creating an unbounded reaction force.
-- It does **not** call `Joint::SetPosition()` continuously in every physics
+- The default `kinematic` mode uses joint limits and each URDF velocity limit
+  to ramp targets at 20 Hz.  The turret is additionally capped at 0.05 rad/s.
+- It applies one changed-joint batch, then clears residual Gazebo velocity and
+  force state exactly once.  It never replays a full joint map every physics
   update.
-- It does **not** manually call `JointController::Update()`; Gazebo performs
-  that for a non-static model.
+- This is deliberately a collision-off sensor-development model.  Do not use
+  kinematic articulation with `harvester_collision_mode:=on` as contact
+  physics.
+- `pid` preserves the former controller path only as a fresh-launch fallback
+  for diagnosis; it is not the recommended operating mode.
 
 Do not undo these rules without reproducing and testing the entire scene.  The
-previous direct joint-position loop produced a huge
+previous direct joint-position loop at physics rate produced a huge
 `ODESliderJoint::Anchor not implemented` log flood and was a direct cause of
 Gazebo instability and robot flight.
 
@@ -254,7 +270,7 @@ Gazebo instability and robot flight.
 | Slider pose appeared briefly, then returned | Competing description/joint-state startup paths | GUI loads the harvester URDF directly and owns `/harvester/joint_commands`; only Gazebo publishes feedback `/harvester/joint_states`. |
 | Robot missing from Gazebo | Foxy large-URDF spawn path was unreliable | Harvester is embedded in a generated SDF world rather than spawned later. |
 | Gazebo splash stalled / only a partial scene appeared | Gazebo client waited on the online model database | Launch points `GAZEBO_MODEL_DATABASE_URI` to a local database. |
-| Boom/platform/arm fell or flew away | Repeated ODE position teleports and unbounded controller forces | Persistent bounded controller targets, kinematic base, no harvester contact bodies by default. |
+| Boom/platform/arm fell or flew away | Persistent force PID reactions or direct poses at physics rate | 20 Hz rate-limited changed-joint kinematic batches, velocity reset, kinematic base, and no harvester contact bodies by default. |
 | RViz showed tree links as the robot | Tree publisher also advertised `/robot_description` | Tree state publisher is namespaced as `/tree`; only harvester supplies `/robot_description`. |
 | Tree visible but no robot / no slider effect in Gazebo | `gzserver` exited because port `11345` was occupied by another Gazebo session | Run one Gazebo session; `server_required:=true` now shuts the whole launch down on server failure. |
 | Invalid `boom_*_link` TF warnings | Gazebo bridge was not running or descriptions/TF sources were conflicting | One description publisher per model and one successful Gazebo server are required. |
@@ -362,7 +378,8 @@ manual feedback publisher alongside the combined launch.
 ### D. Robot flies, falls, or the Gazebo log grows rapidly
 
 1. Relaunch with the default `harvester_collision_mode:=off`.
-2. Do not reintroduce a repeated `Joint::SetPosition()` loop in the plugin.
+2. Keep `articulation_control_mode:=kinematic`; do not reintroduce a direct
+   pose loop at physics rate or persistent PID targets in this mode.
 3. Check the Gazebo server log for thousands of `ODESliderJoint` lines.  A
    healthy run has only a small number of startup `SetAnchor` notices, not a
    continuous flood.
@@ -380,55 +397,60 @@ ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
 The normal setting is `render_mode:=mesh`.  Mesh URIs are intentionally
 rewritten to absolute `file://` paths by the launch file.
 
-## 9. Sensor-simulation status and next task
+## 9. Current sensor-simulation baseline
 
-The combined working launch currently prioritizes stable robot/tree movement.
-It does **not yet guarantee live simulated sensor topics**.
+All sensor blocks below are active in
+`urdf/oil_palm_harvester_kinematic.urdf`, which is the shared Gazebo/RViz
+source. Do not replace it with `oil_palm_harvester_estimated.urdf`: that
+alternate file contains `gazebo_ros2_control` and different physics assumptions
+that are not part of the stable combined launch.
 
-The package already contains sensor definitions in:
+| Sensor | Raw topic(s) | Frame / key configuration |
+|---|---|---|
+| Cutter depth camera | `/harvester/platform_camera/depth/image_raw`, `.../camera_info`, `.../depth/image_raw`, `.../points` | `platform_depth_camera_optical_frame`; fixed to `cutting_arm_base_link`; 640×400 at 15 Hz. |
+| Docking depth camera | `/harvester/docking_camera/depth/image_raw`, `.../camera_info` | `front_depth_camera_optical_frame`; fixed to the compact platform sensor carrier; 320×240 at 8 Hz. |
+| Five docking ranges | `/harvester/{center,left_45,right_45,left_side,right_side}_range` | One ray each, 20 Hz, 0.05–3.0 m. Rigidly projected into `c_channel_reference`. |
+| Cutter-forward range | `/harvester/cutting_tool_left_range` | `cutting_tool_left_range_sensor_link`; follows rail, lift, extension, and cutter. It is not part of the five-sensor calibration estimator. |
+| Mid-360 coverage LiDAR | `/harvester/lidar/raw_points` | `vehicle_lidar_link`; 107×64 GPU-ray grid, −60° to +60° horizontal, about −7° to +52° vertical, 0.1–40 m, 10 Hz. |
+| RViz LiDAR copy | `/harvester/lidar/points` | Zero-stamped/latest-TF display copy only; never use for time-correlated fusion. |
 
-```text
-urdf/oil_palm_harvester_estimated.urdf
+The LiDAR is a regular-grid Gazebo coverage approximation, not a vendor-faithful
+Livox Mid-360 non-repetitive scan. Its restricted front FOV keeps the Xavier
+load moderate while the harvester approaches the tree.
+
+### Sensor visualization and calibration
+
+- **One RViz process:** `harvester_tree_combined.rviz` displays the robot/tree,
+  LiDAR cloud, calibrated docking rays, cutter range ray, and one camera image
+  viewport.
+- **Camera selector:** the panel buttons publish `cutter` or `docking` on
+  `/harvester/camera_view/select`; the selector forwards the chosen image to
+  `/harvester/camera_view/image_raw`. It never changes TF, mounts, or raw
+  sensor topics.
+- **Five docking ranges:** `range_sensor_calibration.py` launches by default.
+  It publishes endpoints, markers, a gated side-pair trunk-centre diagnostic,
+  and status. See `CALIBRATION_FRAME_CONTRACT.md`.
+- **Cutter range:** `cutter_range_marker.py` publishes its independent yellow
+  ray to `/harvester/cutter/range_markers`. It remains separate because its
+  transform crosses moving arm joints.
+- **Camera/LiDAR:** `camera_lidar_projection:=true` starts an optional,
+  low-rate raw-timestamp projector in the existing RViz process. It stays off
+  by default. See `CAMERA_LIDAR_CALIBRATION_CONTRACT.md`.
+
+### Validate after a fresh launch
+
+```bash
+ros2 topic hz /harvester/center_range
+ros2 topic hz /harvester/cutting_tool_left_range
+ros2 topic hz /harvester/lidar/raw_points
+ros2 topic hz /harvester/platform_camera/depth/image_raw
+ros2 topic hz /harvester/docking_camera/depth/image_raw
 ```
 
-Those definitions are useful source material, but the combined launch uses
-`oil_palm_harvester_kinematic.urdf` plus the custom model plugin.  Do not
-replace the entire current harvester with `oil_palm_harvester_estimated.urdf`
-without a migration plan: it also contains `gazebo_ros2_control` and different
-physics assumptions that can reintroduce the earlier stability problems.
-
-### Existing sensor mount frames
-
-| Sensor | Mount frame | Candidate output | Definition present in estimated URDF |
-|---|---|---|---|
-| Centre range sensor | `center_range_sensor_link` | `/harvester/center_range` | Ray sensor, 20 Hz |
-| Left 45° range sensor | `left_45_range_sensor_link` | `/harvester/left_45_range` | Ray sensor, 20 Hz |
-| Right 45° range sensor | `right_45_range_sensor_link` | `/harvester/right_45_range` | Ray sensor, 20 Hz |
-| Left side range sensor | `left_side_range_sensor_link` | `/harvester/left_side_range` | Ray sensor, 20 Hz |
-| Right side range sensor | `right_side_range_sensor_link` | `/harvester/right_side_range` | Ray sensor, 20 Hz |
-| Cutting-arm 3D LiDAR | `vehicle_lidar_link` | `/harvester/lidar/points` | GPU ray, 107 × 64, 10 Hz, -60° to +60° horizontal; fixed to `cutting_arm_base_link` |
-| Cutting-arm depth camera | `platform_depth_camera_link` / `platform_depth_camera_optical_frame` | `/harvester/platform_camera/depth/depth/image_raw`, `/harvester/platform_camera/depth/points` | Depth camera, 640 × 400, 15 Hz; fixed to `cutting_arm_base_link` |
-
-The depth-camera and LiDAR blocks are integrated in the active kinematic URDF.
-Confirm the live topics after a fresh launch with
-`ros2 topic list | grep '/harvester/'`; Gazebo plugin versions can vary
-slightly. Range-sensor blocks remain in the estimated URDF as source material
-only.
-
-### Required approach for the next sensor task
-
-1. Keep `gazebo_harvester_and_tree.launch.py` as the primary launch.
-2. Keep the tree static at `(8.5, 0, 0)` and collidable.
-3. Keep the harvester model non-static, base kinematic, and its collision mode
-   off during initial sensor testing.
-4. Keep the integrated depth-camera Gazebo block in the kinematic URDF. Add
-   only one further sensor block at a time from the estimated URDF.
-5. Do not add a second harvester, a second tree state publisher, or another
-   `robot_description` publisher.
-6. Test one sensor type at a time: depth camera first, then range sensors,
-   then 3D LiDAR.
-7. For each sensor, verify its ROS topic, frame ID, values versus distance to
-   the fixed tree, and response while the base moves through `/harvester/cmd_vel`.
+Keep `harvester_collision_mode:=off`, `articulation_control_mode:=kinematic`,
+`camera_lidar_view:=false`, and `camera_lidar_projection:=false` during normal
+Xavier operation. Enable optional processing one component at a time only
+after the baseline is stable.
 
 ## 10. Files that define the baseline
 
@@ -438,17 +460,24 @@ only.
 | `launch/display_harvester_and_tree.launch.py` | RViz-only harvester/tree display; preserves description-topic separation. |
 | `src/harvester_kinematic_gazebo_plugin.cpp` | Stable joint/base Gazebo bridge. |
 | `urdf/oil_palm_harvester_kinematic.urdf` | Shared RViz and current Gazebo kinematic structure. |
-| `urdf/oil_palm_harvester_estimated.urdf` | Sensor-plugin source material and future physical-controller reference. |
-| `rviz/harvester_tree_combined.rviz` | RViz configuration with separate harvester and tree `RobotModel` displays. |
+| `urdf/oil_palm_harvester_estimated.urdf` | Alternate future physical-controller reference; not the combined-launch model. |
+| `rviz/harvester_tree_combined.rviz` | One-RViz configuration with robot/tree displays, active camera image, LiDAR, range markers, and panel. |
+| `scripts/range_sensor_calibration.py` | Five fixed docking-sensor projection, markers, status, and side-pair trunk diagnostic. |
+| `scripts/cutter_range_marker.py` | Separate moving cutter-range ray marker. |
+| `scripts/camera_view_selector.py` | Header-preserving two-camera selector for the one RViz image viewport. |
+| `scripts/camera_lidar_projection.py` | Optional raw-timestamp cutter-camera/LiDAR image projection. |
+| `CALIBRATION_FRAME_CONTRACT.md` | Five fixed docking-range frame and calibration contract. |
+| `CAMERA_LIDAR_CALIBRATION_CONTRACT.md` | Cutter-camera/LiDAR extrinsic, timing, and projection contract. |
 | `MODEL_ASSUMPTIONS.md` | Geometry, scale, frame, and sensor-mount assumptions. |
-| `README.md` | Short usage instructions. |
+| `README.md` | Current quick-start, sensor inventory, and resource-safe operation guide. |
 
 ## 11. Copyable context for a future assistant
 
 ```text
 I have a ROS 2 Foxy / Gazebo Classic 11 workspace at ~/ros2_ws.
 The working baseline is:
-ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py
+ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
+  harvester_collision_mode:=off articulation_control_mode:=kinematic
 
 Read src/oil_palm_harvester_description/SIMULATION_HANDOFF.md first.
 
@@ -461,10 +490,19 @@ Important constraints:
 - /robot_description must belong only to the harvester; tree RSP is namespaced /tree.
 - Do not run duplicate Gazebo launches or add static world->base_link TF.
 - Keep harvester_collision_mode:=off during initial sensor development.
-- Do not reintroduce repeated Joint::SetPosition calls or unbounded joint PID commands.
+- Keep the changed-only, 20 Hz kinematic articulation path; never reintroduce
+  direct joint-position calls at physics rate or unbounded PID commands.
+- The active kinematic URDF already contains two depth cameras, five docking
+  ranges, one moving cutter range, and the cropped 107 x 64 Mid-360 coverage
+  LiDAR. Do not move a sensor or replace a raw topic while changing perception.
+- The five docking ranges are calibrated only in c_channel_reference; the
+  moving cutter range stays separate. Raw camera/LiDAR fusion uses raw
+  simulation-time topics, never /harvester/lidar/points.
+- Keep one RViz by default. The panel switches the selected camera image;
+  camera_lidar_view and camera_lidar_projection are optional Xavier-costed
+  features and default false.
 
-Next requested task: verify the arm-mounted depth-camera data after a fresh
-launch, then add reliable simulated five range sensors and 3D LiDAR data that
-respond to the harvester motion relative to the static tree.
-Preserve the currently working Gazebo/RViz/GUI behavior while doing so.
+Read the two calibration contracts before changing camera/LiDAR or range
+calibration. Preserve the current Gazebo/RViz/GUI graph while adding any new
+perception feature.
 ```

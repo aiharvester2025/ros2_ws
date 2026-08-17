@@ -1,180 +1,180 @@
-# Oil-Palm Harvester Estimated URDF Package
+# Oil-Palm Harvester Gazebo + RViz Sensor Simulation
 
-This package is an estimated simulation model created from the supplied orthographic and isometric drawings. It models the vehicle, a yaw/elevation boom, four prismatic telescopic stages, a platform-level joint, a C-channel platform, five distance sensors, an arm-mounted 3D LiDAR, an arm-mounted depth camera, and a simplified rail-mounted cutting arm.
+This package is an estimated oil-palm harvester model derived from supplied
+orthographic and isometric drawings. The supported baseline is a ROS 2 Foxy
+and Gazebo Classic 11 sensor-development simulation: a movable harvester
+approaches one static oil-palm tree while RViz presents the measured robot
+state, cameras, LiDAR, range rays, and range-based docking estimate.
 
-## Files
+It is not a force-accurate vehicle, cutting, or collision simulation. The
+articulated model uses bounded kinematic control and its own collision bodies
+are disabled by default so the Xavier can run Gazebo, RViz, cameras, and
+LiDAR reliably.
 
-- `urdf/oil_palm_harvester_kinematic.urdf` — simulator-neutral URDF for RViz and kinematic testing.
-- `urdf/oil_palm_harvester_estimated.urdf` — Gazebo Classic-oriented URDF with sensor and `ros2_control` plugins.
-- `meshes/visual/*.stl` — estimated visual meshes.
-- `worlds/docking.world` — ground plane plus a 0.60 m diameter, 12 m tall trunk.
-- `config/controllers.yaml` — joint trajectory controller.
-- `config/example_joint_positions.yaml` — an example stop/freeze checkpoint pose.
-- `preview/oil_palm_harvester_estimated.glb` — combined preview model at a representative pose.
+## Source-of-truth files
 
-## Build and view in RViz
+| File | Current role |
+|---|---|
+| `urdf/oil_palm_harvester_kinematic.urdf` | Active harvester geometry, fixed sensor mounts, and Gazebo sensor blocks. It drives both combined Gazebo and RViz. |
+| `launch/gazebo_harvester_and_tree.launch.py` | Supported combined Gazebo + RViz launch. It converts the active URDF to a local dynamic SDF world. |
+| `src/harvester_kinematic_gazebo_plugin.cpp` | Joint command/feedback bridge, 20 Hz kinematic articulation, `/harvester/cmd_vel` base motion, and `world -> base_link` TF. |
+| `rviz/harvester_tree_combined.rviz` | Single-RViz scene, active camera viewport, LiDAR/range displays, and docking panel. |
+| `config/range_sensor_calibration.nominal.json` | Simulation-only five-sensor docking calibration profile. |
+| `config/camera_lidar_calibration.nominal.json` | Simulation-only cutter-camera/LiDAR calibration and projection profile. |
+| `urdf/oil_palm_harvester_estimated.urdf` | Alternate physical-control reference only; do not substitute it into the combined launch. |
+
+Read [SIMULATION_HANDOFF.md](SIMULATION_HANDOFF.md) before changing the
+launch, TF tree, sensor mounts, or controller path. The calibration contracts
+are [CALIBRATION_FRAME_CONTRACT.md](CALIBRATION_FRAME_CONTRACT.md) and
+[CAMERA_LIDAR_CALIBRATION_CONTRACT.md](CAMERA_LIDAR_CALIBRATION_CONTRACT.md).
+
+## Build
 
 ```bash
-mkdir -p ~/harvester_ws/src
-cp -r oil_palm_harvester_description ~/harvester_ws/src/
-cd ~/harvester_ws
-colcon build --symlink-install
+cd ~/ros2_ws
+source /opt/ros/foxy/setup.bash
+colcon build --packages-select oil_palm_harvester_description --merge-install --symlink-install
 source install/setup.bash
-ros2 launch oil_palm_harvester_description display.launch.py
 ```
 
-Use the joint-state publisher sliders to move the boom elevation, each telescopic stage, platform levelling joint and rail/cutting-arm joints.
+## Start the supported scene
 
-## Gazebo Classic docking example
-
-Install the ROS packages that provide `gazebo_ros`, `gazebo_ros2_control`, controllers and the sensor plugins, then run:
+Stop every earlier combined launch before starting another one. Gazebo Classic
+normally uses port `11345`, so two launches can leave RViz connected to an old
+tree-only world.
 
 ```bash
-source ~/harvester_ws/install/setup.bash
-ros2 launch oil_palm_harvester_description gazebo_docking.launch.py
-```
-
-Expected topics include:
-
-```text
-/harvester/center_range
-/harvester/left_45_range
-/harvester/right_45_range
-/harvester/left_side_range
-/harvester/right_side_range
-/harvester/lidar/points
-/harvester/platform_camera/depth/image_raw
-/harvester/platform_camera/depth/depth/image_raw
-/harvester/platform_camera/depth/points
-```
-
-Plugin topic names can differ slightly by Gazebo/ROS package release. The pure URDF, mesh geometry and sensor frames are independent of those plugins.
-
-## Gazebo + RViz with the full tree
-
-Launch the harvester, the full collision-enabled oil-palm tree, Gazebo Classic and the combined RViz view:
-
-```bash
+cd ~/ros2_ws
 source /opt/ros/foxy/setup.bash
 source install/setup.bash
-ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py
+ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
+  harvester_collision_mode:=off \
+  articulation_control_mode:=kinematic
 ```
 
-The tree is a static Gazebo world object at `world` position `(8.5, 0, 0)`.
-The harvester is a movable, fully assembled Gazebo model. For a headless
-simulator run, add `gui:=false rviz:=false`.
-This launch is separate from `display_harvester_and_tree.launch.py`, so the
-joint-state-publisher GUI workflow is unchanged.
+The scene contains one static tree at `world = (8.5, 0, 0)`, one movable
+harvester, the joint-state-publisher GUI, and one RViz process with the
+**Docking Sensor Values** panel. The optional second RViz camera/LiDAR view
+and RGB/LiDAR overlay are disabled by default for the Xavier.
 
-The slider GUI publishes commands on `/harvester/joint_commands`. The Gazebo
-harvester model subscribes to those commands, then publishes its **measured**
-joint positions on `/harvester/joint_states`; RViz uses that feedback. This
-keeps the RViz robot and all sensor frames aligned with the physical Gazebo
-model while slider and **Randomize pose** changes move the boom, platform and
-cutting arm. The harvester model is non-static; its base is kinematically commanded at this stage through
-`geometry_msgs/msg/Twist` on `/harvester/cmd_vel`. It also publishes the
-matching `world -> base_link` TF for RViz. For example, drive forward briefly,
-then press `Ctrl-C` to stop the command:
+## Controls and state flow
+
+```text
+joint_state_publisher_gui
+  /harvester/joint_commands
+              │
+              ▼
+  Gazebo harvester bridge (rate-limited kinematic articulation)
+              │
+              ▼
+  measured /harvester/joint_states ──► robot_state_publisher ──► RViz
+
+/harvester/cmd_vel ──► Gazebo bridge ──► movable base + world -> base_link TF
+```
+
+The GUI command stream and measured feedback stream are intentionally
+different. RViz, camera frames, LiDAR frames, and range frames therefore
+follow the actual Gazebo pose instead of an immediate slider target.
+
+`articulation_control_mode:=kinematic` is the normal mode. Every movable
+joint is clamped to its URDF limits, rate-limited at 20 Hz using its velocity
+limit, and the bridge clears residual physics velocity after each changed pose
+batch. The large turret is additionally limited to `0.05 rad/s`.
+
+`articulation_control_mode:=pid` is a legacy diagnostic fallback only. It can
+reintroduce force reactions in the long boom/rail/arm chain and is not the
+recommended operating mode.
+
+Move the base through `/harvester/cmd_vel`:
 
 ```bash
 ros2 topic pub -r 10 /harvester/cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.4}, angular: {z: 0.0}}"
 ```
 
-The bridge has a 0.5-second command timeout, so the harvester stops safely if
-the velocity publisher exits unexpectedly.
+The bridge stops base motion 0.5 seconds after the last command.
 
-This is a commanded sensor-development simulation: it deliberately avoids
-free-body contact forces while sensor models are added. By default the
-harvester's own contact bodies are disabled for stable GUI pose control, while
-the tree remains a static, collidable world object. The tree description
-publisher is used only for its RViz visual and TF tree.
+## Simulated sensors
 
-The arm-mounted cutter depth camera is enabled in the combined launch. Its legacy
-frame/topic prefix remains `platform_depth_camera_*` /
-`/harvester/platform_camera` for compatibility, but its fixed joint is now on
-`cutting_arm_base_link`. It follows the rail-carriage and arm-lift motion, not
-the extension stroke. After launching, verify its expected outputs with:
+| Sensor | Primary topics | Mount and configuration |
+|---|---|---|
+| Cutter depth camera | `/harvester/platform_camera/depth/image_raw`, `.../camera_info`, `.../depth/image_raw`, `.../points` | On `cutting_arm_base_link`; follows rail and arm lift, not cutter extension. 640×400 at 15 Hz. |
+| Docking depth camera | `/harvester/docking_camera/depth/image_raw`, `.../camera_info` | On the platform sensor carrier. 320×240 at 8 Hz to protect Xavier resources. |
+| Mid-360 coverage approximation | `/harvester/lidar/raw_points` | On `cutting_arm_base_link`; 107×64 GPU-ray grid, −60° to +60° horizontal, approximately −7° to +52° vertical, 0.1–40 m, 10 Hz. |
+| RViz LiDAR copy | `/harvester/lidar/points` | Zero-stamped/latest-TF copy for RViz only. Do not use it for time-correlated algorithms. |
+| Five docking ranges | `/harvester/{center,left_45,right_45,left_side,right_side}_range` | One-ray 20 Hz sensors, 0.05–3.0 m, rigidly calibrated into `c_channel_reference`. |
+| Cutter-forward range | `/harvester/cutting_tool_left_range` | Fixed to `cutting_tool_link`; follows rail, lift, extension, and cutter. It is intentionally outside the five-sensor docking estimator. |
 
-```bash
-ros2 topic list | grep '/harvester/platform_camera'
-```
+The Mid-360 model is a regular-grid Gazebo approximation. It does not
+reproduce the non-repetitive Livox scan pattern or a hardware FOV-region
+configuration. The restricted ±60° front FOV was chosen to reduce GPU load
+while viewing the tree.
 
-The depth image is expected on
-`/harvester/platform_camera/depth/depth/image_raw`; its point cloud is
-`/harvester/platform_camera/depth/points`. The colour image is
-`/harvester/platform_camera/depth/image_raw`. The supplied combined RViz
-configuration opens that colour stream in a separate **Cutting-Arm Camera
-Image** window while retaining the 3D robot/tree view.
-
-The platform-mounted docking camera is also enabled by default, with an
-independent `/harvester/docking_camera/depth/image_raw` colour stream. To keep
-the Xavier load modest it runs at **320 x 240 pixels and 8 Hz**; it does not
-move or alter the cutter camera, LiDAR, TF, or joint-control path. The existing
-right-side **Docking Sensor Values** RViz panel contains **Cutter camera** and
-**Docking camera** buttons. They switch the single **Active Camera View** image
-viewport; no second RViz window is created. The selector output is
-`/harvester/camera_view/image_raw` and preserves the selected camera's original
-header and frame ID. The optional camera--LiDAR overlay remains calibrated to
-the cutter camera only.
-
-For a lower-resource fallback, omit the rendered docking sensor at launch:
+Useful live checks:
 
 ```bash
-ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
-  docking_camera:=false
+ros2 topic hz /harvester/center_range
+ros2 topic hz /harvester/cutting_tool_left_range
+ros2 topic hz /harvester/lidar/raw_points
+ros2 topic hz /harvester/platform_camera/depth/image_raw
+ros2 topic hz /harvester/docking_camera/depth/image_raw
 ```
 
-The arm-mounted 3D LiDAR is also enabled in the combined launch. Its
-`/harvester/lidar/points` stream appears as **Cutting-Arm LiDAR Point Cloud**
-in the supplied RViz configuration.
+## RViz displays
 
-## Camera--LiDAR calibration and optional overlay
+The supplied RViz configuration contains one 3-D scene and one **Active Camera
+View** image viewport. The right-side panel has **Cutter camera** and
+**Docking camera** buttons. These publish the selected view to the stable topic
+`/harvester/camera_view/image_raw`; they do not move either camera and do not
+start another RViz process.
 
-The camera and LiDAR have nominal fixed mounts in the active kinematic URDF,
-and both now follow Gazebo's measured joint feedback in RViz. The simulation
-profile derives their relative transform from those fixed joints; it does not
-move either sensor or add a competing TF. Validate the profile with:
+The panel also shows the five raw docking readings and one **Cutting sensor**
+reading. Calibrated five-sensor rays are published to
+`/harvester/docking/range_markers`. The moving cutter sensor publishes its
+separate yellow ray to `/harvester/cutter/range_markers`.
 
-```bash
-python3 "$(ros2 pkg prefix oil_palm_harvester_description)/share/oil_palm_harvester_description/scripts/validate_camera_lidar_calibration.py"
-```
-
-The low-rate RGB/LiDAR overlay is optional and disabled by default to protect
-the Xavier. It uses only the raw acquisition-time streams, never the
-zero-stamped RViz LiDAR copy:
+The 3-D LiDAR cloud is enabled in the main scene. The optional RGB/LiDAR
+projection is disabled by default:
 
 ```bash
 ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
   camera_lidar_projection:=true
 ```
 
-In the existing RViz process, enable **Camera + LiDAR Overlay (optional)** in
-the Displays panel. This does not start a second RViz. See
-[CAMERA_LIDAR_CALIBRATION_CONTRACT.md](CAMERA_LIDAR_CALIBRATION_CONTRACT.md)
-for the frame equation, output topics, timestamp policy, and physical-machine
-commissioning boundary.
+This still uses the existing RViz process. Enable **Camera + LiDAR Overlay
+(optional)** in the RViz Displays panel. Keep `camera_lidar_view:=false` on
+the Xavier unless a second RViz is specifically required.
 
-## Docking range-sensor calibration
+## Calibration boundaries
 
-The combined launch also projects the five raw Gazebo range readings into the
-moving `c_channel_reference` docking frame. It adds calibrated endpoint topics,
-uncluttered RViz rays, and a gated side-pair trunk-centre estimate without
-changing the raw sensor streams or physical Gazebo mounts. The configuration is
-simulation-only; do not reuse it for a physical harvester.
+The range and camera/LiDAR JSON profiles are nominal simulation data only.
+They do not change URDF sensor mounts or publish corrective TFs.
 
-See [CALIBRATION_FRAME_CONTRACT.md](CALIBRATION_FRAME_CONTRACT.md) for the
-frame convention, configuration files, validation command, output topics, and
-real-machine commissioning boundary.
+For algorithms:
 
-## Suggested docking control sequence
+- use raw Gazebo RGB, CameraInfo, and `/harvester/lidar/raw_points` for
+  camera/LiDAR pairing;
+- never use zero-stamped `/harvester/lidar/points` for fusion;
+- use `c_channel_reference` for the five fixed docking sensors; and
+- keep the cutter range stream separate because it crosses moving joints.
 
-1. Move the boom/platform only while the current checkpoint is invalid.
-2. Stop hydraulic motion and wait for vibration/velocity to settle.
-3. Read the five range sensors, LiDAR and depth camera.
-4. Estimate `trunk_reference_estimate` relative to `c_channel_reference`.
-5. Freeze the estimate and display X/Y/Z and alignment guidance.
-6. Move by one controlled increment, invalidate the checkpoint, then repeat.
-7. Declare docked only after centre offset, side clearance and insertion-depth thresholds are simultaneously satisfied.
+Before using a physical harvester, survey every mount, calibrate camera
+intrinsics and camera-to-LiDAR extrinsics, establish a synchronized timestamp
+domain, quantify error, and approve a deployment profile. Do not copy any
+nominal simulation profile to hardware.
 
-See `MODEL_ASSUMPTIONS.md` before using this model for collision clearance or reachability decisions.
+## Troubleshooting essentials
+
+- **Gazebo only shows an old tree or exits 255:** stop the previous launch and
+  ensure no old `gzserver` owns port `11345`.
+- **RViz tree links replace harvester links:** there must be one harvester
+  `/robot_description` publisher; the tree publisher must stay namespaced as
+  `/tree`.
+- **Robot flies, joints oscillate, or ODE SliderJoint warnings grow:** launch
+  with `harvester_collision_mode:=off articulation_control_mode:=kinematic`.
+  Do not add a physics-rate direct joint-position loop.
+- **GPU/RViz pressure on Xavier:** keep `camera_lidar_view:=false` and
+  `camera_lidar_projection:=false`; optionally launch `docking_camera:=false`.
+
+See [MODEL_ASSUMPTIONS.md](MODEL_ASSUMPTIONS.md) for the estimated geometry,
+coordinate conventions, and manual sensor-mount adjustment points.

@@ -5,7 +5,9 @@
 // Gazebo Classic's ROS service bridge.  On this Foxy installation those
 // services can be advertised while remaining unresponsive, whereas a
 // ModelPlugin receives ROS messages reliably through gazebo_ros::Node's
-// executor.
+// executor.  Articulated joints default to bounded kinematic updates: force
+// PID controllers made the long boom/rail/arm chain inject reaction impulses
+// into otherwise sensor-only simulations.
 
 #include <gazebo/common/Events.hh>
 #include <gazebo/common/PID.hh>
@@ -35,11 +37,23 @@ public:
   {
     this->model_ = std::move(model);
     this->ros_node_ = gazebo_ros::Node::Get(sdf);
+    if (sdf && sdf->HasElement("articulation_control_mode")) {
+      const std::string requested_mode =
+        sdf->Get<std::string>("articulation_control_mode");
+      if (requested_mode == "pid") {
+        this->use_kinematic_articulation_control_ = false;
+      } else if (requested_mode != "kinematic") {
+        RCLCPP_WARN(
+          this->ros_node_->get_logger(),
+          "Unknown articulation_control_mode '%s'; using safe kinematic mode",
+          requested_mode.c_str());
+      }
+    }
     this->base_pose_ = this->model_->WorldPose();
     // The harvester is a commanded sensor-development model, not a free-body
     // contact-physics machine yet.  Disable gravity for every link.  GUI
-    // targets are held by Gazebo's persistent position controller instead of
-    // being teleported at every physics iteration.
+    // commands are applied at a bounded 20 Hz rate rather than at every
+    // physics iteration.
     for (const auto & link : this->model_->GetLinks()) {
       if (link) {
         link->SetGravityMode(false);
@@ -56,8 +70,20 @@ public:
         // when configuring and commanding that controller.
         const std::string controller_joint_name = joint->GetScopedName();
         this->controller_joint_names_[joint->GetName()] = controller_joint_name;
-        const bool is_turret = joint->GetName() == kTurretJointName;
-        if (is_turret) {
+        if (this->use_kinematic_articulation_control_) {
+          const double measured_position = joint->Position(0);
+          const double initial_position = std::isfinite(measured_position) ?
+            ClampToJointLimits(joint, measured_position) : 0.0;
+          KinematicJoint specification;
+          specification.joint = joint;
+          specification.controller_joint_name = controller_joint_name;
+          specification.lower_limit = joint->LowerLimit(0);
+          specification.upper_limit = joint->UpperLimit(0);
+          specification.maximum_rate = KinematicRateForJoint(joint);
+          this->kinematic_joints_[joint->GetName()] = specification;
+          this->kinematic_joint_goals_[joint->GetName()] = initial_position;
+          this->applied_kinematic_joint_positions_[joint->GetName()] = initial_position;
+        } else if (joint->GetName() == kTurretJointName) {
           // The turret carries the complete boom/arm chain.  A persistent
           // force PID on that chain can feed reaction torque back into the
           // model even after a GUI slider stops.  It is instead moved as a
@@ -86,6 +112,14 @@ public:
       }
     }
 
+    if (this->use_kinematic_articulation_control_) {
+      // Loaded models register their joints with Gazebo's JointController.
+      // Reset clears any retained PID targets without removing those joints:
+      // Model::SetJointPositions uses that registered set for its one bounded
+      // kinematic batch per update interval.
+      this->joint_controller_->Reset();
+    }
+
     // Commands and feedback deliberately use separate topics.  Publishing
     // GUI target values directly to robot_state_publisher made RViz lead the
     // PID-controlled Gazebo model and its simulated sensors.
@@ -103,10 +137,19 @@ public:
     this->update_connection_ = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&HarvesterKinematicGazeboPlugin::OnUpdate, this, std::placeholders::_1));
 
-    RCLCPP_INFO(
-      this->ros_node_->get_logger(),
-      "boom_turret_joint uses rate-limited kinematic control (%.2f rad/s, %.0f Hz)",
-      kTurretMaximumTargetRate, 1.0 / kTurretKinematicUpdatePeriod);
+    if (this->use_kinematic_articulation_control_) {
+      RCLCPP_INFO(
+        this->ros_node_->get_logger(),
+        "All %zu movable joints use rate-limited kinematic control at %.0f Hz "
+        "(turret limited to %.2f rad/s)",
+        this->kinematic_joints_.size(), 1.0 / kKinematicJointUpdatePeriod,
+        kTurretMaximumTargetRate);
+    } else {
+      RCLCPP_WARN(
+        this->ros_node_->get_logger(),
+        "Using legacy PID articulation control; this fallback can be unstable "
+        "for large slider steps");
+    }
     RCLCPP_INFO(
       this->ros_node_->get_logger(),
       "Harvester kinematic bridge ready: joint commands on /harvester/joint_commands, "
@@ -123,14 +166,31 @@ private:
     std::lock_guard<std::mutex> lock(this->mutex_);
     bool changed = false;
     for (std::size_t index = 0; index < message->name.size(); ++index) {
-      const auto controller_joint = this->controller_joint_names_.find(message->name[index]);
       const double requested_position = message->position[index];
-      if (controller_joint == this->controller_joint_names_.end() ||
-        !std::isfinite(requested_position))
-      {
+      if (!std::isfinite(requested_position)) {
         continue;
       }
 
+      if (this->use_kinematic_articulation_control_) {
+        const auto kinematic_joint = this->kinematic_joints_.find(message->name[index]);
+        if (kinematic_joint == this->kinematic_joints_.end()) {
+          continue;
+        }
+        const double bounded_position = ClampToJointLimits(
+          kinematic_joint->second, requested_position);
+        const auto existing = this->kinematic_joint_goals_.find(message->name[index]);
+        if (existing == this->kinematic_joint_goals_.end() ||
+          std::abs(existing->second - bounded_position) > kJointPositionTolerance)
+        {
+          this->kinematic_joint_goals_[message->name[index]] = bounded_position;
+        }
+        continue;
+      }
+
+      const auto controller_joint = this->controller_joint_names_.find(message->name[index]);
+      if (controller_joint == this->controller_joint_names_.end()) {
+        continue;
+      }
       if (message->name[index] == kTurretJointName) {
         const double bounded_position = this->turret_joint_ ?
           ClampToJointLimits(this->turret_joint_, requested_position) : requested_position;
@@ -216,25 +276,28 @@ private:
     }
     this->last_sim_time_ = info.simTime;
 
-    if (!positions.empty()) {
-      // Update persistent controller targets.  These commands move the
-      // articulated links through the physics engine without a one-step pose
-      // teleport or a SliderJoint anchor warning flood.
-      for (const auto & position : positions) {
-        const auto controller_joint = this->controller_joint_names_.find(position.first);
-        if (controller_joint != this->controller_joint_names_.end() &&
-          !this->joint_controller_->SetPositionTarget(
-            controller_joint->second, position.second))
-        {
-          RCLCPP_WARN(
-            this->ros_node_->get_logger(),
-            "Gazebo position controller rejected joint '%s'",
-            position.first.c_str());
+    if (this->use_kinematic_articulation_control_) {
+      this->UpdateKinematicJointTargets(info.simTime);
+    } else {
+      if (!positions.empty()) {
+        // Legacy fallback only.  The default articulation path above avoids
+        // persistent force PIDs because they can energize the long boom/arm
+        // chain after a slider command has stopped.
+        for (const auto & position : positions) {
+          const auto controller_joint = this->controller_joint_names_.find(position.first);
+          if (controller_joint != this->controller_joint_names_.end() &&
+            !this->joint_controller_->SetPositionTarget(
+              controller_joint->second, position.second))
+          {
+            RCLCPP_WARN(
+              this->ros_node_->get_logger(),
+              "Gazebo position controller rejected joint '%s'",
+              position.first.c_str());
+          }
         }
       }
+      this->UpdateTurretTarget(turret_goal_position, info.simTime);
     }
-
-    this->UpdateTurretTarget(turret_goal_position, info.simTime);
 
     // Keep the robot movable through /harvester/cmd_vel, but update its root
     // at a modest rate.  This avoids the ODE SliderJoint warning storm caused
@@ -297,6 +360,131 @@ private:
       return std::max(lower, std::min(position, upper));
     }
     return position;
+  }
+
+  struct KinematicJoint
+  {
+    gazebo::physics::JointPtr joint;
+    std::string controller_joint_name;
+    double lower_limit{0.0};
+    double upper_limit{0.0};
+    double maximum_rate{0.0};
+  };
+
+  static double ClampToJointLimits(
+    const KinematicJoint & joint, const double position)
+  {
+    if (!std::isfinite(position)) {
+      return position;
+    }
+    if (std::isfinite(joint.lower_limit) && std::isfinite(joint.upper_limit) &&
+      joint.lower_limit <= joint.upper_limit)
+    {
+      return std::max(joint.lower_limit, std::min(position, joint.upper_limit));
+    }
+    return position;
+  }
+
+  static double KinematicRateForJoint(const gazebo::physics::JointPtr & joint)
+  {
+    if (!joint) {
+      return kFallbackKinematicJointRate;
+    }
+    const double velocity_limit = joint->GetVelocityLimit(0);
+    double rate = (std::isfinite(velocity_limit) && velocity_limit > 0.0) ?
+      std::min(velocity_limit, kMaximumKinematicJointRate) :
+      kFallbackKinematicJointRate;
+    if (joint->GetName() == kTurretJointName) {
+      rate = std::min(rate, kTurretMaximumTargetRate);
+    }
+    return rate;
+  }
+
+  void RebaseKinematicJointPositions()
+  {
+    for (const auto & entry : this->kinematic_joints_) {
+      const auto & specification = entry.second;
+      if (!specification.joint) {
+        continue;
+      }
+      const double measured_position = specification.joint->Position(0);
+      if (std::isfinite(measured_position)) {
+        this->applied_kinematic_joint_positions_[entry.first] =
+          ClampToJointLimits(specification, measured_position);
+      }
+    }
+  }
+
+  void UpdateKinematicJointTargets(const gazebo::common::Time & sim_time)
+  {
+    if (this->last_kinematic_joint_update_sim_time_ == gazebo::common::Time::Zero) {
+      this->last_kinematic_joint_update_sim_time_ = sim_time;
+      return;
+    }
+
+    const double elapsed =
+      (sim_time - this->last_kinematic_joint_update_sim_time_).Double();
+    if (elapsed < 0.0) {
+      // Simulation reset/rewind: recover the measured starting positions but
+      // retain the latest GUI goals, then ramp back without a discontinuity.
+      this->RebaseKinematicJointPositions();
+      this->last_kinematic_joint_update_sim_time_ = sim_time;
+      return;
+    }
+    if (elapsed < kKinematicJointUpdatePeriod) {
+      return;
+    }
+    this->last_kinematic_joint_update_sim_time_ = sim_time;
+
+    std::map<std::string, double> goals;
+    {
+      std::lock_guard<std::mutex> lock(this->mutex_);
+      goals = this->kinematic_joint_goals_;
+    }
+
+    // A paused/unpaused world must not cause a large one-tick articulation
+    // jump.  The GUI naturally emits frequent incremental positions while a
+    // slider is dragged, and this cap also bounds programmatic commands.
+    const double bounded_dt = std::min(elapsed, kMaximumKinematicRampInterval);
+    std::map<std::string, double> changed_joint_positions;
+    std::map<std::string, double> next_applied_positions;
+    for (const auto & entry : this->kinematic_joints_) {
+      const auto goal = goals.find(entry.first);
+      const auto applied = this->applied_kinematic_joint_positions_.find(entry.first);
+      if (goal == goals.end() || applied == this->applied_kinematic_joint_positions_.end()) {
+        continue;
+      }
+
+      const KinematicJoint & specification = entry.second;
+      const double bounded_goal = ClampToJointLimits(specification, goal->second);
+      const double maximum_step = specification.maximum_rate * bounded_dt;
+      const double remaining = bounded_goal - applied->second;
+      const double step = std::max(-maximum_step, std::min(remaining, maximum_step));
+      const double next_position = ClampToJointLimits(
+        specification, applied->second + step);
+      if (std::abs(next_position - applied->second) <= kJointPositionTolerance) {
+        continue;
+      }
+
+      // Use the scoped name expected by Gazebo's pre-registered
+      // JointController.  One Model::SetJointPositions call applies the
+      // complete changed set exactly once at this 20 Hz boundary.
+      changed_joint_positions[specification.controller_joint_name] = next_position;
+      next_applied_positions[entry.first] = next_position;
+    }
+
+    if (changed_joint_positions.empty()) {
+      return;
+    }
+
+    this->model_->SetJointPositions(changed_joint_positions);
+    for (const auto & applied : next_applied_positions) {
+      this->applied_kinematic_joint_positions_[applied.first] = applied.second;
+    }
+    // Direct Gazebo joint poses can leave residual twist/force on a dynamic
+    // child chain.  Clearing it once after the complete batch prevents the
+    // rail/lift/platform/boom motion from continuing after its target stops.
+    this->model_->ResetPhysicsStates();
   }
 
   void UpdateTurretTarget(
@@ -393,12 +581,17 @@ private:
   gazebo::common::Time last_base_pose_sim_time_;
   gazebo::common::Time last_velocity_command_sim_time_;
   gazebo::common::Time last_turret_pose_update_sim_time_;
+  gazebo::common::Time last_kinematic_joint_update_sim_time_;
   ignition::math::Pose3d base_pose_;
   gazebo::physics::JointPtr turret_joint_;
   std::map<std::string, double> requested_joint_positions_;
   std::map<std::string, std::string> controller_joint_names_;
+  std::map<std::string, KinematicJoint> kinematic_joints_;
+  std::map<std::string, double> kinematic_joint_goals_;
+  std::map<std::string, double> applied_kinematic_joint_positions_;
   double turret_goal_position_{0.0};
   double turret_applied_target_{0.0};
+  bool use_kinematic_articulation_control_{true};
   bool joint_state_dirty_{false};
   bool velocity_message_pending_{false};
   bool has_velocity_command_{false};
@@ -414,8 +607,15 @@ private:
   static constexpr double kPositionControllerD = 250.0;
   static constexpr double kPositionControllerMaxCommand = 2000.0;
   static constexpr const char * kTurretJointName = "boom_turret_joint";
-  // Turret-specific limits keep the large boom chain stable while retaining
-  // the existing controller behaviour for all other joints.
+  // All kinematic articulation targets are updated only at this cadence.
+  // This specifically avoids the 1 kHz SliderJoint anchor-warning flood
+  // produced by older direct-position loops.
+  static constexpr double kKinematicJointUpdatePeriod = 0.05;
+  static constexpr double kMaximumKinematicRampInterval = 0.05;
+  static constexpr double kMaximumKinematicJointRate = 0.25;
+  static constexpr double kFallbackKinematicJointRate = 0.05;
+  // Turret-specific cap remains below its URDF velocity limit because it
+  // carries the complete boom/arm chain.
   static constexpr double kTurretMaximumTargetRate = 0.05;
   static constexpr double kTurretMaximumRampInterval = 0.05;
   static constexpr double kTurretKinematicUpdatePeriod = 0.05;

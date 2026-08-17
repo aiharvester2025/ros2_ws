@@ -63,6 +63,7 @@ install(PROGRAMS
 	scripts/camera_lidar_projection.py
 	scripts/range_sensor_label_publisher.py
 	scripts/range_sensor_calibration.py
+	scripts/cutter_range_marker.py
 	scripts/validate_range_sensor_calibration.py
 	scripts/validate_camera_lidar_calibration.py
 	DESTINATION share/${PROJECT_NAME}/scripts

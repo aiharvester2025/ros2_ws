@@ -4,6 +4,19 @@ This document defines the **simulation-only** calibration path for the five
 Gazebo docking range sensors. It adapts the supplied real-machine frame advice
 without changing the working Gazebo/RViz control architecture.
 
+It deliberately excludes the cutter-attached sensor:
+
+```text
+/harvester/cutting_tool_left_range
+cutting_tool_left_range_sensor_link
+```
+
+That sensor is a fixed child of `cutting_tool_link`, so it moves with the rail,
+arm lift, and cutter extension. It cannot satisfy this document's rigid
+`c_channel_reference -> sensor` contract. Its raw value appears in the RViz
+**Cutting sensor** panel row and its separate yellow marker is published on
+`/harvester/cutter/range_markers`.
+
 ## Scope and review of the external advice
 
 The following principles are adopted:
@@ -117,6 +130,10 @@ and publishes:
 The side-pair estimate is a geometric diagnostic, not yet a docking command.
 It uses two opposed side hits only when their timestamp skew, X-plane match,
 and inferred diameter pass the configuration gates.
+
+The RViz panel always displays the raw five sensor values. The calibrated
+marker array is the local geometry aid; it does not replace raw measurements,
+change a Gazebo ray direction, or command the vehicle.
 
 ## Time policy
 

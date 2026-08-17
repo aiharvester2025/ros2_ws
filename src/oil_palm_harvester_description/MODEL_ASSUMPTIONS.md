@@ -20,9 +20,11 @@ The supplied top, side, front and isometric drawings do not contain a dimensiona
 | Reference trunk diameter | 0.60 m |
 | Platform body height | 0.38 m plus top rail |
 | Cutting-arm maximum extension | 0.375 m from its retracted stop |
-| Five range sensors | centre, left/right 45°, left/right side |
+| Docking range sensors | centre, left/right 45°, left/right side; each is a 20 Hz single ray with 0.05–3.0 m range |
+| Cutter range sensor | one forward-facing sensor on the left side of `cutting_tool_link`; its raw topic is separate from the docking estimator |
 | Cutting-arm LiDAR | Gazebo Mid-360 coverage approximation: 120° horizontal, approximately -7° to +52° vertical, 107 × 64 rays |
 | Cutting-arm depth camera | estimated 640 × 400, 80° horizontal FOV |
+| Docking depth camera | estimated 320 × 240, 80° horizontal FOV, 8 Hz |
 
 ## Coordinate convention
 
@@ -41,6 +43,25 @@ The supplied top, side, front and isometric drawings do not contain a dimensiona
   centred above the visible arm base. It follows the
   rail-carriage yaw and cutting-arm lift, but not the extension stroke. Tune
   `vehicle_lidar_joint` in the same kinematic URDF to adjust this mount.
+- `front_sensor_mount_link` is the compact platform-top carrier for the centre
+  docking range sensor and docking camera. Tune
+  `front_sensor_mount_joint` in the active kinematic URDF to move the carrier
+  as one unit. The child joints `center_range_sensor_joint` and
+  `front_depth_camera_joint` are the precise per-device adjustments.
+- `cutting_tool_left_range_sensor_joint` is the forward trunk-facing cutter
+  range mount. Its local `xyz` and `rpy` are expressed in `cutting_tool_link`:
+  `+X` is forward toward the trunk, `+Y` is left, and `+Z` is up. It follows
+  rail, lift, extension, and cutter motion, so it must remain outside the
+  fixed C-channel docking-range calibration profile.
+
+## Simulation-control assumptions
+
+The supported combined launch runs the harvester in rate-limited kinematic
+articulation mode at 20 Hz, using the URDF joint limits and velocity limits.
+The turret is capped at 0.05 rad/s. The model remains non-static and its base
+can move through `/harvester/cmd_vel`, but harvester collisions are off by
+default. This is a sensor-development configuration, not a physically valid
+contact, mass, or cutting model.
 
 ## Half-length cutting-arm envelope
 

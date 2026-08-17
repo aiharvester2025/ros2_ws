@@ -31,7 +31,8 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 
 def _dynamic_world_from_urdf(
         urdf_path: Path, harvester_share: Path, render_mode: str,
-        harvester_collision_mode: str, docking_camera: str) -> str:
+        harvester_collision_mode: str, docking_camera: str,
+        articulation_control_mode: str) -> str:
     """Create an SDF world containing a movable, commanded harvester.
 
     Gazebo's own URDF converter handles the joint reference-frame semantics,
@@ -62,6 +63,11 @@ def _dynamic_world_from_urdf(
         raise RuntimeError(
             "docking_camera must be 'true' or 'false'; "
             f"received {docking_camera!r}.")
+    articulation_control_mode = articulation_control_mode.strip().lower()
+    if articulation_control_mode not in ('kinematic', 'pid'):
+        raise RuntimeError(
+            "articulation_control_mode must be 'kinematic' or 'pid'; "
+            f"received {articulation_control_mode!r}.")
 
     converted_root = ET.fromstring(conversion.stdout)
     model = converted_root.find('model')
@@ -168,10 +174,16 @@ def _dynamic_world_from_urdf(
     model_pose = ET.Element('pose')
     model_pose.text = '0 0 0.05 0 0 0'
     model.insert(1, model_pose)
-    ET.SubElement(
+    bridge_plugin = ET.SubElement(
         model, 'plugin',
         {'name': 'harvester_kinematic_gazebo_bridge',
          'filename': 'libharvester_kinematic_gazebo_plugin.so'})
+    # Kinematic control is the safe default for the current sensor-development
+    # model: it applies only changed, rate-limited joint poses at 20 Hz and
+    # clears residual physics velocities after each batch.  ``pid`` remains a
+    # fresh-launch fallback for regression diagnosis only.
+    ET.SubElement(bridge_plugin, 'articulation_control_mode').text = (
+        articulation_control_mode)
     world.append(model)
 
     output_path = Path(tempfile.gettempdir()) / 'oil_palm_harvester_dynamic_scene.world'
@@ -185,9 +197,11 @@ def _start_gazebo(context, *, urdf_path, harvester_share, gazebo_share, gui):
     harvester_collision_mode = LaunchConfiguration(
         'harvester_collision_mode').perform(context)
     docking_camera = LaunchConfiguration('docking_camera').perform(context)
+    articulation_control_mode = LaunchConfiguration(
+        'articulation_control_mode').perform(context)
     dynamic_world_path = _dynamic_world_from_urdf(
         urdf_path, harvester_share, render_mode, harvester_collision_mode,
-        docking_camera)
+        docking_camera, articulation_control_mode)
     return [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gazebo_share / 'launch' / 'gazebo.launch.py')),
@@ -223,6 +237,7 @@ def generate_launch_description():
     camera_view_selector_script = harvester_share / 'scripts' / 'camera_view_selector.py'
     camera_lidar_projection_script = harvester_share / 'scripts' / 'camera_lidar_projection.py'
     range_calibration_script = harvester_share / 'scripts' / 'range_sensor_calibration.py'
+    cutter_range_marker_script = harvester_share / 'scripts' / 'cutter_range_marker.py'
     nominal_camera_lidar_calibration_file = (
         harvester_share / 'config' / 'camera_lidar_calibration.nominal.json')
     nominal_range_calibration_file = (
@@ -357,6 +372,11 @@ def generate_launch_description():
                 "Harvester contact geometry: 'off' (stable kinematic sensor "
                 "development default) or 'on' (future physics/controller work).")),
         DeclareLaunchArgument(
+            'articulation_control_mode', default_value='kinematic',
+            description=(
+                "Harvester joint control: 'kinematic' (safe, rate-limited 20 Hz "
+                "sensor-development default) or 'pid' (legacy diagnostic fallback).")),
+        DeclareLaunchArgument(
             'range_calibration', default_value='true',
             description=(
                 'Project the five raw Range streams into c_channel_reference and '
@@ -423,6 +443,13 @@ def generate_launch_description():
                 range_calibration_file, str(harvester_rviz_urdf_path),
             ],
             condition=IfCondition(range_calibration),
+            output='screen',
+        ),
+        # The cutter sensor crosses movable arm joints, so it gets its own
+        # frame-locked RViz marker rather than joining the five fixed docking
+        # sensors in range_calibration.py.
+        ExecuteProcess(
+            cmd=['python3', str(cutter_range_marker_script)],
             output='screen',
         ),
         # RViz requires the dynamic joint TF chain emitted after the joint GUI

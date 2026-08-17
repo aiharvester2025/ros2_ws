@@ -63,20 +63,32 @@ RangeSensorPanel::RangeSensorPanel(QWidget * parent)
   note->setStyleSheet("color: #9fa6ad; font-size: 10px;");
   layout->addWidget(note, 6, 0, 1, 2);
 
+  auto * cutter_title = new QLabel("CUTTER CLEARANCE", this);
+  cutter_title->setStyleSheet("font-weight: 700; color: #f0f0f0; margin-top: 8px;");
+  layout->addWidget(cutter_title, 7, 0, 1, 2);
+
+  auto * cutter_left_name = new QLabel("Cutting sensor", this);
+  cutter_left_name->setStyleSheet("color: #d5d5d5;");
+  layout->addWidget(cutter_left_name, 8, 0);
+  cutter_left_value_label_ = new QLabel("Waiting for data", this);
+  cutter_left_value_label_->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+  cutter_left_value_label_->setStyleSheet("font-weight: 600; color: #f2ad32;");
+  layout->addWidget(cutter_left_value_label_, 8, 1);
+
   auto * camera_title = new QLabel("CAMERA VIEW", this);
   camera_title->setStyleSheet("font-weight: 700; color: #f0f0f0; margin-top: 8px;");
-  layout->addWidget(camera_title, 7, 0, 1, 2);
+  layout->addWidget(camera_title, 9, 0, 1, 2);
 
   cutter_camera_button_ = new QPushButton("Cutter camera", this);
   cutter_camera_button_->setCheckable(true);
   docking_camera_button_ = new QPushButton("Docking camera", this);
   docking_camera_button_->setCheckable(true);
-  layout->addWidget(cutter_camera_button_, 8, 0);
-  layout->addWidget(docking_camera_button_, 8, 1);
+  layout->addWidget(cutter_camera_button_, 10, 0);
+  layout->addWidget(docking_camera_button_, 10, 1);
 
   camera_status_label_ = new QLabel("Selected: Cutter camera", this);
   camera_status_label_->setStyleSheet("color: #9fa6ad; font-size: 10px;");
-  layout->addWidget(camera_status_label_, 9, 0, 1, 2);
+  layout->addWidget(camera_status_label_, 11, 0, 1, 2);
 
   setStyleSheet(
     "RangeSensorPanel { background: #252a31; }"
@@ -90,6 +102,10 @@ RangeSensorPanel::RangeSensorPanel(QWidget * parent)
   connect(
     this, &RangeSensorPanel::readingReceived,
     this, &RangeSensorPanel::setReading,
+    Qt::QueuedConnection);
+  connect(
+    this, &RangeSensorPanel::cutterLeftReadingReceived,
+    this, &RangeSensorPanel::setCutterLeftReading,
     Qt::QueuedConnection);
   connect(
     cutter_camera_button_, &QPushButton::clicked,
@@ -112,6 +128,10 @@ void RangeSensorPanel::onInitialize()
       label->setText("RViz node unavailable");
       label->setStyleSheet("font-weight: 600; color: #ee6a5f;");
     }
+    if (cutter_left_value_label_ != nullptr) {
+      cutter_left_value_label_->setText("RViz node unavailable");
+      cutter_left_value_label_->setStyleSheet("font-weight: 600; color: #ee6a5f;");
+    }
     return;
   }
 
@@ -130,6 +150,13 @@ void RangeSensorPanel::onInitialize()
         Q_EMIT readingReceived(static_cast<int>(index), text, in_range);
       });
   }
+  cutter_left_subscription_ = node->create_subscription<sensor_msgs::msg::Range>(
+    "/harvester/cutting_tool_left_range", rclcpp::SensorDataQoS(),
+    [this](const sensor_msgs::msg::Range::SharedPtr message) {
+      bool in_range = false;
+      const auto text = formatReading(*message, in_range);
+      Q_EMIT cutterLeftReadingReceived(text, in_range);
+    });
   // Publish the default after the transient-local publisher exists, so a
   // selector started before or after RViz receives the same safe default.
   selectCutterCamera();
@@ -192,6 +219,17 @@ void RangeSensorPanel::setReading(int index, const QString & text, bool in_range
   }
   value_labels_[static_cast<std::size_t>(index)]->setText(text);
   value_labels_[static_cast<std::size_t>(index)]->setStyleSheet(
+    in_range ? "font-weight: 700; color: #7de39d;" :
+    "font-weight: 600; color: #b8c0c8;");
+}
+
+void RangeSensorPanel::setCutterLeftReading(const QString & text, bool in_range)
+{
+  if (cutter_left_value_label_ == nullptr) {
+    return;
+  }
+  cutter_left_value_label_->setText(text);
+  cutter_left_value_label_->setStyleSheet(
     in_range ? "font-weight: 700; color: #7de39d;" :
     "font-weight: 600; color: #b8c0c8;");
 }

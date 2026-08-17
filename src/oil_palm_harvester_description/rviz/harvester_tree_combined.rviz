@@ -63,6 +63,11 @@ Visualization Manager:
       Topic:
         Value: /harvester/docking/range_markers
       Enabled: true
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Cutter Range Ray
+      Topic:
+        Value: /harvester/cutter/range_markers
+      Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
       Enabled: true

@@ -551,6 +551,40 @@
     <origin xyz="0.46 0 0" rpy="0 0 0" />
   </joint>
   <!--
+    Cutter-attached left clearance sensor.  It is deliberately a child of
+    cutting_tool_link, so it follows the rail, lift, extension and cutter.
+    The sensor's local +X axis is its ray direction.  It is mounted on the
+    left side but faces forward, toward the trunk/cutter working direction.
+  -->
+  <link name="cutting_tool_left_range_sensor_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <!-- Keep this passive visualization/sensor link effectively massless
+           relative to the cutter.  It must not change arm dynamics. -->
+      <mass value="0.0100" />
+      <inertia ixx="0.0000076" ixy="0" ixz="0" iyy="0.0000119" iyz="0" izz="0.0000124" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://oil_palm_harvester_description/meshes/visual/range_sensor.stl" scale="1 1 1" />
+      </geometry>
+      <material name="sensor">
+        <color rgba="0.12 0.12 0.14 1" />
+      </material>
+    </visual>
+    <!-- No collision geometry: this is a passive simulated range sensor,
+         not a contact body, even when harvester_collision_mode:=on. -->
+  </link>
+  <joint name="cutting_tool_left_range_sensor_joint" type="fixed">
+    <parent link="cutting_tool_link" />
+    <child link="cutting_tool_left_range_sensor_link" />
+    <!-- Manual cutter-left adjustment: xyz/rpy are in cutting_tool_link.
+         x = forward/back, y = left/right, z = up/down.  yaw = 0 keeps the
+         beam forward along cutting_tool_link +X, toward the trunk. -->
+    <origin xyz="0.10 0.12 0.00" rpy="0 0 0" />
+  </joint>
+  <!--
     Compact sensor carrier fixed at the top centre of platform_mount_link.
     This preserves the established C-channel, boom, arm, camera, LiDAR and
     docking transforms.  +X points toward the trunk/C-channel opening.
@@ -999,6 +1033,24 @@
       <plugin name="right_side_range_ros" filename="libgazebo_ros_ray_sensor.so">
         <ros><namespace>/harvester</namespace><remapping>~/out:=right_side_range</remapping></ros>
         <output_type>sensor_msgs/Range</output_type><frame_name>right_side_range_sensor_link</frame_name>
+        <radiation_type>infrared</radiation_type><fov>0.03</fov>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!-- Cutter-attached side clearance sensor.  This stays outside the docking
+       calibration set because it crosses moving arm joints; consume its raw
+       Range topic in the dedicated CUTTER CLEARANCE panel row instead. -->
+  <gazebo reference="cutting_tool_left_range_sensor_link">
+    <sensor name="cutting_tool_left_range" type="ray">
+      <always_on>true</always_on><update_rate>20</update_rate><visualize>false</visualize>
+      <ray>
+        <scan><horizontal><samples>1</samples><resolution>1</resolution><min_angle>0</min_angle><max_angle>0</max_angle></horizontal></scan>
+        <range><min>0.05</min><max>3.0</max><resolution>0.002</resolution></range>
+        <noise><type>gaussian</type><mean>0.0</mean><stddev>0.003</stddev></noise>
+      </ray>
+      <plugin name="cutting_tool_left_range_ros" filename="libgazebo_ros_ray_sensor.so">
+        <ros><namespace>/harvester</namespace><remapping>~/out:=cutting_tool_left_range</remapping></ros>
+        <output_type>sensor_msgs/Range</output_type><frame_name>cutting_tool_left_range_sensor_link</frame_name>
         <radiation_type>infrared</radiation_type><fov>0.03</fov>
       </plugin>
     </sensor>
