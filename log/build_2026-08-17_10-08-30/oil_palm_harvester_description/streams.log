@@ -1,0 +1,97 @@
+[0.075s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[0.330s] [ 16%] Automatic MOC for target harvester_range_sensor_panel
+[0.441s] [ 50%] Built target harvester_kinematic_gazebo_plugin
+[1.056s] [ 50%] Built target harvester_range_sensor_panel_autogen
+[1.341s] Scanning dependencies of target harvester_range_sensor_panel
+[1.431s] [ 66%] Building CXX object CMakeFiles/harvester_range_sensor_panel.dir/harvester_range_sensor_panel_autogen/mocs_compilation.cpp.o
+[1.441s] [ 83%] Building CXX object CMakeFiles/harvester_range_sensor_panel.dir/src/range_sensor_panel.cpp.o
+[24.106s] [100%] Linking CXX shared library libharvester_range_sensor_panel.so
+[26.980s] [100%] Built target harvester_range_sensor_panel
+[27.029s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[27.086s] Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description
+[27.124s] -- Install configuration: ""
+[27.126s] -- Execute custom install script
+[27.128s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/range_sensor_panel_plugin.xml
+[27.131s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_estimated.urdf
+[27.132s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/urdf/oil_palm_harvester_kinematic.urdf
+[27.137s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/depth_camera_estimated.stl
+[27.138s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/lidar_mid360_estimated.stl
+[27.140s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/range_sensor.stl
+[27.141s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/collision/wheel.stl
+[27.143s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/mesh_inventory.csv
+[27.146s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_0.stl
+[27.146s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_1.stl
+[27.149s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_2.stl
+[27.149s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_3.stl
+[27.150s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_stage_4.stl
+[27.150s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/boom_turret.stl
+[27.150s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/c_channel_platform.stl
+[27.151s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_base.stl
+[27.151s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_arm_link.stl
+[27.152s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/cutting_tool.stl
+[27.155s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/depth_camera_estimated.stl
+[27.156s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/lidar_mid360_estimated.stl
+[27.158s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/platform_mount.stl
+[27.161s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/rail_carriage.stl
+[27.164s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/range_sensor.stl
+[27.166s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/vehicle_body.stl
+[27.167s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/meshes/visual/wheel.stl
+[27.169s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/display.launch.cpython-38.pyc
+[27.170s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/display_harvester_and_tree.launch.cpython-38.pyc
+[27.172s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/gazebo_docking.launch.cpython-38.pyc
+[27.172s] -- Symlinking: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/__pycache__/gazebo_harvester_and_tree.launch.cpython-38.pyc
+[27.203s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display.launch.py
+[27.204s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/display_harvester_and_tree.launch.py
+[27.211s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_docking.launch.py
+[27.212s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_docking_with_camera_view.launch.py
+[27.212s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/launch/gazebo_harvester_and_tree.launch.py
+[27.213s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/camera_lidar_calibration.deployment.template.json
+[27.213s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/camera_lidar_calibration.nominal.json
+[27.213s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/controllers.yaml
+[27.216s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/example_joint_positions.yaml
+[27.216s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/range_sensor_calibration.deployment.template.json
+[27.216s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/config/range_sensor_calibration.nominal.json
+[27.217s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds/docking.world
+[27.218s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/worlds/harvester_tree.world
+[27.218s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model/oil_palm_harvester/model.config
+[27.219s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model/oil_palm_harvester/model.sdf
+[27.222s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/database.config
+[27.222s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/local_placeholder/model.config
+[27.226s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/gazebo_model_database/local_placeholder/model.sdf
+[27.228s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/estimated_model_preview.png
+[27.229s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/preview/oil_palm_harvester_estimated.glb
+[27.230s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/harvester_camera_lidar.rviz
+[27.232s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/harvester_tree_combined.rviz
+[27.235s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/rviz/range_sensor_panel_plugin.xml
+[27.237s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/include/oil_palm_harvester_description/range_sensor_panel.hpp
+[27.239s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/lib/libharvester_kinematic_gazebo_plugin.so
+[27.240s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/lib/libharvester_range_sensor_panel.so
+[27.243s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/publish_urdf.py
+[27.244s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/gazebo_joint_state_bridge.py
+[27.246s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/gazebo_base_kinematic_controller.py
+[27.248s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/lidar_timestamp_bridge.py
+[27.249s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/camera_view_selector.py
+[27.251s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/camera_lidar_projection.py
+[27.252s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/range_sensor_label_publisher.py
+[27.252s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/range_sensor_calibration.py
+[27.252s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/validate_range_sensor_calibration.py
+[27.253s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/validate_camera_lidar_calibration.py
+[27.254s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/range_sensor_calibration_common.py
+[27.254s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/scripts/camera_lidar_calibration_common.py
+[27.257s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/package_run_dependencies/oil_palm_harvester_description
+[27.257s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/parent_prefix_path/oil_palm_harvester_description
+[27.258s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.sh
+[27.260s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/ament_prefix_path.dsv
+[27.260s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.sh
+[27.260s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/environment/path.dsv
+[27.261s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.bash
+[27.262s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.sh
+[27.264s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.zsh
+[27.268s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/local_setup.dsv
+[27.269s] -- Symlinking: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.dsv
+[27.310s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/packages/oil_palm_harvester_description
+[27.312s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/rviz_common__pluginlib__plugin/oil_palm_harvester_description
+[27.313s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig.cmake
+[27.315s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/cmake/oil_palm_harvester_descriptionConfig-version.cmake
+[27.318s] -- Up-to-date symlink: /home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.xml
+[27.329s] Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description

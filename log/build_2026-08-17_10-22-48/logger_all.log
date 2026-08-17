@@ -1,0 +1,160 @@
+[0.864s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'oil_palm_harvester_description', '--merge-install', '--symlink-install', '--event-handlers', 'console_direct+']
+[0.865s] DEBUG:colcon:Parsed command line arguments: Namespace(allow_overriding=[], ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=['console_direct+'], executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff870aa1c0>>, merge_install=True, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=['oil_palm_harvester_description'], packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=8, paths=None, symlink_install=True, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff870aa1c0>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0xffff86f588e0>)
+[1.504s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[1.505s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[1.506s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[1.507s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[1.507s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[1.508s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[1.508s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/ubuntu/ros2_ws'
+[1.509s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.510s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[1.510s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[1.511s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[1.511s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[1.512s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[1.512s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[1.512s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[1.513s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.565s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[1.566s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[1.566s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[1.567s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[1.567s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[1.568s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.569s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[1.569s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[1.570s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.571s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[1.571s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[1.572s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.573s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[1.573s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[1.575s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[1.576s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[1.576s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[1.576s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[1.577s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[1.577s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[1.578s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[1.578s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[1.578s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[1.579s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[1.579s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[1.580s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[1.580s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[1.580s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[1.582s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['ignore', 'ignore_ament_install']
+[1.583s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ignore'
+[1.583s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ignore_ament_install'
+[1.584s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['colcon_pkg']
+[1.584s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'colcon_pkg'
+[1.584s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['colcon_meta']
+[1.585s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'colcon_meta'
+[1.585s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['ros']
+[1.586s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ros'
+[1.598s] DEBUG:colcon.colcon_core.package_identification:Package 'src/oil_palm_harvester_description' with type 'ros.ament_cmake' and name 'oil_palm_harvester_description'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['ignore', 'ignore_ament_install']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ignore'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ignore_ament_install'
+[1.602s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['colcon_pkg']
+[1.602s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'colcon_pkg'
+[1.603s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['colcon_meta']
+[1.603s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'colcon_meta'
+[1.603s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['ros']
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ros'
+[1.606s] DEBUG:colcon.colcon_core.package_identification:Package 'src/oil_palm_tree_description' with type 'ros.catkin' and name 'oil_palm_tree_description'
+[1.607s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[1.608s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[1.608s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[1.608s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[1.608s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.671s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'oil_palm_tree_description' in 'src/oil_palm_tree_description'
+[1.673s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.673s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.687s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 286 installed packages in /opt/ros/foxy
+[1.697s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[2.018s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_args' from command line to 'None'
+[2.019s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_target' from command line to 'None'
+[2.019s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[2.020s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_clean_cache' from command line to 'False'
+[2.020s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_clean_first' from command line to 'False'
+[2.021s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'cmake_force_configure' from command line to 'False'
+[2.021s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'ament_cmake_args' from command line to 'None'
+[2.022s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'catkin_cmake_args' from command line to 'None'
+[2.022s] Level 5:colcon.colcon_core.verb:set package 'oil_palm_harvester_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[2.023s] DEBUG:colcon.colcon_core.verb:Building package 'oil_palm_harvester_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ubuntu/ros2_ws/install', 'merge_install': True, 'path': '/home/ubuntu/ros2_ws/src/oil_palm_harvester_description', 'symlink_install': True, 'test_result_base': None}
+[2.024s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[2.028s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[2.029s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/ubuntu/ros2_ws/src/oil_palm_harvester_description' with build type 'ament_cmake'
+[2.029s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/ubuntu/ros2_ws/src/oil_palm_harvester_description'
+[2.041s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[2.042s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.043s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.130s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy:/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) PKG_CONFIG_PATH=/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig ROS_PACKAGE_PATH=/home/ubuntu/ros2_ws/install/share /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[62.070s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy:/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) PKG_CONFIG_PATH=/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig ROS_PACKAGE_PATH=/home/ubuntu/ros2_ws/install/share /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_harvester_description -- -j8 -l8
+[62.128s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CMAKE_PREFIX_PATH=/opt/ros/foxy:/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) PKG_CONFIG_PATH=/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig ROS_PACKAGE_PATH=/home/ubuntu/ros2_ws/install/share /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description
+[92.096s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(oil_palm_harvester_description)
+[92.101s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy:/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) PKG_CONFIG_PATH=/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig ROS_PACKAGE_PATH=/home/ubuntu/ros2_ws/install/share /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_harvester_description
+[92.117s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake module files
+[92.120s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake config files
+[92.125s] Level 1:colcon.colcon_core.shell:create_environment_hook('oil_palm_harvester_description', 'cmake_prefix_path')
+[92.126s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.ps1'
+[92.132s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.dsv'
+[92.135s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.sh'
+[92.140s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib'
+[92.141s] Level 1:colcon.colcon_core.shell:create_environment_hook('oil_palm_harvester_description', 'ld_library_path_lib')
+[92.142s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.ps1'
+[92.145s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.dsv'
+[92.148s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.sh'
+[92.152s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[92.153s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/pkgconfig/oil_palm_harvester_description.pc'
+[92.154s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages'
+[92.156s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[92.163s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.ps1'
+[92.170s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.dsv'
+[92.174s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.sh'
+[92.180s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.bash'
+[92.188s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.zsh'
+[92.191s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ubuntu/ros2_ws/install/share/colcon-core/packages/oil_palm_harvester_description)
+[92.196s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(oil_palm_harvester_description)
+[92.197s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake module files
+[92.200s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake config files
+[92.205s] Level 1:colcon.colcon_core.shell:create_environment_hook('oil_palm_harvester_description', 'cmake_prefix_path')
+[92.206s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.ps1'
+[92.209s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.dsv'
+[92.211s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/cmake_prefix_path.sh'
+[92.215s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib'
+[92.215s] Level 1:colcon.colcon_core.shell:create_environment_hook('oil_palm_harvester_description', 'ld_library_path_lib')
+[92.216s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.ps1'
+[92.219s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.dsv'
+[92.222s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/hook/ld_library_path_lib.sh'
+[92.225s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[92.226s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/pkgconfig/oil_palm_harvester_description.pc'
+[92.228s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages'
+[92.230s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[92.233s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.ps1'
+[92.236s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.dsv'
+[92.239s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.sh'
+[92.241s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.bash'
+[92.243s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/oil_palm_harvester_description/package.zsh'
+[92.245s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ubuntu/ros2_ws/install/share/colcon-core/packages/oil_palm_harvester_description)
+[92.246s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[92.248s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[92.249s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[92.250s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[92.275s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[92.276s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[92.276s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[92.277s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.AccessDenied: Failed to connect to socket /run/user/1000/bus: Operation not permitted
+[92.277s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[92.279s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.ps1'
+[92.284s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ubuntu/ros2_ws/install/_local_setup_util_ps1.py'
+[92.289s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.ps1'
+[92.295s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.sh'
+[92.298s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ubuntu/ros2_ws/install/_local_setup_util_sh.py'
+[92.304s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.sh'
+[92.310s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.bash'
+[92.312s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.bash'
+[92.317s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.zsh'
+[92.323s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.zsh'

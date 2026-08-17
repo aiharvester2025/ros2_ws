@@ -130,7 +130,6 @@ void RangeSensorPanel::onInitialize()
         Q_EMIT readingReceived(static_cast<int>(index), text, in_range);
       });
   }
-
   // Publish the default after the transient-local publisher exists, so a
   // selector started before or after RViz receives the same safe default.
   selectCutterCamera();
