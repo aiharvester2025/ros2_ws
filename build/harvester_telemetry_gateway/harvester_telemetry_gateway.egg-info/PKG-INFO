@@ -1,0 +1,10 @@
+Metadata-Version: 1.2
+Name: harvester-telemetry-gateway
+Version: 0.1.0
+Summary: Read-only ROS 2 simulation telemetry gateway for canonical ZeroMQ v1.
+Home-page: UNKNOWN
+Maintainer: Oil Palm Harvester
+Maintainer-email: maintainer@example.com
+License: Apache-2.0
+Description: UNKNOWN
+Platform: UNKNOWN

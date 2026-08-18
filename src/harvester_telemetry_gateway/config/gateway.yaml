@@ -1,0 +1,25 @@
+harvester_telemetry_gateway:
+  ros__parameters:
+    # One PUB endpoint carries every v1/* channel; subscribers filter by the
+    # first multipart frame.  No Gazebo, RViz, TF, or command topic is changed.
+    pub_endpoint: "tcp://*:5590"
+    status_endpoint: "tcp://*:5600"
+    source_id: "xavier"
+    jpeg_quality: 85
+    queue_depth: 2
+    socket_hwm: 8
+    # Keep the Xavier workload bounded.  A stride of two is adequate for the
+    # initial 107x64 simulation cloud and can be set to one for validation.
+    lidar_stride: 2
+    lidar_roi.min_x: .nan
+    lidar_roi.max_x: .nan
+    lidar_roi.min_y: .nan
+    lidar_roi.max_y: .nan
+    lidar_roi.min_z: .nan
+    lidar_roi.max_z: .nan
+    cutter_calibration_id: "gazebo_nominal_camera_lidar_v1"
+    docking_calibration_id: "gazebo_nominal_docking_camera_v1"
+    range_calibration_id: "gazebo_nominal_c_channel_v1"
+    # Empty disables disk writes.  Set a dedicated audit directory to record
+    # the exact three-frame packets, for example /home/ubuntu/harvester_audits/run01.
+    record_dir: ""

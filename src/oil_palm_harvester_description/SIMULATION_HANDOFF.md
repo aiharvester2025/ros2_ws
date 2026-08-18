@@ -506,3 +506,26 @@ Read the two calibration contracts before changing camera/LiDAR or range
 calibration. Preserve the current Gazebo/RViz/GUI graph while adding any new
 perception feature.
 ```
+
+## 12. External canonical telemetry boundary
+
+The additive package `harvester_telemetry_gateway` reads the existing raw
+camera, LiDAR, range, trunk-estimate, and calibration topics and publishes
+canonical ZeroMQ v1 packets. It must stay read-only: no ROS publications, TF,
+Gazebo service calls, joint/base commands, or hardware-control messages.
+
+- The live Xavier PUB endpoint is `tcp://*:5590`; the read-only status REP
+  endpoint is `tcp://*:5600`.
+- `/harvester/lidar/raw_points` is the LiDAR input. Do not replace it with the
+  zero-stamped RViz display topic `/harvester/lidar/points`.
+- Sensor observations declare `ros_sim_time`. Gateway/status-only data uses
+  `utc_host` where no Gazebo measurement timestamp exists.
+- Recording is opt-in via `record_dir` and saves exact multipart packets for
+  dashboard development/audit; replay uses a separate endpoint (default 5591).
+- The future Orin adapter/dashboard is not part of this simulation package.
+  The real machine has no joint encoders, so hardware must not claim a
+  world-fixed clicked target without a separate validated pose source.
+
+Read [`../../docs/TELEMETRY_HANDOFF.md`](../../docs/TELEMETRY_HANDOFF.md) and
+[`../../docs/canonical_zmq_v1.md`](../../docs/canonical_zmq_v1.md) before
+changing telemetry sources, timestamps, recording, or the future Orin adapter.

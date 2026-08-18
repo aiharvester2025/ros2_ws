@@ -1,0 +1,241 @@
+[0.665s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'harvester_telemetry_contract', 'harvester_telemetry_gateway', '--merge-install', '--symlink-install']
+[0.666s] DEBUG:colcon:Parsed command line arguments: Namespace(allow_overriding=[], ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffffa9dff9a0>>, merge_install=True, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=['harvester_telemetry_contract', 'harvester_telemetry_gateway'], packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=8, paths=None, symlink_install=True, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffffa9dff9a0>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0xffffa9d2bfa0>)
+[1.189s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[1.189s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[1.189s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[1.190s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[1.190s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[1.190s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[1.190s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/ubuntu/ros2_ws'
+[1.191s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.191s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[1.191s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[1.191s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[1.192s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[1.192s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[1.192s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[1.192s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[1.192s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.234s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[1.235s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[1.235s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[1.235s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[1.235s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[1.236s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.237s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[1.237s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[1.238s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['ignore', 'ignore_ament_install']
+[1.238s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ignore'
+[1.238s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ignore_ament_install'
+[1.238s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['colcon_pkg']
+[1.238s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'colcon_pkg'
+[1.239s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['colcon_meta']
+[1.239s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'colcon_meta'
+[1.239s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['ros']
+[1.239s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'ros'
+[1.240s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['cmake', 'python']
+[1.240s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'cmake'
+[1.240s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'python'
+[1.240s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extensions ['python_setup_py']
+[1.240s] Level 1:colcon.colcon_core.package_identification:_identify(docs) by extension 'python_setup_py'
+[1.241s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.241s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[1.241s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[1.242s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.242s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[1.242s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[1.242s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[1.243s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[1.244s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[1.245s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[1.245s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extensions ['ignore', 'ignore_ament_install']
+[1.245s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extension 'ignore'
+[1.245s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extension 'ignore_ament_install'
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extensions ['colcon_pkg']
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extension 'colcon_pkg'
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extensions ['colcon_meta']
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extension 'colcon_meta'
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extensions ['ros']
+[1.246s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_contract) by extension 'ros'
+[1.255s] DEBUG:colcon.colcon_core.package_identification:Package 'src/harvester_telemetry_contract' with type 'ros.ament_python' and name 'harvester_telemetry_contract'
+[1.255s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extensions ['ignore', 'ignore_ament_install']
+[1.256s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extension 'ignore'
+[1.256s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extension 'ignore_ament_install'
+[1.256s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extensions ['colcon_pkg']
+[1.256s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extension 'colcon_pkg'
+[1.257s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extensions ['colcon_meta']
+[1.257s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extension 'colcon_meta'
+[1.257s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extensions ['ros']
+[1.257s] Level 1:colcon.colcon_core.package_identification:_identify(src/harvester_telemetry_gateway) by extension 'ros'
+[1.259s] DEBUG:colcon.colcon_core.package_identification:Package 'src/harvester_telemetry_gateway' with type 'ros.ament_python' and name 'harvester_telemetry_gateway'
+[1.260s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['ignore', 'ignore_ament_install']
+[1.260s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ignore'
+[1.260s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ignore_ament_install'
+[1.260s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['colcon_pkg']
+[1.260s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'colcon_pkg'
+[1.261s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['colcon_meta']
+[1.261s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'colcon_meta'
+[1.261s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extensions ['ros']
+[1.261s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_harvester_description) by extension 'ros'
+[1.265s] DEBUG:colcon.colcon_core.package_identification:Package 'src/oil_palm_harvester_description' with type 'ros.ament_cmake' and name 'oil_palm_harvester_description'
+[1.266s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['ignore', 'ignore_ament_install']
+[1.266s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ignore'
+[1.266s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ignore_ament_install'
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['colcon_pkg']
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'colcon_pkg'
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['colcon_meta']
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'colcon_meta'
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extensions ['ros']
+[1.267s] Level 1:colcon.colcon_core.package_identification:_identify(src/oil_palm_tree_description) by extension 'ros'
+[1.269s] DEBUG:colcon.colcon_core.package_identification:Package 'src/oil_palm_tree_description' with type 'ros.catkin' and name 'oil_palm_tree_description'
+[1.270s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[1.270s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[1.270s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[1.270s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[1.270s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.328s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'oil_palm_tree_description' in 'src/oil_palm_tree_description'
+[1.329s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'oil_palm_harvester_description' in 'src/oil_palm_harvester_description'
+[1.330s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.331s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.337s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 4 installed packages in /home/ubuntu/ros2_ws/install
+[1.343s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 286 installed packages in /opt/ros/foxy
+[1.380s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.597s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_args' from command line to 'None'
+[1.597s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_target' from command line to 'None'
+[1.597s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.597s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_clean_cache' from command line to 'False'
+[1.598s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_clean_first' from command line to 'False'
+[1.598s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'cmake_force_configure' from command line to 'False'
+[1.598s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'ament_cmake_args' from command line to 'None'
+[1.598s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'catkin_cmake_args' from command line to 'None'
+[1.598s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_contract' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.598s] DEBUG:colcon.colcon_core.verb:Building package 'harvester_telemetry_contract' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ubuntu/ros2_ws/install', 'merge_install': True, 'path': '/home/ubuntu/ros2_ws/src/harvester_telemetry_contract', 'symlink_install': True, 'test_result_base': None}
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_args' from command line to 'None'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_target' from command line to 'None'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_clean_cache' from command line to 'False'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_clean_first' from command line to 'False'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'cmake_force_configure' from command line to 'False'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'ament_cmake_args' from command line to 'None'
+[1.600s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'catkin_cmake_args' from command line to 'None'
+[1.601s] Level 5:colcon.colcon_core.verb:set package 'harvester_telemetry_gateway' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.601s] DEBUG:colcon.colcon_core.verb:Building package 'harvester_telemetry_gateway' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/ubuntu/ros2_ws/install', 'merge_install': True, 'path': '/home/ubuntu/ros2_ws/src/harvester_telemetry_gateway', 'symlink_install': True, 'test_result_base': None}
+[1.601s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[1.605s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[1.606s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ubuntu/ros2_ws/src/harvester_telemetry_contract' with build type 'ament_python'
+[1.606s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_contract', 'ament_prefix_path')
+[1.613s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.614s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ament_prefix_path.ps1'
+[1.616s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ament_prefix_path.dsv'
+[1.618s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ament_prefix_path.sh'
+[1.621s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.621s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.525s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ubuntu/ros2_ws/src/harvester_telemetry_contract'
+[2.528s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.528s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.876s] DEBUG:colcon.colcon_core.task.python.build:Available setuptools commands: flake8, alias, sdist, build_ext, develop, upload, register, build_py, build, egg_info, install_scripts, install_lib, install_egg_info, install_data, test, build_scripts, bdist_wininst, dist_info, install, bdist, install_headers, setopt, upload_docs, easy_install, rotate, check, saveopts, symlink_data, bdist_egg, bdist_wheel, build_clib, clean, bdist_rpm, bdist_dumb
+[4.727s] DEBUG:colcon.colcon_core.task.python.build:Available setuptools 'develop' options: --zip-ok, --force-installation-into-system-dir, --always-unzip, --install-layout, --script-dir, --user, --find-links, --help, --no-deps, --editable, --no-user-cfg, --install-dir, --record, --upgrade, --verbose, --prefix, --egg-path, --no-find-links, --always-copy, --version, --optimize, --dry-run, --site-dirs, --local-snapshots-ok, --quiet, --allow-hosts, --exclude-scripts, --build-directory, --uninstall, --index-url, --multi-version
+[4.768s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_contract/build --no-deps symlink_data
+[6.321s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_contract', 'pythonpath_develop')
+[6.325s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/share/harvester_telemetry_contract/hook/pythonpath_develop.ps1'
+[6.329s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_contract/build --no-deps symlink_data
+[6.332s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/share/harvester_telemetry_contract/hook/pythonpath_develop.dsv'
+[6.335s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/share/harvester_telemetry_contract/hook/pythonpath_develop.sh'
+[6.352s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake module files
+[6.353s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake config files
+[6.357s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_contract', 'cmake_prefix_path')
+[6.358s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/cmake_prefix_path.ps1'
+[6.360s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/cmake_prefix_path.dsv'
+[6.361s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/cmake_prefix_path.sh'
+[6.364s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib'
+[6.365s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_contract', 'ld_library_path_lib')
+[6.366s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ld_library_path_lib.ps1'
+[6.367s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ld_library_path_lib.dsv'
+[6.369s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/ld_library_path_lib.sh'
+[6.370s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[6.370s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/pkgconfig/harvester_telemetry_contract.pc'
+[6.371s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages'
+[6.372s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_contract', 'pythonpath')
+[6.372s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/pythonpath.ps1'
+[6.374s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/pythonpath.dsv'
+[6.376s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/hook/pythonpath.sh'
+[6.378s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[6.378s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(harvester_telemetry_contract)
+[6.380s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/package.ps1'
+[6.389s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/package.dsv'
+[6.392s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/package.sh'
+[6.396s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/package.bash'
+[6.399s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_contract/package.zsh'
+[6.402s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ubuntu/ros2_ws/install/share/colcon-core/packages/harvester_telemetry_contract)
+[6.405s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/ubuntu/ros2_ws/src/harvester_telemetry_gateway' with build type 'ament_python'
+[6.405s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_gateway', 'ament_prefix_path')
+[6.407s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ament_prefix_path.ps1'
+[6.410s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ament_prefix_path.dsv'
+[6.412s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ament_prefix_path.sh'
+[6.414s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[6.414s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[7.274s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/ubuntu/ros2_ws/src/harvester_telemetry_gateway'
+[7.277s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[7.277s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[8.601s] DEBUG:colcon.colcon_core.task.python.build:Available setuptools commands: flake8, alias, sdist, build_ext, develop, upload, register, build_py, build, egg_info, install_scripts, install_lib, install_egg_info, install_data, test, build_scripts, bdist_wininst, dist_info, install, bdist, install_headers, setopt, upload_docs, easy_install, rotate, check, saveopts, symlink_data, bdist_egg, bdist_wheel, build_clib, clean, bdist_rpm, bdist_dumb
+[9.447s] DEBUG:colcon.colcon_core.task.python.build:Available setuptools 'develop' options: --zip-ok, --force-installation-into-system-dir, --always-unzip, --install-layout, --script-dir, --user, --find-links, --help, --no-deps, --editable, --no-user-cfg, --install-dir, --record, --upgrade, --verbose, --prefix, --egg-path, --no-find-links, --always-copy, --version, --optimize, --dry-run, --site-dirs, --local-snapshots-ok, --quiet, --allow-hosts, --exclude-scripts, --build-directory, --uninstall, --index-url, --multi-version
+[9.471s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway': CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/ubuntu/ros2_ws/install/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:/usr/local/cuda-11.4/lib64 PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/build --no-deps symlink_data
+[11.031s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_gateway', 'pythonpath_develop')
+[11.035s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/share/harvester_telemetry_gateway/hook/pythonpath_develop.ps1'
+[11.040s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway' returned '0': CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/ubuntu/ros2_ws/install/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:/usr/local/cuda-11.4/lib64 PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/build --no-deps symlink_data
+[11.047s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/share/harvester_telemetry_gateway/hook/pythonpath_develop.dsv'
+[11.051s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/share/harvester_telemetry_gateway/hook/pythonpath_develop.sh'
+[11.058s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake module files
+[11.062s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install' for CMake config files
+[11.067s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_gateway', 'cmake_prefix_path')
+[11.069s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/cmake_prefix_path.ps1'
+[11.072s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/cmake_prefix_path.dsv'
+[11.075s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/cmake_prefix_path.sh'
+[11.081s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib'
+[11.082s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_gateway', 'ld_library_path_lib')
+[11.083s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ld_library_path_lib.ps1'
+[11.086s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ld_library_path_lib.dsv'
+[11.087s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/ld_library_path_lib.sh'
+[11.089s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[11.089s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/pkgconfig/harvester_telemetry_gateway.pc'
+[11.090s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages'
+[11.091s] Level 1:colcon.colcon_core.shell:create_environment_hook('harvester_telemetry_gateway', 'pythonpath')
+[11.091s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/pythonpath.ps1'
+[11.094s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/pythonpath.dsv'
+[11.095s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/hook/pythonpath.sh'
+[11.097s] Level 1:colcon.colcon_core.environment:checking '/home/ubuntu/ros2_ws/install/bin'
+[11.098s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(harvester_telemetry_gateway)
+[11.099s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/package.ps1'
+[11.103s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/package.dsv'
+[11.105s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/package.sh'
+[11.107s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/package.bash'
+[11.109s] INFO:colcon.colcon_core.shell:Creating package script '/home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/package.zsh'
+[11.110s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/ubuntu/ros2_ws/install/share/colcon-core/packages/harvester_telemetry_gateway)
+[11.111s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[11.113s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[11.114s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[11.115s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[11.144s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[11.144s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[11.145s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[11.217s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[11.219s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.ps1'
+[11.222s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ubuntu/ros2_ws/install/_local_setup_util_ps1.py'
+[11.227s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.ps1'
+[11.231s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.sh'
+[11.233s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/ubuntu/ros2_ws/install/_local_setup_util_sh.py'
+[11.236s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.sh'
+[11.240s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.bash'
+[11.242s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.bash'
+[11.246s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/ubuntu/ros2_ws/install/local_setup.zsh'
+[11.248s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/ubuntu/ros2_ws/install/setup.zsh'

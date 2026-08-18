@@ -1,0 +1,15 @@
+[63.320s] Invoking command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_contract/build --no-deps symlink_data
+[64.472s] running develop
+[65.145s] running egg_info
+[65.147s] writing harvester_telemetry_contract.egg-info/PKG-INFO
+[65.148s] writing dependency_links to harvester_telemetry_contract.egg-info/dependency_links.txt
+[65.149s] writing requirements to harvester_telemetry_contract.egg-info/requires.txt
+[65.149s] writing top-level names to harvester_telemetry_contract.egg-info/top_level.txt
+[65.274s] reading manifest file 'harvester_telemetry_contract.egg-info/SOURCES.txt'
+[65.278s] writing manifest file 'harvester_telemetry_contract.egg-info/SOURCES.txt'
+[65.461s] running build_ext
+[65.462s] Creating /home/ubuntu/ros2_ws/install/lib/python3.8/site-packages/harvester-telemetry-contract.egg-link (link to .)
+[65.470s] 
+[65.470s] Installed /home/ubuntu/ros2_ws/build/harvester_telemetry_contract
+[65.471s] running symlink_data
+[65.583s] Invoked command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_contract/build --no-deps symlink_data

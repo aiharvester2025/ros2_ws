@@ -1,0 +1,25 @@
+[2.748s] Invoking command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway': AMENT_PREFIX_PATH=/home/ubuntu/ros2_ws/install CMAKE_PREFIX_PATH=/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/ubuntu/ros2_ws/install/lib:/usr/local/cuda-11.4/lib64 PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/build --no-deps symlink_data
+[3.452s] running develop
+[3.795s] running egg_info
+[3.796s] creating harvester_telemetry_gateway.egg-info
+[3.797s] writing harvester_telemetry_gateway.egg-info/PKG-INFO
+[3.799s] writing dependency_links to harvester_telemetry_gateway.egg-info/dependency_links.txt
+[3.800s] writing entry points to harvester_telemetry_gateway.egg-info/entry_points.txt
+[3.801s] writing requirements to harvester_telemetry_gateway.egg-info/requires.txt
+[3.802s] writing top-level names to harvester_telemetry_gateway.egg-info/top_level.txt
+[3.803s] writing manifest file 'harvester_telemetry_gateway.egg-info/SOURCES.txt'
+[3.898s] reading manifest file 'harvester_telemetry_gateway.egg-info/SOURCES.txt'
+[3.900s] writing manifest file 'harvester_telemetry_gateway.egg-info/SOURCES.txt'
+[4.027s] running build_ext
+[4.028s] Creating /home/ubuntu/ros2_ws/install/lib/python3.8/site-packages/harvester-telemetry-gateway.egg-link (link to .)
+[4.030s] Installing gateway_node script to /home/ubuntu/ros2_ws/install/lib/harvester_telemetry_gateway
+[4.033s] 
+[4.034s] Installed /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway
+[4.034s] running symlink_data
+[4.035s] symbolically linking /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/resource/harvester_telemetry_gateway -> /home/ubuntu/ros2_ws/install/share/ament_index/resource_index/packages
+[4.035s] symbolically linking /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/package.xml -> /home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway
+[4.035s] creating /home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/launch
+[4.036s] symbolically linking /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/launch/gateway.launch.py -> /home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/launch
+[4.036s] creating /home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/config
+[4.037s] symbolically linking /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/config/gateway.yaml -> /home/ubuntu/ros2_ws/install/share/harvester_telemetry_gateway/config
+[4.123s] Invoked command in '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway' returned '0': AMENT_PREFIX_PATH=/home/ubuntu/ros2_ws/install CMAKE_PREFIX_PATH=/home/ubuntu/ros2_ws/install CONDA_PROMPT_MODIFIER=(base) LD_LIBRARY_PATH=/home/ubuntu/ros2_ws/install/lib:/usr/local/cuda-11.4/lib64 PYTHONPATH=/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/build --no-deps symlink_data

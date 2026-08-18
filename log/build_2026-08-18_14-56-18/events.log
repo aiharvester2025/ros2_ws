@@ -1,0 +1,133 @@
+[0.000000] (-) TimerEvent: {}
+[0.001015] (-) JobUnselected: {'identifier': 'oil_palm_harvester_description'}
+[0.002049] (-) JobUnselected: {'identifier': 'oil_palm_tree_description'}
+[0.002576] (harvester_telemetry_contract) JobQueued: {'identifier': 'harvester_telemetry_contract', 'dependencies': OrderedDict()}
+[0.002980] (harvester_telemetry_gateway) JobQueued: {'identifier': 'harvester_telemetry_gateway', 'dependencies': OrderedDict([('harvester_telemetry_contract', '/home/ubuntu/ros2_ws/install')])}
+[0.003213] (harvester_telemetry_contract) JobStarted: {'identifier': 'harvester_telemetry_contract'}
+[0.099691] (-) TimerEvent: {}
+[0.201506] (-) TimerEvent: {}
+[0.302355] (-) TimerEvent: {}
+[0.403350] (-) TimerEvent: {}
+[0.504911] (-) TimerEvent: {}
+[0.606400] (-) TimerEvent: {}
+[0.707628] (-) TimerEvent: {}
+[0.808419] (-) TimerEvent: {}
+[0.909170] (-) TimerEvent: {}
+[1.010439] (-) TimerEvent: {}
+[1.111942] (-) TimerEvent: {}
+[1.212782] (-) TimerEvent: {}
+[1.313589] (-) TimerEvent: {}
+[1.414379] (-) TimerEvent: {}
+[1.515204] (-) TimerEvent: {}
+[1.616099] (-) TimerEvent: {}
+[1.717285] (-) TimerEvent: {}
+[1.818376] (-) TimerEvent: {}
+[1.919133] (-) TimerEvent: {}
+[2.019873] (-) TimerEvent: {}
+[2.120791] (-) TimerEvent: {}
+[2.221636] (-) TimerEvent: {}
+[2.322930] (-) TimerEvent: {}
+[2.424524] (-) TimerEvent: {}
+[2.525376] (-) TimerEvent: {}
+[2.626168] (-) TimerEvent: {}
+[2.726966] (-) TimerEvent: {}
+[2.827684] (-) TimerEvent: {}
+[2.928525] (-) TimerEvent: {}
+[3.029274] (-) TimerEvent: {}
+[3.131049] (harvester_telemetry_contract) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/build', '--no-deps', 'symlink_data'], 'cwd': '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': '(base)', 'USER': 'ubuntu', 'SSH_AGENT_PID': '3099', 'ROS_PACKAGE_PATH': '/home/ubuntu/ros2_ws/install/share', 'XDG_SESSION_TYPE': 'x11', 'GIT_ASKPASS': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/home/ubuntu/ros2_ws/install/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:/usr/local/cuda-11.4/lib64:', 'BROWSER': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/helpers/browser.sh', 'HOME': '/home/ubuntu', 'CONDA_SHLVL': '1', 'OLDPWD': '/home/ubuntu/ros2_ws', 'TERM_PROGRAM_VERSION': '1.133.0', 'DESKTOP_SESSION': 'ubuntu', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-d53fdf42-8908-4ec1-a2b5-9882da6a8d5c.sock', 'JETSON_L4T': '35.2.1', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GRADLE_HOME': '/home/ubuntu/.sdkman/candidates/gradle/current', 'GTK_MODULES': 'gail:atk-bridge', 'JETSON_MODEL': 'Jetson-AGX', 'VSCODE_GIT_ASKPASS_MAIN': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/node', 'MANAGERPID': '2949', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', '_CE_M': '', 'IM_CONFIG_PHASE': '1', 'COLCON_PREFIX_PATH': '/home/ubuntu/ros2_ws/install', 'ROS_DISTRO': 'foxy', 'LOGNAME': 'ubuntu', 'JETSON_MODULE': 'NVIDIA Jetson AGX Xavier (32 GB ram)', 'JETSON_SERIAL_NUMBER': '0420419029811', 'SDKMAN_CANDIDATES_API': 'https://api.sdkman.io/2', 'JOURNAL_STREAM': '7:60638', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'PKG_CONFIG_PATH': '/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig', 'JETSON_CODENAME': 'Galen', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ubuntu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', '_CE_CONDA': '', 'ROS_LOCALHOST_ONLY': '0', 'WINDOWPATH': '2', 'PATH': '/opt/ros/foxy/bin:/usr/local/cuda-11.4/bin:/home/ubuntu/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/ubuntu/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli:/home/ubuntu/anaconda3/bin:/home/ubuntu/anaconda3/condabin:/home/ubuntu/.sdkman/candidates/gradle/current/bin:/usr/local/cuda-11.4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'SESSION_MANAGER': 'local/ubuntu:@/tmp/.ICE-unix/3170,unix/ubuntu:/tmp/.ICE-unix/3170', 'SDKMAN_CANDIDATES_DIR': '/home/ubuntu/.sdkman/candidates', 'INVOCATION_ID': '87c791e0480542ca8c65698665031d7d', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/1240df8c_477f_4881_a606_3903641109ff', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'JETSON_SOC': 'tegra194', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-a97a175e6a.sock', 'GNOME_TERMINAL_SERVICE': ':1.87', 'SDKMAN_DIR': '/home/ubuntu/.sdkman', 'SDKMAN_PLATFORM': 'linuxarm64', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/ubuntu/ros2_ws/install:/opt/ros/foxy', 'CONDA_PYTHON_EXE': '/home/ubuntu/anaconda3/bin/python', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CONDA_DEFAULT_ENV': 'base', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'QT_IM_MODULE': 'ibus', 'JETSON_CUDA_ARCH_BIN': '7.2', 'PWD': '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'COPILOT_DEBUG_NONCE': 'eddf13cb0c285159cc99d2b6ca4e468f', 'CONDA_EXE': '/home/ubuntu/anaconda3/bin/conda', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/home/ubuntu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ubuntu/ros2_ws/build/harvester_telemetry_contract/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages', 'CONDA_PREFIX': '/home/ubuntu/anaconda3', 'COLCON': '1', 'VTE_VERSION': '6003', 'JETSON_JETPACK': '5.1', 'CMAKE_PREFIX_PATH': '/home/ubuntu/ros2_ws/install', 'JETSON_P_NUMBER': 'p2888-0004'}, 'shell': False}
+[3.167631] (-) TimerEvent: {}
+[3.268909] (-) TimerEvent: {}
+[3.369698] (-) TimerEvent: {}
+[3.470520] (-) TimerEvent: {}
+[3.571332] (-) TimerEvent: {}
+[3.672204] (-) TimerEvent: {}
+[3.773018] (-) TimerEvent: {}
+[3.873748] (-) TimerEvent: {}
+[3.943802] (harvester_telemetry_contract) StdoutLine: {'line': b'running develop\n'}
+[3.973895] (-) TimerEvent: {}
+[4.074680] (-) TimerEvent: {}
+[4.175457] (-) TimerEvent: {}
+[4.276300] (-) TimerEvent: {}
+[4.377054] (-) TimerEvent: {}
+[4.385085] (harvester_telemetry_contract) StdoutLine: {'line': b'running egg_info\n'}
+[4.386100] (harvester_telemetry_contract) StdoutLine: {'line': b'writing harvester_telemetry_contract.egg-info/PKG-INFO\n'}
+[4.387364] (harvester_telemetry_contract) StdoutLine: {'line': b'writing dependency_links to harvester_telemetry_contract.egg-info/dependency_links.txt\n'}
+[4.388021] (harvester_telemetry_contract) StdoutLine: {'line': b'writing requirements to harvester_telemetry_contract.egg-info/requires.txt\n'}
+[4.388525] (harvester_telemetry_contract) StdoutLine: {'line': b'writing top-level names to harvester_telemetry_contract.egg-info/top_level.txt\n'}
+[4.477250] (-) TimerEvent: {}
+[4.498673] (harvester_telemetry_contract) StdoutLine: {'line': b"reading manifest file 'harvester_telemetry_contract.egg-info/SOURCES.txt'\n"}
+[4.501473] (harvester_telemetry_contract) StdoutLine: {'line': b"writing manifest file 'harvester_telemetry_contract.egg-info/SOURCES.txt'\n"}
+[4.577415] (-) TimerEvent: {}
+[4.623002] (harvester_telemetry_contract) StdoutLine: {'line': b'running build_ext\n'}
+[4.624228] (harvester_telemetry_contract) StdoutLine: {'line': b'Creating /home/ubuntu/ros2_ws/install/lib/python3.8/site-packages/harvester-telemetry-contract.egg-link (link to .)\n'}
+[4.627072] (harvester_telemetry_contract) StdoutLine: {'line': b'\n'}
+[4.627572] (harvester_telemetry_contract) StdoutLine: {'line': b'Installed /home/ubuntu/ros2_ws/build/harvester_telemetry_contract\n'}
+[4.627948] (harvester_telemetry_contract) StdoutLine: {'line': b'running symlink_data\n'}
+[4.677621] (-) TimerEvent: {}
+[4.717550] (harvester_telemetry_contract) CommandEnded: {'returncode': 0}
+[4.782938] (-) TimerEvent: {}
+[4.800790] (harvester_telemetry_contract) JobEnded: {'identifier': 'harvester_telemetry_contract', 'rc': 0}
+[4.805497] (harvester_telemetry_gateway) JobStarted: {'identifier': 'harvester_telemetry_gateway'}
+[4.883762] (-) TimerEvent: {}
+[4.985585] (-) TimerEvent: {}
+[5.086421] (-) TimerEvent: {}
+[5.187189] (-) TimerEvent: {}
+[5.288203] (-) TimerEvent: {}
+[5.389007] (-) TimerEvent: {}
+[5.489890] (-) TimerEvent: {}
+[5.590754] (-) TimerEvent: {}
+[5.694064] (-) TimerEvent: {}
+[5.796402] (-) TimerEvent: {}
+[5.897953] (-) TimerEvent: {}
+[5.998770] (-) TimerEvent: {}
+[6.099553] (-) TimerEvent: {}
+[6.200424] (-) TimerEvent: {}
+[6.301251] (-) TimerEvent: {}
+[6.402054] (-) TimerEvent: {}
+[6.502859] (-) TimerEvent: {}
+[6.603761] (-) TimerEvent: {}
+[6.704517] (-) TimerEvent: {}
+[6.805293] (-) TimerEvent: {}
+[6.906136] (-) TimerEvent: {}
+[7.008859] (-) TimerEvent: {}
+[7.113849] (-) TimerEvent: {}
+[7.214654] (-) TimerEvent: {}
+[7.315412] (-) TimerEvent: {}
+[7.416234] (-) TimerEvent: {}
+[7.517007] (-) TimerEvent: {}
+[7.617782] (-) TimerEvent: {}
+[7.718539] (-) TimerEvent: {}
+[7.819366] (-) TimerEvent: {}
+[7.855755] (harvester_telemetry_gateway) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/build', '--no-deps', 'symlink_data'], 'cwd': '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': '(base)', 'USER': 'ubuntu', 'SSH_AGENT_PID': '3099', 'ROS_PACKAGE_PATH': '/home/ubuntu/ros2_ws/install/share', 'XDG_SESSION_TYPE': 'x11', 'GIT_ASKPASS': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/home/ubuntu/ros2_ws/install/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:/usr/local/cuda-11.4/lib64', 'BROWSER': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/helpers/browser.sh', 'HOME': '/home/ubuntu', 'CONDA_SHLVL': '1', 'OLDPWD': '/home/ubuntu/ros2_ws', 'TERM_PROGRAM_VERSION': '1.133.0', 'DESKTOP_SESSION': 'ubuntu', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-d53fdf42-8908-4ec1-a2b5-9882da6a8d5c.sock', 'JETSON_L4T': '35.2.1', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GRADLE_HOME': '/home/ubuntu/.sdkman/candidates/gradle/current', 'GTK_MODULES': 'gail:atk-bridge', 'JETSON_MODEL': 'Jetson-AGX', 'VSCODE_GIT_ASKPASS_MAIN': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/node', 'MANAGERPID': '2949', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', '_CE_M': '', 'IM_CONFIG_PHASE': '1', 'COLCON_PREFIX_PATH': '/home/ubuntu/ros2_ws/install', 'ROS_DISTRO': 'foxy', 'LOGNAME': 'ubuntu', 'JETSON_MODULE': 'NVIDIA Jetson AGX Xavier (32 GB ram)', 'JETSON_SERIAL_NUMBER': '0420419029811', 'SDKMAN_CANDIDATES_API': 'https://api.sdkman.io/2', 'JOURNAL_STREAM': '7:60638', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'PKG_CONFIG_PATH': '/home/ubuntu/ros2_ws/install/lib/aarch64-linux-gnu/pkgconfig:/home/ubuntu/ros2_ws/install/lib/pkgconfig', 'JETSON_CODENAME': 'Galen', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ubuntu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', '_CE_CONDA': '', 'ROS_LOCALHOST_ONLY': '0', 'WINDOWPATH': '2', 'PATH': '/opt/ros/foxy/bin:/usr/local/cuda-11.4/bin:/home/ubuntu/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/ubuntu/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/ubuntu/.vscode/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli:/home/ubuntu/anaconda3/bin:/home/ubuntu/anaconda3/condabin:/home/ubuntu/.sdkman/candidates/gradle/current/bin:/usr/local/cuda-11.4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'SESSION_MANAGER': 'local/ubuntu:@/tmp/.ICE-unix/3170,unix/ubuntu:/tmp/.ICE-unix/3170', 'SDKMAN_CANDIDATES_DIR': '/home/ubuntu/.sdkman/candidates', 'INVOCATION_ID': '87c791e0480542ca8c65698665031d7d', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/1240df8c_477f_4881_a606_3903641109ff', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'JETSON_SOC': 'tegra194', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-a97a175e6a.sock', 'GNOME_TERMINAL_SERVICE': ':1.87', 'SDKMAN_DIR': '/home/ubuntu/.sdkman', 'SDKMAN_PLATFORM': 'linuxarm64', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/ubuntu/ros2_ws/install:/opt/ros/foxy', 'CONDA_PYTHON_EXE': '/home/ubuntu/anaconda3/bin/python', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CONDA_DEFAULT_ENV': 'base', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'QT_IM_MODULE': 'ibus', 'JETSON_CUDA_ARCH_BIN': '7.2', 'PWD': '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'COPILOT_DEBUG_NONCE': 'eddf13cb0c285159cc99d2b6ca4e468f', 'CONDA_EXE': '/home/ubuntu/anaconda3/bin/conda', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/home/ubuntu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_contract:/home/ubuntu/ros2_ws/install/lib/python3.8/site-packages:/home/ubuntu/ros2_ws/build/harvester_telemetry_gateway:/opt/ros/foxy/lib/python3.8/site-packages', 'CONDA_PREFIX': '/home/ubuntu/anaconda3', 'COLCON': '1', 'VTE_VERSION': '6003', 'JETSON_JETPACK': '5.1', 'CMAKE_PREFIX_PATH': '/home/ubuntu/ros2_ws/install', 'JETSON_P_NUMBER': 'p2888-0004'}, 'shell': False}
+[7.919567] (-) TimerEvent: {}
+[8.020905] (-) TimerEvent: {}
+[8.121923] (-) TimerEvent: {}
+[8.222920] (-) TimerEvent: {}
+[8.323905] (-) TimerEvent: {}
+[8.424848] (-) TimerEvent: {}
+[8.525585] (-) TimerEvent: {}
+[8.626325] (-) TimerEvent: {}
+[8.646442] (harvester_telemetry_gateway) StdoutLine: {'line': b'running develop\n'}
+[8.726512] (-) TimerEvent: {}
+[8.827213] (-) TimerEvent: {}
+[8.927958] (-) TimerEvent: {}
+[9.028757] (-) TimerEvent: {}
+[9.101737] (harvester_telemetry_gateway) StdoutLine: {'line': b'running egg_info\n'}
+[9.102545] (harvester_telemetry_gateway) StdoutLine: {'line': b'writing harvester_telemetry_gateway.egg-info/PKG-INFO\n'}
+[9.103136] (harvester_telemetry_gateway) StdoutLine: {'line': b'writing dependency_links to harvester_telemetry_gateway.egg-info/dependency_links.txt\n'}
+[9.104011] (harvester_telemetry_gateway) StdoutLine: {'line': b'writing requirements to harvester_telemetry_gateway.egg-info/requires.txt\n'}
+[9.104621] (harvester_telemetry_gateway) StdoutLine: {'line': b'writing top-level names to harvester_telemetry_gateway.egg-info/top_level.txt\n'}
+[9.128914] (-) TimerEvent: {}
+[9.209006] (harvester_telemetry_gateway) StdoutLine: {'line': b"reading manifest file 'harvester_telemetry_gateway.egg-info/SOURCES.txt'\n"}
+[9.212173] (harvester_telemetry_gateway) StdoutLine: {'line': b"writing manifest file 'harvester_telemetry_gateway.egg-info/SOURCES.txt'\n"}
+[9.229080] (-) TimerEvent: {}
+[9.329813] (-) TimerEvent: {}
+[9.337140] (harvester_telemetry_gateway) StdoutLine: {'line': b'running build_ext\n'}
+[9.338297] (harvester_telemetry_gateway) StdoutLine: {'line': b'Creating /home/ubuntu/ros2_ws/install/lib/python3.8/site-packages/harvester-telemetry-gateway.egg-link (link to .)\n'}
+[9.341174] (harvester_telemetry_gateway) StdoutLine: {'line': b'\n'}
+[9.341862] (harvester_telemetry_gateway) StdoutLine: {'line': b'Installed /home/ubuntu/ros2_ws/build/harvester_telemetry_gateway\n'}
+[9.342318] (harvester_telemetry_gateway) StdoutLine: {'line': b'running symlink_data\n'}
+[9.427333] (harvester_telemetry_gateway) CommandEnded: {'returncode': 0}
+[9.436499] (-) TimerEvent: {}
+[9.507917] (harvester_telemetry_gateway) JobEnded: {'identifier': 'harvester_telemetry_gateway', 'rc': 0}
+[9.511450] (-) EventReactorShutdown: {}

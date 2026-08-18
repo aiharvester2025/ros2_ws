@@ -27,6 +27,9 @@ Read [SIMULATION_HANDOFF.md](SIMULATION_HANDOFF.md) before changing the
 launch, TF tree, sensor mounts, or controller path. The calibration contracts
 are [CALIBRATION_FRAME_CONTRACT.md](CALIBRATION_FRAME_CONTRACT.md) and
 [CAMERA_LIDAR_CALIBRATION_CONTRACT.md](CAMERA_LIDAR_CALIBRATION_CONTRACT.md).
+The additive external-observation layer is documented in
+[`../../docs/TELEMETRY_HANDOFF.md`](../../docs/TELEMETRY_HANDOFF.md). It reads
+existing sensor topics only; it does not alter the Gazebo/RViz control path.
 
 ## Build
 

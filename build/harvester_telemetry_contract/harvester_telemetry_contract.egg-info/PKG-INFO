@@ -1,0 +1,10 @@
+Metadata-Version: 1.2
+Name: harvester-telemetry-contract
+Version: 0.1.0
+Summary: Canonical ZeroMQ telemetry v1 packing and validation helpers.
+Home-page: UNKNOWN
+Maintainer: Oil Palm Harvester
+Maintainer-email: maintainer@example.com
+License: Apache-2.0
+Description: UNKNOWN
+Platform: UNKNOWN

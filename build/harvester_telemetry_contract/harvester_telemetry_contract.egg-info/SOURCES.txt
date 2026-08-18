@@ -1,0 +1,12 @@
+package.xml
+setup.cfg
+setup.py
+harvester_telemetry_contract/__init__.py
+harvester_telemetry_contract/protocol.py
+harvester_telemetry_contract.egg-info/PKG-INFO
+harvester_telemetry_contract.egg-info/SOURCES.txt
+harvester_telemetry_contract.egg-info/dependency_links.txt
+harvester_telemetry_contract.egg-info/requires.txt
+harvester_telemetry_contract.egg-info/top_level.txt
+harvester_telemetry_contract.egg-info/zip-safe
+resource/harvester_telemetry_contract
