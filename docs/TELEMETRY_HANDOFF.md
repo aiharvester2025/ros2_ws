@@ -36,9 +36,31 @@ Implemented on Xavier:
 Not implemented yet:
 
 - Orin hardware adapter/aggregator.
-- Qt Quick dashboard and decoder layer.
 - Timestamp-correct pose exporter and world-fixed click target.
 - Any hardware calibration, localization, encoder feedback, or robot actuation.
+
+Implemented since (dashboard v1 on Xavier):
+
+- `src/harvester_dashboard/`: source-agnostic Qt Quick operator dashboard
+  (system `/usr/bin/python3`, PySide2 5.14 QtQuick 2 primitives, zero ROS
+  imports).  Renders every canonical channel from the live gateway, the
+  replay publisher, or the future Orin aggregator unchanged.
+- View-only semantics enforced and wire-tested: keys `1`/`2` switch the
+  rendered camera only; no socket traffic is emitted.  The dashboard's
+  only sockets are one SUB to `--pub`, an optional read-only REQ to
+  `--status` (disabled with `--status ''`), and an optional
+  default-disabled annotation PUB (`--annotation-pub`, suggested
+  `tcp://127.0.0.1:5592`) publishing `v1/operator/target_selection`.
+- Camera-relative click annotation with depth validation ("NO DEPTH"
+  toast and no annotation when depth is invalid), crosshair overlay,
+  `0`/`Esc` clear; `tree_base_xyz` stays null (never claims world-fixed).
+- JPEG/depth/LiDAR decoding per header metadata; H.264/H.265 are clear
+  stub errors awaiting the Jetson decoder.  Freshness from local receipt
+  monotonic time (red after 2 s silence); SIMULATION/HARDWARE/MIXED
+  source badge; stream rows with ages, sequence gaps, drops, and decode
+  errors; docking/cutter ranges, trunk estimate, calibration status.
+- Maintenance stream controls exist in the UI but stay hidden unless the
+  status REP reports hardware mode; no control endpoint is contacted.
 
 The real human-operated harvester has no joint encoders. Do not claim a
 world/tree-fixed target on hardware without a separately validated pose source.
@@ -53,6 +75,7 @@ world/tree-fixed target on hardware without a separately validated pose source.
 | `src/harvester_telemetry_gateway/harvester_telemetry_gateway/recording.py` | Exact three-frame MessagePack audit recorder. |
 | `src/harvester_telemetry_gateway/harvester_telemetry_gateway/replay.py` | Replay publisher; default endpoint is `tcp://*:5591`. |
 | `src/harvester_telemetry_gateway/config/gateway.yaml` | Xavier endpoint, image quality, LiDAR reduction, and recording configuration. |
+| `src/harvester_dashboard/` | Source-agnostic view-only Qt Quick dashboard (see its README for run/test commands). |
 | `.kilo/plans/1787018525986-canonical-telemetry-dashboard-plan.md` | Forward plan for the Orin adapter and dashboard. |
 
 ## Canonical source mapping
@@ -154,6 +177,22 @@ python3 -m harvester_telemetry_gateway.replay \
 The replay endpoint is intentionally separate from the live `5590` endpoint.
 The dashboard chooses either Xavier live data, replay data, or future local
 Orin hardware data; it must not assume that mixed sources have comparable time.
+
+Run the dashboard against replay (no ROS environment needed; system Python
+with the PySide2/QtQuick apt packages installed):
+
+```bash
+DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+  /usr/bin/python3 -m harvester_dashboard.main --pub tcp://127.0.0.1:5591 --status ''
+```
+
+Against the live gateway, point `--pub tcp://127.0.0.1:5590 --status
+tcp://127.0.0.1:5600`.  Dashboard tests:
+
+```bash
+PYTHONPATH=src/harvester_dashboard \
+  /usr/bin/python3 -m unittest discover -s src/harvester_dashboard/test -v
+```
 
 ## Verification
 

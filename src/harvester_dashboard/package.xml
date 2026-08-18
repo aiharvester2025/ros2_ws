@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>harvester_dashboard</name>
+  <version>0.1.0</version>
+  <description>
+    Source-agnostic operator dashboard for canonical ZeroMQ telemetry v1.
+    Pure Python/Qt Quick with zero ROS imports; renders the same canonical
+    packets from the Xavier simulation gateway, the replay publisher, or the
+    future Orin aggregator.  View-only: it never publishes on the canonical
+    PUB endpoint and never sends any control or actuation command.
+  </description>
+  <maintainer email="maintainer@example.com">Oil Palm Harvester</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>python3-pyside2.qtquick</exec_depend>
+  <exec_depend>python3-zmq</exec_depend>
+  <exec_depend>python3-msgpack</exec_depend>
+  <exec_depend>qml-module-qtquick2</exec_depend>
+  <exec_depend>qml-module-qtquick-window2</exec_depend>
+  <exec_depend>qml-module-qtquick-layouts</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
