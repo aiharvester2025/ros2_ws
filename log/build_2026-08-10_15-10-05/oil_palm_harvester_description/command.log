@@ -1,2 +1,0 @@
-Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install
-Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_harvester_description' returned '1': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/ubuntu/ros2_ws/src/oil_palm_harvester_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros2_ws/install

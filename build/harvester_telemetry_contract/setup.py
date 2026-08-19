@@ -1,1 +1,0 @@
-/home/ubuntu/ros2_ws/src/harvester_telemetry_contract/setup.py

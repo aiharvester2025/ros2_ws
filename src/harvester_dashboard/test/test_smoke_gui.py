@@ -115,6 +115,22 @@ class GuiSmokeTest(unittest.TestCase):
         self.assertEqual(image.width(), 16)
         self.assertEqual(image.height(), 12)
 
+    def test_image_provider_strips_query_string_from_id(self):
+        # Regression: QML appends "?n=<counter>" to the image source URL to
+        # force re-requests; the query becomes part of requestImage's id and
+        # must be stripped before the frame lookup, or the camera view renders
+        # the dark placeholder instead of the decoded frame.
+        import numpy as np
+        from PySide2.QtCore import QSize
+        frame = np.zeros((6, 8, 3), dtype=np.uint8)
+        frame[:, :, 1] = 255
+        self.provider.publish_rgb('cutter', frame)
+        image = self.provider.requestImage('cutter?n=42', QSize(), QSize())
+        self.assertEqual(image.width(), 8)
+        self.assertEqual(image.height(), 6)
+        # The green frame must be served, not the 4x4 dark placeholder.
+        self.assertEqual(image.pixelColor(4, 3).green(), 255)
+
     def test_bridge_updates_from_synthetic_packets(self):
         from helpers import json_packet
         frames = json_packet('v1/range/cutter', {

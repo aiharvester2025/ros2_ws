@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build / install artifacts (colcon)
+build/
+install/
+log/
+
+# Virtual environments / conda
+.venv/
+venv/
+.env

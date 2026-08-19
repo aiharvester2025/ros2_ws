@@ -58,9 +58,13 @@ if _QT_AVAILABLE:
 
         # -- consumer side (QML render thread) ----------------------------
         def requestImage(self, image_id: str, size, requested_size):
+            # QML appends the ``?n=<counter>`` query string to the source URL
+            # to force a re-request; the query becomes part of ``image_id``.
+            # Strip it so the lookup key matches the publish key.
+            key = image_id.split('?', 1)[0]
             with self._lock:
-                frame = self._frames.get(image_id)
-                stored = self._sizes.get(image_id)
+                frame = self._frames.get(key)
+                stored = self._sizes.get(key)
             if frame is None:
                 self._misses[image_id] = self._misses.get(image_id, 0) + 1
                 image = QImage(4, 4, QImage.Format_RGB32)

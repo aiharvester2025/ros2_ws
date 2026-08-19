@@ -1,1 +1,0 @@
-/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/scripts/gazebo_joint_state_bridge.py

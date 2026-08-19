@@ -1,4 +1,0 @@
-Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_tree_description': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_tree_description -- -j8 -l8
-Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_tree_description' returned '0': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/ubuntu/ros2_ws/build/oil_palm_tree_description -- -j8 -l8
-Invoking command in '/home/ubuntu/ros2_ws/build/oil_palm_tree_description': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_tree_description
-Invoked command in '/home/ubuntu/ros2_ws/build/oil_palm_tree_description' returned '0': CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/ubuntu/ros2_ws/build/oil_palm_tree_description

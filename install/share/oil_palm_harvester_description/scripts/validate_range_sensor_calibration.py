@@ -1,1 +1,0 @@
-/home/ubuntu/ros2_ws/src/oil_palm_harvester_description/scripts/validate_range_sensor_calibration.py
