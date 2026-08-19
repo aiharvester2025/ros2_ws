@@ -51,11 +51,15 @@ Replay a completed recording on a different endpoint from the live gateway:
 source /opt/ros/foxy/setup.bash
 source ~/ros2_ws/install/setup.bash
 python3 -m harvester_telemetry_gateway.replay \
-  /home/ubuntu/harvester_audits/run01 --endpoint tcp://*:5591 --speed 1.0
+  /home/ubuntu/harvester_audits/run_001 --endpoint tcp://*:5591 --speed 1.0
 ```
 
 Replay preserves packet order and bounded timing, but caps long gaps at 0.25
 seconds by default so offline UI tests do not appear stuck.
+
+The source-agnostic operator dashboard (`src/harvester_dashboard/`) consumes
+the same canonical packets — live from `5590` or replayed from `5591` — with no
+ROS environment.  See its README for the run and test commands.
 
 `docs/TELEMETRY_HANDOFF.md` is the operational handoff for this gateway,
 record/replay workflow, time policy, and the future Orin adapter boundary.

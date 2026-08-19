@@ -153,6 +153,23 @@ def main() -> int:
     check('camera stale after 3 s silence', bridge.activeCameraStale is True)
     grab('stale')
 
+    # 7. key 5 cycles the LiDAR view top -> front -> left -> right -> iso
+    # Feed a synthetic LiDAR cloud so the inset repaints in each view.
+    import numpy as np
+    cloud = np.array([[1.0, 0.0, 0.5], [0.0, 1.0, 0.0], [-1.0, 0.0, 0.0],
+                      [0.0, -1.0, 0.0], [2.0, 2.0, 1.0], [0.0, 0.0, 0.5]],
+                     dtype=np.float32)
+    bridge.on_frame_decoded('v1/lidar/raw', cloud)
+    app.processEvents()
+    expected = ['top', 'front', 'left', 'right', 'iso', 'top']
+    check('lidar view starts top', bridge.lidarView == 'top')
+    for name in expected[1:]:
+        key(Qt.Key_5)
+        check('key 5 -> {}'.format(name), bridge.lidarView == name)
+    grab('lidar_iso')
+    key(Qt.Key_5)  # wrap back to top for any later steps
+    check('key 5 wraps to front', bridge.lidarView == 'front')
+
     failures = [name for name, ok in results if not ok]
     print('\n{}/{} checks passed'.format(
         len(results) - len(failures), len(results)))

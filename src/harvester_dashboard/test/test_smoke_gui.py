@@ -90,6 +90,23 @@ class GuiSmokeTest(unittest.TestCase):
         self.assertEqual(self.bridge.lidarVisible, not initial_lidar)
         self.bridge.toggle_lidar()
 
+    def test_lidar_view_cycles_in_order(self):
+        # Key 5 cycles top -> front -> left -> right -> iso -> top ...
+        expected = ['top', 'front', 'left', 'right', 'iso', 'top']
+        self.assertEqual(self.bridge.lidarView, 'top')
+        for step, name in enumerate(expected[1:], start=1):
+            self.bridge.cycle_lidar_view()
+            self.app.processEvents()
+            self.assertEqual(self.bridge.lidarView, name)
+        # Labels are human-readable and track the mode.
+        self.assertEqual(self.bridge.lidarView, 'top')
+        self.bridge.cycle_lidar_view()
+        self.assertEqual(self.bridge.lidarViewLabel, 'front (x-z)')
+        # Reset to top for other tests.
+        for _ in range(4):
+            self.bridge.cycle_lidar_view()
+        self.assertEqual(self.bridge.lidarView, 'top')
+
     def test_maintenance_hidden_without_hardware_status(self):
         self.assertFalse(self.bridge.maintenanceAvailable)
         self.assertEqual(self.bridge.maintenanceMode, 'unknown')

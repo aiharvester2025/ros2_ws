@@ -8,13 +8,15 @@ Item {
     width: 1280
     height: 800
 
-    // Keyboard: 1/2 view switch (render-only), 3 HUD, 4 LiDAR, 0/Esc clear.
+    // Keyboard: 1/2 view switch (render-only), 3 HUD, 4 LiDAR, 5 cycle LiDAR
+    // view, 0/Esc clear.
     focus: true
     Keys.onPressed: {
         if (event.key === Qt.Key_1) { bridge.set_view("cutter"); event.accepted = true; }
         else if (event.key === Qt.Key_2) { bridge.set_view("docking"); event.accepted = true; }
         else if (event.key === Qt.Key_3) { bridge.toggle_hud(); event.accepted = true; }
         else if (event.key === Qt.Key_4) { bridge.toggle_lidar(); event.accepted = true; }
+        else if (event.key === Qt.Key_5) { bridge.cycle_lidar_view(); event.accepted = true; }
         else if (event.key === Qt.Key_0 || event.key === Qt.Key_Escape) {
             bridge.clear_annotation(); event.accepted = true;
         }
@@ -35,6 +37,7 @@ Item {
                 { label: "2 Docking", action: "docking" },
                 { label: "3 HUD", action: "hud" },
                 { label: "4 LiDAR", action: "lidar" },
+                { label: "5 View", action: "lidarview" },
                 { label: "0 Clear", action: "clear" }
             ]
             delegate: Rectangle {
@@ -45,6 +48,7 @@ Item {
                 border.color: {
                     if (modelData.action === "cutter") return bridge.view === "cutter" ? "#4fc3f7" : "#2a3a4a";
                     if (modelData.action === "docking") return bridge.view === "docking" ? "#4fc3f7" : "#2a3a4a";
+                    if (modelData.action === "lidarview") return "#2a3a4a";
                     return "#2a3a4a";
                 }
                 border.width: 2
@@ -63,6 +67,7 @@ Item {
                         else if (modelData.action === "docking") bridge.set_view("docking");
                         else if (modelData.action === "hud") bridge.toggle_hud();
                         else if (modelData.action === "lidar") bridge.toggle_lidar();
+                        else if (modelData.action === "lidarview") bridge.cycle_lidar_view();
                         else if (modelData.action === "clear") bridge.clear_annotation();
                     }
                 }

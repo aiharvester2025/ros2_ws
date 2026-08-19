@@ -117,14 +117,14 @@ src/harvester_dashboard/
 6. Tests: `PYTHONPATH=src/harvester_telemetry_contract:src/harvester_dashboard /usr/bin/python3 -m unittest discover -s src/harvester_dashboard/test -v` (pure tests must pass even before apt install; GUI smoke test skips cleanly).
 
 **Acceptance (dashboard v1):**
-- [ ] Visualizes all channels from replay with no Gazebo/ROS running (source-agnostic proof).
-- [ ] `1`/`2` switch rendered view only; wire-level confirmation that no control traffic is emitted (no socket other than SUB + optional annotation PUB/REQ).
-- [ ] Maintenance enable/disable absent/disabled in simulation.
-- [ ] Freshness red after 2 s of silence; badge correct; range/trunk/calibration panels populate; stream errors visible.
-- [ ] Click → crosshair + camera-relative annotation; `0`/`Esc` clears; no-depth rejected.
-- [ ] H.264/H.265 stub returns a clear error (no crash) when fed synthetic `codec: h264` packet.
-- [ ] Bounded memory: slow drain (artificial sleep) does not grow RSS; drops counted.
-- [ ] Regression: gateway/sim untouched (git diff clean for `oil_palm_*` and telemetry packages except additive dashboard dir).
+- [x] Visualizes all channels from replay with no Gazebo/ROS running (source-agnostic proof).
+- [x] `1`/`2` switch rendered view only; wire-level confirmation that no control traffic is emitted (no socket other than SUB + optional annotation PUB/REQ).
+- [x] Maintenance enable/disable absent/disabled in simulation.
+- [x] Freshness red after 2 s of silence; badge correct; range/trunk/calibration panels populate; stream errors visible.
+- [x] Click → crosshair + camera-relative annotation; `0`/`Esc` clears; no-depth rejected.
+- [x] H.264/H.265 stub returns a clear error (no crash) when fed synthetic `codec: h264` packet.
+- [x] Bounded memory: slow drain (artificial sleep) does not grow RSS; drops counted.
+- [x] Regression: gateway/sim untouched (git diff clean for `oil_palm_*` and telemetry packages except additive dashboard dir).
 
 ---
 

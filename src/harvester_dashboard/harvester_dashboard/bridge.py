@@ -45,6 +45,7 @@ if _QT_AVAILABLE:
         status_summary_changed = Signal()
         maintenance_changed = Signal()
         lidar_points_changed = Signal()
+        lidar_view_changed = Signal()
         frame_tick = Signal()
 
         STATUS_TIMEOUT_MS = 600
@@ -64,6 +65,7 @@ if _QT_AVAILABLE:
             self._view = 'cutter'
             self._hud_visible = True
             self._lidar_visible = True
+            self._lidar_view_index = 0
             self._frame_counters = {'cutter': 0, 'docking': 0}
             self._depth_counters = {'cutter': 0, 'docking': 0}
             self._latest_frames: Dict[str, Any] = {}
@@ -110,6 +112,30 @@ if _QT_AVAILABLE:
             return self._lidar_visible
 
         # =================================================================
+        # LiDAR view cycling — render-only, cycles on key 5.
+        # =================================================================
+        # Ordered projection modes: top-down, front, left, right, isometric.
+        _LIDAR_VIEWS = ('top', 'front', 'left', 'right', 'iso')
+
+        @Slot()
+        def cycle_lidar_view(self) -> None:
+            self._lidar_view_index = (
+                self._lidar_view_index + 1) % len(self._LIDAR_VIEWS)
+            self.lidar_view_changed.emit()
+
+        def _get_lidar_view(self) -> str:
+            return self._LIDAR_VIEWS[self._lidar_view_index]
+
+        def _get_lidar_view_label(self) -> str:
+            return {
+                'top': 'top-down (x-y)',
+                'front': 'front (x-z)',
+                'left': 'left (y-z)',
+                'right': 'right (y-z)',
+                'iso': 'isometric',
+            }.get(self._LIDAR_VIEWS[self._lidar_view_index], '')
+
+        # =================================================================
         # Frame ingestion hook (UI thread; called from TelemetrySource)
         # =================================================================
         def on_frame_decoded(self, channel: str, decoded) -> None:
@@ -124,6 +150,8 @@ if _QT_AVAILABLE:
                 self._set_lidar_points(decoded)
             self.frame_tick.emit()
 
+        _LIDAR_HUD_SIZE_M = 8.0  # mirror of LidarInset.qml range_limit_m
+
         def _set_lidar_points(self, points) -> None:
             try:
                 from .decoders.lidar_decoder import LidarDecoder
@@ -134,6 +162,25 @@ if _QT_AVAILABLE:
             self._lidar_points = (
                 limited.tolist() if limited is not None else [])
             self.lidar_points_changed.emit()
+
+        @Slot(float, float, float, str, result='QVariantList')
+        def project_lidar_point(self, x: float, y: float, z: float,
+                                view: str) -> list:
+            """Project one LiDAR point to screen coords for the given view.
+
+            Returns ``[screen_x, screen_y]`` with the HUD origin (0, 0)
+            in the top-left corner, matching the Canvas draw coordinate
+            system used by ``LidarInset.qml``.  The caller supplies ``cx``,
+            ``cy``, and ``scale`` so the projection can be reused at any
+            HUD size.
+            """
+            from .projection import project_points
+            return [project_points([[x, y, z]], view, 0, 0, 1)[0][:2]]
+
+        @Slot(float, float, float, result='QVariantList')
+        def project_lidar_point_current(self, x: float, y: float, z: float) -> list:
+            """Project one point using the current LiDAR view."""
+            return self.project_lidar_point(x, y, z, self._get_lidar_view())
 
         def latest_rgb(self, camera: str):
             return self._latest_frames.get(
@@ -429,6 +476,10 @@ if _QT_AVAILABLE:
         depthCounter = Property(int, _get_depth_counter, notify=frame_tick)
         lidarPoints = Property(
             'QVariantList', _get_lidar_points, notify=lidar_points_changed)
+        lidarView = Property(
+            str, _get_lidar_view, notify=lidar_view_changed)
+        lidarViewLabel = Property(
+            str, _get_lidar_view_label, notify=lidar_view_changed)
         statusLine = Property(
             str, _get_status_line, notify=status_summary_changed)
         maintenanceAvailable = Property(

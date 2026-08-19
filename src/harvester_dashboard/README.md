@@ -159,6 +159,7 @@ Replay behaviour to expect:
 | `2` | Render docking view (render-only) |
 | `3` | Toggle sensor HUD |
 | `4` | Toggle LiDAR inset |
+| `5` | Cycle LiDAR projection view (top-down → front → left → right → isometric) |
 | `0` / `Esc` | Clear current annotation |
 | click on camera | Annotate (depth-validated; "NO DEPTH" toast otherwise) |
 
@@ -169,7 +170,16 @@ PYTHONPATH=src/harvester_dashboard \
   /usr/bin/python3 -m unittest discover -s src/harvester_dashboard/test -v
 ```
 
-Pure-python tests pass without any GUI packages.  The GUI smoke test skips
-cleanly when PySide2/QtQuick are unavailable.  `test_replay_ingest.py` is a
-live test (opt-in via `DASHBOARD_TEST_REPLAY=1` with replay running) that
-proves every canonical channel is received and decoded from a real audit.
+The suite covers decoders, the stream model, the ZMQ drainer (inproc), the
+status client, the no-emit proof, and the GUI smoke test.  Pure-python tests
+pass without any GUI packages.  The GUI smoke test skips cleanly when
+PySide2/QtQuick are unavailable.
+
+Two extra (opt-in) validation tools:
+
+- `test/test_replay_ingest.py` — live test (`DASHBOARD_TEST_REPLAY=1` with a
+  replay publisher running on `5591`) proving every canonical channel is
+  received and decoded from a real audit.
+- `test/test_gui_acceptance.py` — scripted offscreen acceptance harness that
+  drives real key events and image grabs and exits non-zero on any failure:
+  `PYTHONPATH=src/harvester_dashboard /usr/bin/python3 test/test_gui_acceptance.py`.

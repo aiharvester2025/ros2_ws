@@ -130,6 +130,16 @@ source ~/ros2_ws/install/setup.bash
 ros2 launch harvester_telemetry_gateway gateway.launch.py
 ```
 
+Terminal 3 starts the dashboard under the **system** Python (not the ROS
+environment — see the interpreter note below):
+
+```bash
+cd ~/ros2_ws
+DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+  /usr/bin/python3 -m harvester_dashboard.main \
+  --pub tcp://127.0.0.1:5590 --status tcp://127.0.0.1:5600
+```
+
 Do not pass the literal placeholder `/absolute/path/to/gateway.yaml`. If a
 custom configuration is needed, pass its real absolute path, for example:
 
@@ -141,7 +151,11 @@ ros2 launch harvester_telemetry_gateway gateway.launch.py \
 The gateway launch intentionally invokes the active `python3` environment.
 On this Xavier setup, generated ROS Python entry points can select
 `/usr/bin/python3`, which lacks the active environment's MessagePack/ZeroMQ
-modules.
+modules.  The dashboard is the inverse: it must run under `/usr/bin/python3`
+because only the system Python has the apt PySide2 QtQuick bindings, and it
+must not have the ROS environment sourced.  See the dashboard README
+(`src/harvester_dashboard/README.md`) for the full interpreter split and
+troubleshooting table.
 
 ## Recording and replay
 
@@ -204,10 +218,15 @@ PYTHONPATH=src/harvester_telemetry_contract:src/harvester_telemetry_gateway:${PY
   python3 -m unittest discover -s src/harvester_telemetry_contract/test -v
 PYTHONPATH=src/harvester_telemetry_contract:src/harvester_telemetry_gateway:${PYTHONPATH} \
   python3 -m unittest discover -s src/harvester_telemetry_gateway/test -v
+PYTHONPATH=src/harvester_dashboard \
+  /usr/bin/python3 -m unittest discover -s src/harvester_dashboard/test -v
 ```
 
-The current source test baseline is eight passing tests: four protocol tests,
-three encoder tests, and one exact-frame recording/reload test.
+The source test baseline is four contract protocol tests, four gateway tests
+(three encoder and one exact-frame recording/reload), and the dashboard suite
+(decoders, model, no-emit proof, status client, GUI smoke — the GUI smoke test
+skips cleanly when PySide2/QtQuick are unavailable).  The replay ingest test is
+opt-in (`DASHBOARD_TEST_REPLAY=1` with a replay publisher running on `5591`).
 
 For a live gateway, query the read-only status endpoint or subscribe to a
 channel prefix. A changing cutter-camera sequence/payload while a robot joint
