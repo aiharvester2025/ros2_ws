@@ -17,6 +17,22 @@ harvester_telemetry_gateway:
     lidar_roi.max_y: .nan
     lidar_roi.min_z: .nan
     lidar_roi.max_z: .nan
+    # Transform every LiDAR point into this fixed world frame before it is
+    # published, so static world geometry (e.g. a tree) keeps its true vertical
+    # orientation regardless of arm/platform pitch.
+    lidar_world_frame: "world"
+    # Gazebo stamps the raw cloud in simulation time, but robot_state_publisher
+    # publishes the arm TF in wall time (the same reason lidar_timestamp_bridge.py
+    # zeroes the stamp).  Use the latest available TF rather than an exact-time
+    # lookup that would otherwise never match.  Set false only if the TF chain
+    # is also published in simulation time.
+    lidar_transform_latest: true
+    # Leveling applies only the sensor->world rotation (pitch/yaw removal), so
+    # the tree stands vertical while the LiDAR stays at the HUD origin.  Set
+    # true to also apply the world translation (absolute world coordinates),
+    # which shifts the tree to its true world position (e.g. x=8.5 m) far from
+    # the vehicle-origin HUD centre.
+    lidar_level_translation: false
     cutter_calibration_id: "gazebo_nominal_camera_lidar_v1"
     docking_calibration_id: "gazebo_nominal_docking_camera_v1"
     range_calibration_id: "gazebo_nominal_c_channel_v1"

@@ -166,3 +166,24 @@ def pointcloud_to_xyz_f32(message, stride=1, roi=None):
             output.extend(struct.pack('<fff', x, y, z))
             count += 1
     return bytes(output), count
+
+
+def quaternion_to_rotation_matrix(qx, qy, qz, qw):
+    """Return a 3x3 rotation matrix (list of 3 tuples) for quaternion (x,y,z,w)."""
+    xx, yy, zz = qx * qx, qy * qy, qz * qz
+    xy, xz, yz = qx * qy, qx * qz, qy * qz
+    wx, wy, wz = qw * qx, qw * qy, qw * qz
+    return (
+        (1.0 - 2.0 * (yy + zz), 2.0 * (xy - wz), 2.0 * (xz + wy)),
+        (2.0 * (xy + wz), 1.0 - 2.0 * (xx + zz), 2.0 * (yz - wx)),
+        (2.0 * (xz - wy), 2.0 * (yz + wx), 1.0 - 2.0 * (xx + yy)),
+    )
+
+
+def rotate_point(r, x, y, z, tx=0.0, ty=0.0, tz=0.0):
+    """Rotate and translate one point by rotation matrix ``r`` + translation."""
+    return (
+        r[0][0] * x + r[0][1] * y + r[0][2] * z + tx,
+        r[1][0] * x + r[1][1] * y + r[1][2] * z + ty,
+        r[2][0] * x + r[2][1] * y + r[2][2] * z + tz,
+    )

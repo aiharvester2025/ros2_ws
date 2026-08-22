@@ -17,6 +17,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, qos_profile_sensor_data
 from sensor_msgs.msg import CameraInfo, Image, PointCloud2, Range
 from std_msgs.msg import String
+from tf2_ros import Buffer, TransformException, TransformListener
 import zmq
 
 from harvester_telemetry_contract import ProtocolError, pack_message
@@ -27,6 +28,8 @@ from .encoders import (
     header_frame_id,
     image_to_jpeg,
     pointcloud_to_xyz_f32,
+    quaternion_to_rotation_matrix,
+    rotate_point,
     stamp_to_ns,
 )
 from .recording import PacketRecorder
@@ -57,6 +60,9 @@ class TelemetryGateway(Node):
         self.declare_parameter('lidar_roi.max_y', float('nan'))
         self.declare_parameter('lidar_roi.min_z', float('nan'))
         self.declare_parameter('lidar_roi.max_z', float('nan'))
+        self.declare_parameter('lidar_world_frame', 'world')
+        self.declare_parameter('lidar_transform_latest', False)
+        self.declare_parameter('lidar_level_translation', False)
         self.declare_parameter('cutter_calibration_id', 'gazebo_nominal_camera_lidar_v1')
         self.declare_parameter('docking_calibration_id', 'gazebo_nominal_docking_camera_v1')
         self.declare_parameter('range_calibration_id', 'gazebo_nominal_c_channel_v1')
@@ -69,6 +75,13 @@ class TelemetryGateway(Node):
         self.queue_depth = max(1, int(self.get_parameter('queue_depth').value))
         self.lidar_stride = max(1, int(self.get_parameter('lidar_stride').value))
         self.lidar_roi = self._roi_from_parameters()
+        self.lidar_world_frame = self.get_parameter('lidar_world_frame').value
+        self.lidar_transform_latest = bool(
+            self.get_parameter('lidar_transform_latest').value)
+        self.lidar_level_translation = bool(
+            self.get_parameter('lidar_level_translation').value)
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
         self.sequence = defaultdict(int)
         self.queues = defaultdict(lambda: deque(maxlen=self.queue_depth))
         self.last_stream_status = {}
@@ -86,6 +99,7 @@ class TelemetryGateway(Node):
             'camera.docking.depth': True,
             'camera.docking.camera_info': True,
             'lidar.raw_xyz': True,
+            'lidar.raw_xyz.leveled': True,
             'lidar.intensity': False,
             'lidar.point_time': False,
             'range.docking': True,
@@ -255,12 +269,89 @@ class TelemetryGateway(Node):
     def on_docking_info(self, message):
         self._on_info('v1/camera/docking/camera_info', self.get_parameter('docking_calibration_id').value, message)
 
+    def _lidar_in_world(self, message):
+        """Level the LiDAR cloud into a gravity-aligned, sensor-origin frame.
+
+        The LiDAR is mounted on the moving arm, so raw ``vehicle_lidar_link``
+        points rotate with the arm's pitch/yaw: a world-vertical tree appears
+        to lean in the raw sensor frame.  We apply only the sensor-to-world
+        *rotation* (dropping the world translation by default) so that:
+
+          * static geometry (the tree) is re-aligned to world-up, and
+          * the LiDAR itself stays at the origin, matching the sensor-relative
+            HUD whose centre marker is the vehicle/LiDAR position.
+
+        When ``lidar_level_translation`` is true the full world translation is
+        applied too, placing points in absolute world coordinates (e.g. for a
+        world-registered consumer), which shifts the tree to its true world
+        position far from the vehicle origin.
+
+        Returns the transformed cloud, or ``None`` when no usable transform is
+        available yet (caller keeps the untransformed, sensor-frame cloud).
+        """
+        source = header_frame_id(message.header) or 'vehicle_lidar_link'
+        try:
+            if self.lidar_transform_latest:
+                stamp = rclpy.time.Time()
+            else:
+                stamp = message.header.stamp
+            transform = self.tf_buffer.lookup_transform(
+                self.lidar_world_frame, source, stamp)
+        except TransformException:
+            return None
+        translation = transform.transform.translation
+        rotation = transform.transform.rotation
+        if self.lidar_level_translation:
+            tx, ty, tz = translation.x, translation.y, translation.z
+        else:
+            tx, ty, tz = 0.0, 0.0, 0.0
+        r = quaternion_to_rotation_matrix(
+            rotation.x, rotation.y, rotation.z, rotation.w)
+
+        out = PointCloud2()
+        out.header = message.header
+        out.header.frame_id = self.lidar_world_frame
+        out.height = message.height
+        out.width = message.width
+        out.fields = list(message.fields)
+        out.is_bigendian = message.is_bigendian
+        out.point_step = message.point_step
+        out.row_step = message.row_step
+        out.is_dense = message.is_dense
+        payload = bytearray(message.data)
+        x_field = next((f for f in message.fields if f.name == 'x'), None)
+        y_field = next((f for f in message.fields if f.name == 'y'), None)
+        z_field = next((f for f in message.fields if f.name == 'z'), None)
+        if x_field is None or y_field is None or z_field is None:
+            return None
+        import struct as _struct
+        fmt = '>' if message.is_bigendian else '<'
+        x_reader = _struct.Struct(fmt + 'f')
+        y_reader = _struct.Struct(fmt + 'f')
+        z_reader = _struct.Struct(fmt + 'f')
+        for row in range(message.height):
+            row_base = row * message.row_step
+            for col in range(message.width):
+                point_base = row_base + col * message.point_step
+                x = x_reader.unpack_from(payload, point_base + x_field.offset)[0]
+                y = y_reader.unpack_from(payload, point_base + y_field.offset)[0]
+                z = z_reader.unpack_from(payload, point_base + z_field.offset)[0]
+                nx, ny, nz = rotate_point(r, x, y, z, tx, ty, tz)
+                x_reader.pack_into(payload, point_base + x_field.offset, nx)
+                y_reader.pack_into(payload, point_base + y_field.offset, ny)
+                z_reader.pack_into(payload, point_base + z_field.offset, nz)
+        out.data = bytes(payload)
+        return out
+
     def on_lidar(self, message):
         try:
+            cloud = self._lidar_in_world(message)
+            if cloud is None:
+                cloud = message
             payload, point_count = pointcloud_to_xyz_f32(
-                message, stride=self.lidar_stride, roi=self.lidar_roi)
+                cloud, stride=self.lidar_stride, roi=self.lidar_roi)
             header = self._header(
-                message.header, self.get_parameter('cutter_calibration_id').value, 'lidar_xyz_f32')
+                cloud.header, self.get_parameter('cutter_calibration_id').value, 'lidar_xyz_f32')
             header.update({
                 'point_count': point_count,
                 'point_stride_bytes': 12,
