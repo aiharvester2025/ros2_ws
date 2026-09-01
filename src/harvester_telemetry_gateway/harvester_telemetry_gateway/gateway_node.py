@@ -15,7 +15,7 @@ import rclpy
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, qos_profile_sensor_data
-from sensor_msgs.msg import CameraInfo, Image, PointCloud2, Range
+from sensor_msgs.msg import CameraInfo, Image, Imu, PointCloud2, Range
 from std_msgs.msg import String
 from tf2_ros import Buffer, TransformException, TransformListener
 import zmq
@@ -27,6 +27,7 @@ from .encoders import (
     depth_to_uint16_mm,
     header_frame_id,
     image_to_jpeg,
+    imu_json,
     pointcloud_to_xyz_f32,
     quaternion_to_rotation_matrix,
     rotate_point,
@@ -102,6 +103,8 @@ class TelemetryGateway(Node):
             'lidar.raw_xyz.leveled': True,
             'lidar.intensity': False,
             'lidar.point_time': False,
+            'imu.lidar': True,
+            'imu.camera': True,
             'range.docking': True,
             'range.cutter': True,
             'docking.trunk_estimate': True,
@@ -140,6 +143,12 @@ class TelemetryGateway(Node):
             qos_profile_sensor_data)
         self.create_subscription(
             PointCloud2, '/harvester/lidar/raw_points', self.on_lidar,
+            qos_profile_sensor_data)
+        self.create_subscription(
+            Imu, '/harvester/lidar/imu', self.on_lidar_imu,
+            qos_profile_sensor_data)
+        self.create_subscription(
+            Imu, '/harvester/platform_camera/imu', self.on_camera_imu,
             qos_profile_sensor_data)
         for key, topic in DOCKING_RANGES:
             self.create_subscription(
@@ -364,6 +373,21 @@ class TelemetryGateway(Node):
             self._enqueue('v1/lidar/raw', header, payload)
         except ValueError as error:
             self.get_logger().warning('LiDAR skipped: {}'.format(error))
+
+    def _on_imu(self, channel, calibration_id, message):
+        try:
+            self._enqueue(
+                channel,
+                self._header(message.header, calibration_id, 'json'),
+                imu_json(message))
+        except ValueError as error:
+            self.get_logger().warning('{} skipped: {}'.format(channel, error))
+
+    def on_lidar_imu(self, message):
+        self._on_imu('v1/imu/lidar', self.get_parameter('cutter_calibration_id').value, message)
+
+    def on_camera_imu(self, message):
+        self._on_imu('v1/imu/camera', self.get_parameter('cutter_calibration_id').value, message)
 
     def _range_record(self, key, message):
         maximum = float(message.max_range)

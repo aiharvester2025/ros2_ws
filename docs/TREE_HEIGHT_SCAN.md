@@ -186,6 +186,64 @@ pkill -9 -f _ros2_daemon
 - Gateway recording config: `~/harvester_audits/tree_scan_gateway.yaml`
   (`lidar_stride: 1`, `lidar_level_translation: true`, `record_dir` set).
 
+## Improved estimator (v2)
+
+`analyze_tree_scan_v2.py` improves on the original method by removing the
+hard-coded tree axis and the canopy-99th-percentile height (which is biased high
+by frond tips). It instead:
+
+1. **Fits the trunk axis** from the merged cloud (median XY in a mid-trunk band)
+   — no known world pose required.
+2. **Measures the trunk top directly** as the highest point in a tight trunk
+   cylinder (`r < 0.35 m`). Fronds attach at the crown and extend outward, not
+   above the trunk top, so the tight cylinder cleanly resolves the top.
+3. **Keeps the crown-base density transition** for the trunk→crown reference.
+4. **Fuses sub-estimates** and reports an uncertainty (spread of estimates).
+
+Run it the same way:
+
+```bash
+cd ~/ros2_ws
+PYTHONPATH=src/harvester_telemetry_contract:src/harvester_telemetry_gateway \
+  python3 analyze_tree_scan_v2.py ~/harvester_audits/tree_scan_001
+```
+
+### v2 results (same `tree_scan_001` recording)
+
+| Metric | v2 (encoder-free) | legacy | Ground truth |
+|---|---|---|---|
+| Trunk axis | (8.35, 0.00) m | (8.5, 0) hard-coded | (8.5, 0) |
+| Trunk top | 11.90 m | — | 12.0 m |
+| Crown base | 9.00 m | 9.00 m | 9.2 m |
+| **Total height** | **11.90 m (−0.10 m)** | 12.26 m (+0.26 m) | 12.0 m |
+
+The v2 fused height error is **−0.10 m (−0.8%)** vs. the legacy **+0.26 m
+(+2.1%)** — roughly 2.6× more accurate, and encoder-free.
+
+### IMU-assisted strategy (A/B comparison)
+
+Two IMU sensors were added to the URDF (`vehicle_lidar_imu`,
+`platform_depth_camera_imu`) so the IMU-assisted strategy can be A/B-tested
+against the encoder-free strategy. The IMU is rigidly mounted on
+`cutting_arm_base_link` (the child of the un-instrumented `cutting_arm_lift_joint`),
+so its gravity-referenced orientation measures that joint's pitch directly:
+`theta_lift = -2 * asin(orientation.y)`.
+
+A fresh sweep `tree_scan_002` was recorded with the IMU-equipped URDF (5596 IMU
+samples per channel, 1029 world-frame clouds). Results:
+
+| Metric | encoder-free | IMU-assisted | ground truth |
+|---|---|---|---|
+| Lift pitch range (IMU) | — | −0.349 .. +1.016 rad | −0.35 .. +1.05 rad |
+| Trunk top | 11.83 m (fused) | **11.927 m** | 12.0 m |
+| Height error | −0.17 m (−1.4%) | **−0.07 m (−0.6%)** | — |
+
+Both strategies agree to within ~0.1 m. The IMU-assisted path confirms the sweep
+reached the canopy (lift pitch hit +1.02 rad, near the +1.05 limit) and supplies
+the attitude that would be required on real hardware to level a sensor-frame
+cloud (the recording here is already world-frame via
+`lidar_level_translation: true`).
+
 ## Next steps
 
 1. Promote the offline analysis into a ROS node that publishes the docking

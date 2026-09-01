@@ -23,6 +23,8 @@ CANONICAL_CHANNELS = frozenset({
     'v1/camera/docking/depth',
     'v1/camera/docking/camera_info',
     'v1/lidar/raw',
+    'v1/imu/lidar',
+    'v1/imu/camera',
     'v1/range/docking',
     'v1/range/cutter',
     'v1/docking/trunk_estimate',
@@ -97,6 +99,11 @@ def _validate_json_header(channel: str, header: Mapping[str, Any]) -> None:
         raise ProtocolError("{} requires json codec".format(channel))
 
 
+def _validate_imu_header(channel: str, header: Mapping[str, Any]) -> None:
+    if header.get('codec') != 'json':
+        raise ProtocolError("{} requires json codec".format(channel))
+
+
 def validate_header(channel: str, header: Mapping[str, Any]) -> Dict[str, Any]:
     """Validate and return a plain copy of a canonical v1 header."""
     if channel not in CANONICAL_CHANNELS:
@@ -141,6 +148,8 @@ def validate_header(channel: str, header: Mapping[str, Any]) -> Dict[str, Any]:
         _validate_image_header(channel, result)
     elif channel == 'v1/lidar/raw':
         _validate_lidar_header(result)
+    elif channel.startswith('v1/imu/'):
+        _validate_imu_header(channel, result)
     else:
         _validate_json_header(channel, result)
 

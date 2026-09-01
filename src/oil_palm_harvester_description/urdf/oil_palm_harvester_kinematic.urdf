@@ -929,6 +929,35 @@
       </plugin>
     </sensor>
   </gazebo>
+  <!-- Arm-mounted OAK depth-camera IMU.  The real OAK cameras carry an IMU;
+       modelling it here mirrors the physical sensor so the height estimator can
+       be A/B-tested with and without sensor attitude. -->
+  <gazebo reference="platform_depth_camera_link">
+    <sensor name="platform_depth_camera_imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>false</visualize>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+      <plugin name="platform_depth_camera_imu_ros" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/harvester</namespace>
+          <remapping>~/out:=platform_camera/imu</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+    </sensor>
+  </gazebo>
   <gazebo reference="front_depth_camera_link">
     <sensor name="docking_depth_camera" type="depth">
       <always_on>true</always_on>
@@ -1100,6 +1129,35 @@
         </ros>
         <output_type>sensor_msgs/PointCloud2</output_type>
         <frame_name>vehicle_lidar_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!-- Arm-mounted LiDAR IMU.  The real Mid-360 carries an IMU; modelling it here
+       lets the height estimator close the un-instrumented cutting_arm_lift_joint
+       and lets us A/B-test the IMU-assisted vs encoder-free strategies. -->
+  <gazebo reference="vehicle_lidar_link">
+    <sensor name="vehicle_lidar_imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>false</visualize>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.0005</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.005</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+      <plugin name="vehicle_lidar_imu_ros" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/harvester</namespace>
+          <remapping>~/out:=lidar/imu</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
       </plugin>
     </sensor>
   </gazebo>

@@ -89,6 +89,8 @@ world/tree-fixed target on hardware without a separately validated pose source.
 | `/harvester/docking_camera/depth/depth/image_raw` | `v1/camera/docking/depth` |
 | `/harvester/docking_camera/depth/camera_info` | `v1/camera/docking/camera_info` |
 | `/harvester/lidar/raw_points` | `v1/lidar/raw` |
+| `/harvester/lidar/imu` | `v1/imu/lidar` |
+| `/harvester/platform_camera/imu` | `v1/imu/camera` |
 | Five `/harvester/*_range` docking topics | `v1/range/docking` |
 | `/harvester/cutting_tool_left_range` | `v1/range/cutter` |
 | `/harvester/docking/trunk_center` | `v1/docking/trunk_estimate` |

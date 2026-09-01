@@ -56,6 +56,20 @@ class ProtocolTest(unittest.TestCase):
         frames = pack_message('v1/lidar/raw', header, b'\0' * 12)
         self.assertEqual(unpack_message(frames)[1]['point_count'], 1)
 
+    def test_imu_requires_json_codec(self):
+        header = image_header()
+        header.update({'frame_id': 'vehicle_lidar_link', 'codec': 'json'})
+        frames = pack_message('v1/imu/lidar', header, b'{}')
+        channel, unpacked, payload = unpack_message(frames)
+        self.assertEqual(channel, 'v1/imu/lidar')
+        self.assertEqual(unpacked['frame_id'], 'vehicle_lidar_link')
+
+    def test_imu_rejects_non_json_codec(self):
+        header = image_header()
+        header.update({'frame_id': 'vehicle_lidar_link', 'codec': 'jpeg'})
+        with self.assertRaises(ProtocolError):
+            pack_message('v1/imu/lidar', header, b'')
+
     def test_rejects_noncanonical_packet_shape(self):
         with self.assertRaises(ProtocolError):
             unpack_message([b'v1/system/status'])

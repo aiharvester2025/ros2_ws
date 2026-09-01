@@ -120,6 +120,31 @@ def camera_info_json(message):
     }, separators=(',', ':'), allow_nan=False).encode('utf-8')
 
 
+def imu_json(message):
+    """Encode a sensor_msgs/Imu into a canonical JSON payload.
+
+    The IMU reports orientation (quaternion), angular velocity, and linear
+    acceleration with their covariance matrices.  Roll and pitch are the
+    gravity-referenced attitudes the height estimator needs to close the
+    un-instrumented cutting-arm lift joint; yaw is unobservable from a pure
+    IMU and must not be used for world-frame registration.
+    """
+    def vec3(v):
+        return {'x': float(v.x), 'y': float(v.y), 'z': float(v.z)}
+
+    def quat(q):
+        return {'x': float(q.x), 'y': float(q.y), 'z': float(q.z), 'w': float(q.w)}
+
+    return json.dumps({
+        'orientation': quat(message.orientation),
+        'orientation_covariance': [float(c) for c in message.orientation_covariance],
+        'angular_velocity': vec3(message.angular_velocity),
+        'angular_velocity_covariance': [float(c) for c in message.angular_velocity_covariance],
+        'linear_acceleration': vec3(message.linear_acceleration),
+        'linear_acceleration_covariance': [float(c) for c in message.linear_acceleration_covariance],
+    }, separators=(',', ':'), allow_nan=False).encode('utf-8')
+
+
 def _field_reader(message, required_name):
     for field in message.fields:
         if field.name == required_name:
