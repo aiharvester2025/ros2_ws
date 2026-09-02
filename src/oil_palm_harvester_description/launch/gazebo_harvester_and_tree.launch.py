@@ -225,6 +225,7 @@ def generate_launch_description():
     camera_lidar_calibration_file = LaunchConfiguration('camera_lidar_calibration_file')
     range_calibration = LaunchConfiguration('range_calibration')
     range_calibration_file = LaunchConfiguration('range_calibration_file')
+    boom_plan = LaunchConfiguration('boom_plan')
     harvester_share = Path(get_package_share_directory('oil_palm_harvester_description'))
     tree_share = Path(get_package_share_directory('oil_palm_tree_description'))
     gazebo_share = Path(get_package_share_directory('gazebo_ros'))
@@ -387,6 +388,13 @@ def generate_launch_description():
             description=(
                 'Simulation-only range calibration JSON. The deployment template '
                 'is deliberately rejected by the calibration projector.')),
+        DeclareLaunchArgument(
+            'boom_plan', default_value='true',
+            description=(
+                'Start the read-only boom docking-plan stack (tree docking '
+                'estimate + boom IK/safety estimator + dry-run executor). No '
+                'joint command is issued unless boom_docking_demo is run '
+                'manually with --execute.')),
         SetEnvironmentVariable('GAZEBO_MODEL_PATH', gazebo_model_path),
         SetEnvironmentVariable('GAZEBO_PLUGIN_PATH', gazebo_plugin_path),
         # Do not let Gazebo Classic block its client on the public online
@@ -451,6 +459,16 @@ def generate_launch_description():
         ExecuteProcess(
             cmd=['python3', str(cutter_range_marker_script)],
             output='screen',
+        ),
+        # Read-only boom docking-plan stack: a static tree docking estimate, the
+        # closed-form boom IK + safety estimator, and a dry-run executor.  None
+        # of these writes a joint command; the demo only commands when run
+        # manually with --execute.
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                str(Path(get_package_share_directory('harvester_boom_plan'))
+                    / 'launch' / 'boom_plan.launch.py')),
+            condition=IfCondition(boom_plan),
         ),
         # RViz requires the dynamic joint TF chain emitted after the joint GUI
         # and Gazebo bridge start.  Starting it immediately races that chain

@@ -246,10 +246,16 @@ cloud (the recording here is already world-frame via
 
 ## Next steps
 
-1. Promote the offline analysis into a ROS node that publishes the docking
+1. ~~Promote the offline analysis into a ROS node that publishes the docking
    point (`trunk_top - offset`) as a `geometry_msgs/PointStamped` on
-   `/harvester/tree/docking_estimate`.
+   `/harvester/tree/docking_estimate`.~~ **Done** — see
+   [`BOOM_DOCK_PLAN.md`](BOOM_DOCK_PLAN.md) and
+   `harvester_boom_plan/tree_docking_estimate_node.py` (publishes
+   `/harvester/tree/docking_estimate` with a static trunk top; the docking
+   offset of 2.0 m is applied downstream in `boom_plan_node`).
 2. Add the trunk-top estimate to the dashboard via a new ZMQ channel or ROS
    topic.
-3. Validate the docking-point offset against the c-channel platform
-   reachability envelope.
+3. ~~Validate the docking-point offset against the c-channel platform
+   reachability envelope.~~ **Done** — the 2.0 m offset (docking at z = 10.0 m)
+   is reachable and validated to 0.000 m docking error in simulation; see
+   [`BOOM_DOCK_PLAN.md`](BOOM_DOCK_PLAN.md).

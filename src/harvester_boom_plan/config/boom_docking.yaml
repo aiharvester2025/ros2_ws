@@ -1,0 +1,49 @@
+# Boom docking-plan configuration (simulation_only).
+#
+# The docking point is defined as:
+#     docking_height_world_z = trunk_top_height - docking_offset_below_trunk_top_m
+#
+# For the reference oil-palm tree the trunk top is z = 12.0 m (tree_targets.yaml),
+# so the default offset of 2.0 m places the c-channel at z = 10.0 m, just below
+# the crown base (9.2 m) but above the upper-frond/FFB zone, where the trunk is
+# still a clean vertical cylinder for the C-channel to grip.
+#
+# Reference point choice (see plan):
+#   - Tree side  : trunk CENTERLINE at the docking height, i.e. (trunk_x, trunk_y, H_dock).
+#   - Platform side : ``c_channel_reference``, whose +X points through the C-opening
+#     toward the tree.  The IK goal is to place c_channel_reference exactly at the
+#     trunk centerline docking point.
+#
+# No joint command is ever issued by the boom-plan package.  The executor/demo is a
+# separate opt-in script; the estimator node is strictly read-only.
+
+mode: simulation_only
+deployment_allowed: false
+
+# --- Tree / docking geometry ------------------------------------------------
+docking_offset_below_trunk_top_m: 2.0     # docking point = trunk top - 2.0 m
+# Fallback tree position (world) used only while /harvester/tree/docking_estimate
+# is absent.  Matches the static world tree at (8.5, 0, 0).
+tree_world_xy_fallback_m: [8.5, 0.0]
+trunk_top_ground_truth_m: 12.0            # for validation logging only
+
+# --- Leveling mechanism ------------------------------------------------------
+# 'active'  -> platform_level_joint = -theta_b (counter-rotate to horizontal)
+# 'passive' -> gravity stabilizer assumed; publish theta_L = 0
+leveling_mode: active
+
+# --- Extension distribution --------------------------------------------------
+# Total boom extension is split evenly across the four prismatic stages.
+boom_stage_count: 4
+
+# --- Safety watchdog + centering (five fixed docking ranges) ----------------
+safety:
+  extend_safe_m: 0.6            # min clearance to permit further extension
+  extend_stop_m: 0.4            # hold extension once min falls below this
+  align_skew_m: 0.08            # |left_45 - right_45| centering gate
+  docking_gap_m: 0.18           # all five within this of calibrated geometry -> DOCKING_OK
+  emergency_m: 0.05             # any sensor <= this -> EMERGENCY_STOP
+  stale_receipt_timeout_s: 0.30
+  # Centering tolerance: reconstructed trunk centre must sit within this of the
+  # C-opening centreline (in c_channel_reference Y) to admit DOCKING_OK.
+  centering_tolerance_m: 0.10

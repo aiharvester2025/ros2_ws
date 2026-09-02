@@ -28,14 +28,16 @@ estimator with an **encoder-free** estimator that:
 | LiDAR cloud (world-frame) | yes | `v1/lidar/raw` recordings |
 | 5 docking ranges + trunk center/diameter | yes | `range_sensor_calibration.py` |
 | Trunk distance sensor | yes | `/harvester/cutting_tool_left_range` (0.05–3.0 m) |
-| Depth camera IMU | **no** | `libgazebo_ros_camera.so` — no IMU |
-| LiDAR IMU | **no** | `libgazebo_ros_ray_sensor.so` (gpu_ray) — no IMU |
+| Depth camera IMU | added (see IMU section) | `platform_depth_camera_imu` |
+| LiDAR IMU | added (see IMU section) | `vehicle_lidar_imu` |
 | Arm pitch/roll/yaw encoders | **no** (real) | docs: "no joint encoders" |
 
-**Decision:** The sensor IMUs and arm encoders are **not** available, so the
-estimator must be encoder-free and IMU-free. In simulation, `/harvester/joint_states`
-provides the measured lift angle; we use it **only as ground truth for validation**,
-not as a required input to the algorithm.
+**Decision:** The estimator is **encoder-free** — it never depends on arm joint
+encoders. It must also work **without IMUs** (Strategy 1). The sensor IMUs were
+subsequently added to Gazebo so a second, **IMU-assisted** strategy (Strategy 2)
+could be A/B-tested against the encoder-free path. In simulation,
+`/harvester/joint_states` provides the measured lift angle; we use it **only as
+ground truth for validation**, not as a required input to the algorithm.
 
 ## New estimator design
 
@@ -81,6 +83,29 @@ current method's ~1.8 m occlusion problem).
 base_z = z where diameter(z) = 0.70 m
 ```
 
+> **Note (outcome):** this sub-estimate did **not** work robustly with the sparse
+> recordings (see "What did NOT work" below); it was kept in the design but
+> demoted to diagnostic-only. The method that actually shipped is Sub-estimate B′
+> below.
+
+### Sub-estimate B′ — trunk top via tight cylinder (the implementation that shipped)
+
+The trunk is a solid vertical cylinder, so its top is simply the **highest point
+within a tight cylinder about the estimated axis**. Fronds/FFBs attach at the
+crown base and extend *outward*, not above the trunk top, so a tight radius
+(`r < 0.35 m`) rejects the frond canopy that biases the legacy estimate.
+
+```
+trunk_axis   = median XY of points in a mid-trunk band (z in [1, 8] m)
+r            = hypot(x - axis_x, y - axis_y)
+trunk_top    = max( z  where r < 0.35 m )          # primary
+trunk_top_p  = percentile(z[r < 0.35 m], 99.9)     # robust variant
+```
+
+This is the estimate that actually produced the validated results (see outcome
+section). It is fully encoder-free: the axis is *measured*, not hard-coded to
+`world (8.5, 0)`.
+
 ### Sub-estimate C — crown-base density transition (existing method)
 
 Already implemented in `analyze_tree_scan.py`: first histogram bin where the
@@ -88,13 +113,20 @@ canopy annulus exceeds a 5000-point threshold. Retain as the third estimate.
 
 ### Fusion
 
+The shipped fusion uses the tight-cylinder trunk-top estimates (B′), with the
+crown-base transition (C) as a cross-check. The taper-fit base (B) is computed
+only as a diagnostic and is **not** included in the fused value because it proved
+unstable.
+
 ```
-H_tree = weighted median of { A: trunk_top_z - base_z,
-                             B: highest trunk-cylinder z - base_z,
-                             C: crown_base + (crown_base - base_z)  # crown span proxy }
+H_tree = median of { B′: trunk_top (tight-cylinder max),
+                     B′: trunk_top_p (tight-cylinder 99.9 pct),
+                     legacy: canopy_top (99 pct) }          # for uncertainty only
 ```
 
-plus a reported uncertainty = spread of the three.
+plus a reported uncertainty = spread of the estimates. In world-frame recordings
+the base is world `z = 0`, so height = trunk top directly; the taper-fit base
+would be needed only for a sensor-frame recording.
 
 ## Implementation steps
 
@@ -122,13 +154,20 @@ plus a reported uncertainty = spread of the three.
 6. **Validate** against `trunk_top_reference = 12.0 m` and `crown_base = 9.2 m`.
    Report the improvement vs. the current 12.26 m (0.26 m error).
 
-## Optional: add sensor IMUs to Gazebo (future work, not required)
+## IMU sensors in Gazebo (implemented)
 
-If a true sensor-IMU path is desired later, add `<sensor type="imu">` +
-`libgazebo_ros_imu_sensor.so` blocks to the LiDAR/camera links in
-`oil_palm_harvester_kinematic.urdf`, publish `sensor_msgs/Imu`, and extend the
-gateway/contract. This is **out of scope** for the encoder-free estimator, which
-must work without IMUs.
+Two IMU sensors were added so the IMU-assisted strategy could be A/B-tested
+against the encoder-free path:
+
+- `vehicle_lidar_imu` on `vehicle_lidar_link` → `/harvester/lidar/imu`
+- `platform_depth_camera_imu` on `platform_depth_camera_link` →
+  `/harvester/platform_camera/imu`
+
+Both use `libgazebo_ros_imu_sensor.so` and are transported through the gateway
+as canonical `v1/imu/lidar` and `v1/imu/camera` channels (see
+`docs/TELEMETRY_HANDOFF.md`). The IMU is rigid on `cutting_arm_base_link` (child
+of the un-instrumented `cutting_arm_lift_joint`), so its gravity-referenced
+orientation measures the lift pitch directly: `theta_lift = -2 * asin(orientation.y)`.
 
 ## Deliverables
 
@@ -145,18 +184,20 @@ PYTHONPATH=src/harvester_telemetry_contract:src/harvester_telemetry_gateway \
   python3 analyze_tree_scan_v2.py ~/harvester_audits/tree_scan_001
 ```
 
-## Implementation outcome (2026-09-01)
+## Implementation outcome (2026-09-01 → 2026-09-02)
 
-Implemented `analyze_tree_scan_v2.py` and validated against `tree_scan_001`.
+Implemented `analyze_tree_scan_v2.py` with both strategies and validated them
+against two recordings.
 
-### What worked
+### What worked (encoder-free, Strategy 1)
 
-- **Trunk axis auto-fit**: median XY in mid-trunk band → (8.35, 0) vs true
-  (8.5, 0), 0.15 m error, encoder-free.
-- **Trunk top via tight cylinder** (`r < 0.35 m`): max z = 11.903 m, p99.9 =
-  11.900 m. Fused height **11.90 m (−0.10 m, −0.8%)** vs legacy **12.26 m
-  (+0.26 m, +2.1%)** — ~2.6× better and encoder-free.
-- **Crown base density transition**: 9.00 m (unchanged, 9.2 m ground truth).
+- **Trunk axis auto-fit**: median XY in a mid-trunk band → (8.35, 0) on
+  `tree_scan_001`, (8.28, 0) on `tree_scan_002` (true 8.5, 0) — encoder-free.
+- **Trunk top via tight cylinder** (`r < 0.35 m`): the trunk is a vertical
+  cylinder, so its top is the highest point within the tight cylinder (fronds
+  extend *outward*, not above it). This removes the frond-tip bias of the legacy
+  canopy-99th-percentile estimate.
+- **Crown base density transition**: ~9.0–9.25 m (9.2 m ground truth).
 
 ### What did NOT work (honest finding)
 
@@ -167,16 +208,36 @@ Implemented `analyze_tree_scan_v2.py` and validated against `tree_scan_001`.
   numerically unstable (returned a nonsensical −13.7 m base). Demoted to
   diagnostic-only; the fused result uses the world-frame trunk top directly.
 
-### IMU-assisted path
+### IMU-assisted path (Strategy 2) — completed
 
-IMUs were added to the URDF and telemetry pipeline, but the `tree_scan_001`
-recording predates them. `analyze_imu_assisted()` currently reports
-`no_imu_recordings`. A new sweep with the updated URDF is required to populate
-`v1/imu/lidar` and complete the `d_short` crossing estimate.
+IMUs were added to the URDF and telemetry pipeline, and a fresh sweep
+(`tree_scan_002`) was recorded with them (5,596 IMU samples per channel, 1,029
+world-frame clouds). `analyze_imu_assisted()` now:
+
+- recovers the lift pitch from the LiDAR IMU (`theta_lift = -2*asin(orientation.y)`),
+  confirming the IMU closes the un-instrumented `cutting_arm_lift_joint`
+  (recovered range −0.349 .. +1.016 rad matches the −0.35 .. +1.05 limits);
+- confirms the sweep reached the canopy;
+- reports an IMU-assisted trunk-top estimate (global max over the canopy-reaching
+  sweep) and its agreement with the encoder-free fused height.
+
+### Final A/B results (against 12.0 m ground truth)
+
+| Strategy | Recording | Height | Error |
+|---|---|---|---|
+| Encoder-free (fused) | tree_scan_002 | 11.83 m | −0.17 m (−1.4%) |
+| IMU-assisted (global max) | tree_scan_002 | 11.927 m | −0.07 m (−0.6%) |
+| Legacy (canopy 99th pct) | tree_scan_002 | 12.22 m | +0.22 m (+1.8%) |
+| Encoder-free (fused) | tree_scan_001 | 11.90 m | −0.10 m (−0.8%) |
+
+The two new strategies agree to within ~0.1 m and both beat the legacy method.
+On real hardware (sensor-frame clouds) the IMU would be *required* to level the
+cloud; here the recording is already world-registered, so both strategies measure
+the same physical quantity.
 
 ### Rationale for the trunk-top-tight-cylinder win
 
 Fronds/FFBs attach at the crown base (9.2 m) and extend *outward*; within a tight
 cylinder about the axis (r < 0.35 m) they do not exceed the trunk top (12.0 m).
-The legacy 99th-percentile canopy estimate includes frond tips and reads ~12.26 m.
-Restricting to the trunk cylinder removes that bias.
+The legacy 99th-percentile canopy estimate includes frond tips and reads ~12.22–
+12.26 m. Restricting to the trunk cylinder removes that bias.
