@@ -89,14 +89,16 @@ exactly as before.  Keep this process running; it is the live source.
 
 ```bash
 cd ~/ros2_ws
-DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+DISPLAY=:10 PYTHONPATH=src/harvester_dashboard \
   /usr/bin/python3 -m harvester_dashboard.main \
   --pub tcp://127.0.0.1:5590 \
   --status tcp://127.0.0.1:5600
 ```
 
-The "Harvester Telemetry Dashboard" window opens on `DISPLAY=:1` beside
-RViz.  You should see within ~2 s: live cutter camera, green stream rows,
+The "Harvester Telemetry Dashboard" window opens on `DISPLAY` beside RViz
+(use the xrdp session display, `:10` on this machine — `:0` is a headless
+640×480 fallback and `:1` does not exist).  You should see within ~2 s: live
+cutter camera, green stream rows,
 SIMULATION badge (from `--status`), docking/cutter ranges, trunk estimate,
 calibration line, and the LiDAR inset.  Move a slider in RViz/Gazebo and the
 camera/trunk/ranges react — nothing is fed back into the simulation.
@@ -122,7 +124,7 @@ PYTHONPATH=src/harvester_telemetry_contract:src/harvester_telemetry_gateway \
 
 ```bash
 cd ~/ros2_ws
-DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+DISPLAY=:10 PYTHONPATH=src/harvester_dashboard \
   /usr/bin/python3 -m harvester_dashboard.main --pub tcp://127.0.0.1:5591 --status ''
 ```
 

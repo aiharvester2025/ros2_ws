@@ -47,17 +47,20 @@ if _QT_AVAILABLE:
         lidar_points_changed = Signal()
         lidar_view_changed = Signal()
         frame_tick = Signal()
+        dock_state_changed = Signal()
+        dock_plan_changed = Signal()
 
         STATUS_TIMEOUT_MS = 600
 
         def __init__(self, config: DashboardConfig, model: TelemetryModel,
                      annotation: AnnotationState, annotation_publisher=None,
-                     parent=None):
+                     dock_publisher=None, parent=None):
             super().__init__(parent)
             self.config = config
             self.model = model
             self.annotation = annotation
             self.annotation_publisher = annotation_publisher
+            self.dock_publisher = dock_publisher
             self.status_client = (
                 StatusClient(config.status_endpoint,
                              timeout_ms=self.STATUS_TIMEOUT_MS)
@@ -74,6 +77,8 @@ if _QT_AVAILABLE:
             self._last_status_response: Optional[Dict[str, Any]] = None
             self._maintenance_mode = 'unknown'
             self._lidar_points: List[List[float]] = []
+            self._dock_state = 'SWEEP'
+            self._dock_plan: Dict[str, Any] = {}
             self._refresh = QTimer(self)
             self._refresh.timeout.connect(self.refresh)
             self._refresh.start(200)
@@ -148,6 +153,8 @@ if _QT_AVAILABLE:
                 self._depth_counters[camera] += 1
             elif channel == 'v1/lidar/raw':
                 self._set_lidar_points(decoded)
+            elif channel == 'v1/docking/plan':
+                self._on_dock_plan(decoded)
             self.frame_tick.emit()
 
         _LIDAR_HUD_SIZE_M = 8.0  # mirror of LidarInset.qml range_limit_m
@@ -220,6 +227,57 @@ if _QT_AVAILABLE:
             if had:
                 self._forward_annotation('cleared')
             self.annotation_changed.emit()
+
+        # =================================================================
+        # DOCK button — out-of-contract command forwarder
+        # =================================================================
+        @Slot()
+        def dock_pressed(self) -> None:
+            """Forward one DOCK press on the out-of-contract command PUB.
+
+            The orchestrator owns the FSM and advances one step per press; this
+            client sends only the one-bit ``{"action": "dock"}`` request.  When
+            the publisher is disabled (default), it only toasts a notice.
+            """
+            if self.dock_publisher is not None and self.dock_publisher.enabled:
+                ok = self.dock_publisher.publish_dock()
+                self._toast_message(
+                    'DOCK press sent' if ok else 'DOCK publish failed')
+            else:
+                self._toast_message(
+                    'docking command endpoint not configured (--dock-pub)')
+
+        def _on_dock_plan(self, payload: Dict[str, Any]) -> None:
+            self._dock_plan = payload if isinstance(payload, dict) else {}
+            state = self._dock_plan.get('state', 'SWEEP')
+            if state != self._dock_state:
+                self._dock_state = state
+                self.dock_state_changed.emit()
+            self.dock_plan_changed.emit()
+
+        def _get_dock_state(self) -> str:
+            return self._dock_state
+
+        def _get_dock_plan_line(self) -> str:
+            if not self._dock_plan:
+                return 'dock: idle'
+            p = self._dock_plan
+            state = p.get('state', '?')
+            if p.get('reachable') is False:
+                return ('dock: {} — MOVE PRIME MOVER{}'.format(
+                    state,
+                    (' +{:.2f} m'.format(p['needed_advance_m'])
+                     if p.get('needed_advance_m') else '')))
+            parts = ['dock: {}'.format(state)]
+            if p.get('tree_height_m') is not None:
+                parts.append('H={:.2f}'.format(p['tree_height_m']))
+            if p.get('distance_m') is not None:
+                parts.append('d={:.2f}'.format(p['distance_m']))
+            if p.get('boom_angle_deg') is not None:
+                parts.append('theta={:.1f}'.format(p['boom_angle_deg']))
+            if p.get('boom_extension_m') is not None:
+                parts.append('e={:.2f}'.format(p['boom_extension_m']))
+            return '  '.join(parts)
 
         def _forward_annotation(self, action: str) -> None:
             if self.annotation_publisher is not None:
@@ -497,6 +555,10 @@ if _QT_AVAILABLE:
         annotationV = Property(
             int, _get_annotation_v, notify=annotation_changed)
         toast = Property(str, _get_toast, notify=toast_changed)
+        dockState = Property(
+            str, _get_dock_state, notify=dock_state_changed)
+        dockPlanLine = Property(
+            str, _get_dock_plan_line, notify=dock_plan_changed)
 
 
 __all__ = ['DashboardBridge', '_QT_AVAILABLE']

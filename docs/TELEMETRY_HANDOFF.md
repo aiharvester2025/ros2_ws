@@ -76,6 +76,7 @@ world/tree-fixed target on hardware without a separately validated pose source.
 | `src/harvester_telemetry_gateway/harvester_telemetry_gateway/replay.py` | Replay publisher; default endpoint is `tcp://*:5591`. |
 | `src/harvester_telemetry_gateway/config/gateway.yaml` | Xavier endpoint, image quality, LiDAR reduction, and recording configuration. |
 | `src/harvester_dashboard/` | Source-agnostic view-only Qt Quick dashboard (see its README for run/test commands). |
+| `src/harvester_dock/` | Interactive docking orchestrator: LiDAR sweep, live height/distance estimation, and dock/undock FSM. The only node that writes `/harvester/joint_commands`; listens for DOCK presses on the out-of-contract `5593` endpoint. |
 | `.kilo/plans/1787018525986-canonical-telemetry-dashboard-plan.md` | Forward plan for the Orin adapter and dashboard. |
 
 ## Canonical source mapping
@@ -95,6 +96,7 @@ world/tree-fixed target on hardware without a separately validated pose source.
 | `/harvester/cutting_tool_left_range` | `v1/range/cutter` |
 | `/harvester/docking/trunk_center` | `v1/docking/trunk_estimate` |
 | `/harvester/docking/calibration_status` | `v1/calibration/status` |
+| `/harvester/dock/status` | `v1/docking/plan` |
 | Gateway state | `v1/system/status` |
 
 Never substitute `/harvester/lidar/points`: it is deliberately zero-stamped
@@ -137,7 +139,7 @@ environment — see the interpreter note below):
 
 ```bash
 cd ~/ros2_ws
-DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+DISPLAY=:10 PYTHONPATH=src/harvester_dashboard \
   /usr/bin/python3 -m harvester_dashboard.main \
   --pub tcp://127.0.0.1:5590 --status tcp://127.0.0.1:5600
 ```
@@ -198,7 +200,7 @@ Run the dashboard against replay (no ROS environment needed; system Python
 with the PySide2/QtQuick apt packages installed):
 
 ```bash
-DISPLAY=:1 PYTHONPATH=src/harvester_dashboard \
+DISPLAY=:10 PYTHONPATH=src/harvester_dashboard \
   /usr/bin/python3 -m harvester_dashboard.main --pub tcp://127.0.0.1:5591 --status ''
 ```
 

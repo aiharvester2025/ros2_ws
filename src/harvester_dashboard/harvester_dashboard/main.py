@@ -3,7 +3,7 @@
 
 Run under the system Python with the Qt Quick modules installed::
 
-    DISPLAY=:1 /usr/bin/python3 -m harvester_dashboard.main \
+    DISPLAY=:10 /usr/bin/python3 -m harvester_dashboard.main \
         --pub tcp://127.0.0.1:5591 --status '' 
 
 Sockets created by this process, exhaustively:
@@ -56,8 +56,11 @@ def main(argv=None) -> int:
     annotation = AnnotationState()
     from .annotation_publisher import AnnotationPublisher
     annotation_publisher = AnnotationPublisher(config.annotation_endpoint)
+    from .dock_command_publisher import DockCommandPublisher
+    dock_publisher = DockCommandPublisher(config.dock_endpoint)
     bridge = DashboardBridge(config, model, annotation,
-                             annotation_publisher=annotation_publisher)
+                             annotation_publisher=annotation_publisher,
+                             dock_publisher=dock_publisher)
     provider = FrameImageProvider()
     source = TelemetrySource(config, model)
     source.on_frame = _make_frame_sink(bridge, provider)
@@ -87,6 +90,7 @@ def main(argv=None) -> int:
     if bridge.status_client is not None:
         bridge.status_client.close()
     annotation_publisher.close()
+    dock_publisher.close()
     return code
 
 

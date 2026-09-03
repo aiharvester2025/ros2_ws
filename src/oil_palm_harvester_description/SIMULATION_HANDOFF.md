@@ -516,8 +516,14 @@ Gazebo service calls, joint/base commands, or hardware-control messages.
 
 - The live Xavier PUB endpoint is `tcp://*:5590`; the read-only status REP
   endpoint is `tcp://*:5600`.
-- `/harvester/lidar/raw_points` is the LiDAR input. Do not replace it with the
-  zero-stamped RViz display topic `/harvester/lidar/points`.
+- `/harvester/lidar/raw_points` is the LiDAR input for the **gateway** and any
+  time-correlated fusion/recording. Do not replace it with the zero-stamped
+  RViz display topic `/harvester/lidar/points`.
+- The **dock orchestrator** (`harvester_dock`) is the one exception: it levels
+  each scan with the latest TF during the stationary sweep dwell, so it reads
+  the zero-stamped `/harvester/lidar/points` (latest-TF) topic, not the
+  sim-time `raw_points`.  This is intentional and only valid because it
+  accumulates exclusively during the arm-stationary dwell phase.
 - Sensor observations declare `ros_sim_time`. Gateway/status-only data uses
   `utc_host` where no Gazebo measurement timestamp exists.
 - Recording is opt-in via `record_dir` and saves exact multipart packets for

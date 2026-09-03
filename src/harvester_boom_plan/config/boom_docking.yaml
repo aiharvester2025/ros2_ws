@@ -1,12 +1,15 @@
 # Boom docking-plan configuration (simulation_only).
 #
-# The docking point is defined as:
-#     docking_height_world_z = trunk_top_height - docking_offset_below_trunk_top_m
-#
-# For the reference oil-palm tree the trunk top is z = 12.0 m (tree_targets.yaml),
-# so the default offset of 2.0 m places the c-channel at z = 10.0 m, just below
-# the crown base (9.2 m) but above the upper-frond/FFB zone, where the trunk is
-# still a clean vertical cylinder for the C-channel to grip.
+# NOTE (2026-09-03): the docking height must be derived from the CROWN BASE
+# (the trunk-end, where fronds/FFBs first appear), NOT from the tree top minus
+# an offset.  For the reference oil-palm tree the trunk top is z = 12.0 m and
+# the crown base is z = 9.2 m; the old formula
+#     docking_height = trunk_top - 2.0 m = 10.0 m
+# lands INSIDE the frond/FFB zone (fronds at 9.45 m, FFBs at 9.55 m) and is
+# exactly why the platform crashed into them.  The autonomous orchestrator
+# (harvester_dock) now derives the docking height from the LiDAR-measured crown
+# base (crown_base - crown_base_margin_m).  This read-only advisor keeps the
+# legacy offset only as a documented fallback.
 #
 # Reference point choice (see plan):
 #   - Tree side  : trunk CENTERLINE at the docking height, i.e. (trunk_x, trunk_y, H_dock).
@@ -21,7 +24,7 @@ mode: simulation_only
 deployment_allowed: false
 
 # --- Tree / docking geometry ------------------------------------------------
-docking_offset_below_trunk_top_m: 2.0     # docking point = trunk top - 2.0 m
+docking_offset_below_trunk_top_m: 2.0     # LEGACY fallback (see NOTE above)
 # Fallback tree position (world) used only while /harvester/tree/docking_estimate
 # is absent.  Matches the static world tree at (8.5, 0, 0).
 tree_world_xy_fallback_m: [8.5, 0.0]

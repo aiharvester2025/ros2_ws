@@ -26,10 +26,13 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='tree_state_publisher',
-            # Keep Foxy's automatic robot_description publisher for the tree
-            # off the harvester's /robot_description topic used by RViz.
-            namespace='tree',
+            # FIX (2026-09-03): no namespace — the tree's fixed-joint chain must
+            # publish to /tf (not /tree/tf) so RViz can position the tree's
+            # RobotModel (which otherwise renders as yellow vertical lines).
+            # Remap the auto-republished robot_description away from
+            # /robot_description so it does not overwrite the harvester's URDF.
             parameters=[{'robot_description': tree_urdf, 'use_sim_time': False}],
+            remappings=[('robot_description', '/tree_description')],
         ),
         Node(
             package='joint_state_publisher_gui',

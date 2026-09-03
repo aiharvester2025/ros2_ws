@@ -34,6 +34,11 @@ class LiftOnlySweeper(Node):
         self.steps = 40
         self.step_wait = 2.0    # seconds to let the rate-limited bridge move
         self.lidar_wait = 0.8   # seconds to capture a fresh LiDAR scan
+        # EXTRA dwell on the FINAL (canopy-reaching) step: the crown base /
+        # frond / FFB / trunk-end transition is where the density jump is
+        # measured, and the Mid-360's non-repetitive scanning densifies with
+        # dwell, so hold longer there to sharpen the crown-base bin.
+        self.final_step_lidar_wait = 3.0
 
         self.lidar_msgs = []
 
@@ -68,7 +73,10 @@ class LiftOnlySweeper(Node):
             # LiDAR scan (10 Hz).
             self.spin_for(self.step_wait)
             self.lidar_msgs.clear()
-            self.spin_for(self.lidar_wait)
+            # Extend the dwell on the final (canopy-reaching) step.
+            dwell = (self.final_step_lidar_wait
+                     if i + 1 >= self.steps else self.lidar_wait)
+            self.spin_for(dwell)
             if self.lidar_msgs:
                 self.get_logger().info(
                     f'  captured {len(self.lidar_msgs)} LiDAR msgs '

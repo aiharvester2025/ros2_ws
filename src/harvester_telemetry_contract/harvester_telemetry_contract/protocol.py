@@ -28,9 +28,11 @@ CANONICAL_CHANNELS = frozenset({
     'v1/range/docking',
     'v1/range/cutter',
     'v1/docking/trunk_estimate',
+    'v1/docking/plan',
     'v1/calibration/status',
     'v1/system/status',
     'v1/operator/target_selection',
+    'v1/operator/dock_request',
 })
 
 _SOURCE_MODES = frozenset({'simulation', 'hardware'})

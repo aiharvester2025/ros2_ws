@@ -12,6 +12,17 @@ Each source exposes one configurable PUB endpoint.  The default is
 profile.  A source may expose a separate configurable REQ/REP status endpoint
 (default `tcp://*:5600`).
 
+**Out-of-contract command endpoints.** The canonical PUB/REP endpoints above
+carry observations only and never a motion command.  Two dedicated, non-canonical
+PUB endpoints are reserved for operator *requests* that deliberately lie outside
+the telemetry contract (neither is consumed by the gateway, and neither touches
+`5590`/`5600`):
+
+| Endpoint | Channel | Payload | Meaning |
+|---|---|---|---|
+| `tcp://127.0.0.1:5592` | `v1/operator/target_selection` | annotation JSON | Non-actuating operator annotation. |
+| `tcp://127.0.0.1:5593` | `v1/operator/dock_request` | `{"action":"dock"}` | One-bit "advance the docking state machine" request. Carries no joint/velocity value; the docking orchestrator owns the FSM. |
+
 PUB/SUB consumers subscribe by channel prefix.  Senders and consumers use
 bounded application queues and discard complete old packets when a newer
 packet is available.  `ZMQ_CONFLATE` is prohibited because it is unsafe with
@@ -87,6 +98,7 @@ which sensors exist.
 | `v1/range/docking` | `json` | Array of the five named docking-sensor readings. |
 | `v1/range/cutter` | `json` | One cutter-range reading. |
 | `v1/docking/trunk_estimate` | `json` | Existing calibrated side-pair trunk estimate. |
+| `v1/docking/plan` | `json` | Docking FSM state + measured tree height, platform→trunk distance, boom angle/extension, reachability (observation only). |
 | `v1/calibration/status` | `json` | Calibration revision, validity, and nominal/physical status. |
 | `v1/system/status` | `json` | Source heartbeat, stream state, drops, and errors. |
 | `v1/operator/target_selection` | `json` | Non-actuating operator annotation only. |

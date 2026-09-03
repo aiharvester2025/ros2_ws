@@ -56,6 +56,24 @@ Item {
                 horizontalAlignment: Text.AlignRight
             }
         }
+
+        // Docking plan readout (visible whenever the dock orchestrator runs).
+        Rectangle {
+            visible: bridge.dockPlanLine !== "dock: idle"
+            width: dock_plan_text.width + 16
+            height: dock_plan_text.height + 12
+            radius: 5
+            color: "#102a18"
+            opacity: panel_opacity
+            Text {
+                id: dock_plan_text
+                anchors.centerIn: parent
+                text: bridge.dockPlanLine
+                color: "#a8e0a8"
+                font.pixelSize: 12
+                horizontalAlignment: Text.AlignRight
+            }
+        }
     }
 
     // Bottom: stream errors panel (collapsible rows per channel).

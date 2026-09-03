@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>harvester_dock</name>
+  <version>0.1.0</version>
+  <description>Interactive docking orchestrator: LiDAR sweep, live height/distance estimation, and autonomous dock/undock.</description>
+  <maintainer email="maintainer@example.com">Oil Palm Harvester</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>harvester_boom_plan</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -253,9 +253,16 @@ cloud (the recording here is already world-frame via
    `harvester_boom_plan/tree_docking_estimate_node.py` (publishes
    `/harvester/tree/docking_estimate` with a static trunk top; the docking
    offset of 2.0 m is applied downstream in `boom_plan_node`).
+   > **Revised (2026-09-03):** the *autonomous* dock (`harvester_dock`) no
+   > longer uses `trunk_top - offset`.  It measures the **crown base**
+   > (trunk-end where fronds begin) from the live LiDAR sweep and docks at
+   > `crown_base - 2.0 m` (~7.2 m), because `trunk_top - 2.0 = 10.0 m` lands
+   > inside the frond/FFB zone and crashed the platform.
 2. Add the trunk-top estimate to the dashboard via a new ZMQ channel or ROS
    topic.
 3. ~~Validate the docking-point offset against the c-channel platform
    reachability envelope.~~ **Done** — the 2.0 m offset (docking at z = 10.0 m)
    is reachable and validated to 0.000 m docking error in simulation; see
    [`BOOM_DOCK_PLAN.md`](BOOM_DOCK_PLAN.md).
+   > **Superseded:** docking now happens at `crown_base - 2.0 m` (~7.2 m), not
+   > 10.0 m.

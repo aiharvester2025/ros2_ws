@@ -226,6 +226,7 @@ def generate_launch_description():
     range_calibration = LaunchConfiguration('range_calibration')
     range_calibration_file = LaunchConfiguration('range_calibration_file')
     boom_plan = LaunchConfiguration('boom_plan')
+    joint_gui = LaunchConfiguration('joint_gui')
     harvester_share = Path(get_package_share_directory('oil_palm_harvester_description'))
     tree_share = Path(get_package_share_directory('oil_palm_tree_description'))
     gazebo_share = Path(get_package_share_directory('gazebo_ros'))
@@ -291,16 +292,32 @@ def generate_launch_description():
         # Keep commands separate from the Gazebo-measured joint feedback used
         # by robot_state_publisher above; otherwise RViz leads Gazebo/sensors.
         remappings=[('joint_states', '/harvester/joint_commands')],
+        # The GUI continuously re-publishes slider positions to
+        # /harvester/joint_commands, which OVERRIDES any scripted/autonomous
+        # joint command (e.g. the dock orchestrator sweep).  Disable it with
+        # joint_gui:=false when running the autonomous dock flow.
+        condition=IfCondition(joint_gui),
     )
     tree_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='tree_state_publisher',
-        # Foxy robot_state_publisher republishes its model on a
-        # ``robot_description`` topic.  Keep the tree's automatic copy out of
-        # the harvester RViz display topic; TF frame names remain unchanged.
-        namespace='tree',
+        # FIX (2026-09-03): the previous ``namespace='tree'`` pushed this
+        # node's TF to ``/tree/tf`` and prefixed every frame with ``tree/``.
+        # RViz's TF display subscribes only to ``/tf`` and ``/tf_static``, so
+        # the tree's links (trunk_link, branches, FFBs) had NO visible
+        # transform and rendered as degenerate yellow vertical lines.
+        #
+        # Removing the namespace publishes the tree's fixed-joint chain to
+        # ``/tf`` so RViz can position the tree RobotModel on /tree_description.
+        # HOWEVER, Foxy's robot_state_publisher ALSO (re-)publishes its model on
+        # a ``robot_description`` topic, which previously (namespaced) went to
+        # ``/tree/robot_description``.  Un-namespaced it now lands on
+        # ``/robot_description`` and would OVERWRITE the harvester's URDF that
+        # RViz's "Harvester Robot" display reads.  Remap that topic to a
+        # dedicated ``/tree_description`` so the two models no longer collide.
         parameters=[{'robot_description': tree_urdf}],
+        remappings=[('robot_description', '/tree_description')],
     )
 
     # Gazebo and RViz share the world frame.  The tree is fixed in that frame;
@@ -336,6 +353,12 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true', description='Start the Gazebo client GUI.'),
         DeclareLaunchArgument('rviz', default_value='true', description='Start RViz with the combined scene.'),
+        DeclareLaunchArgument(
+            'joint_gui', default_value='true',
+            description=(
+                'Start the joint_state_publisher_gui sliders.  Set false when a '
+                'scripted/autonomous joint command (e.g. the dock orchestrator) '
+                'needs exclusive control of /harvester/joint_commands.')),
         DeclareLaunchArgument(
             'camera_lidar_view', default_value='false',
             description=(

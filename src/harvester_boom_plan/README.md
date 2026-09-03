@@ -10,7 +10,7 @@ the boom joint targets needed to place the c-channel platform onto the trunk,
 
 ## What it computes
 
-Given a docking point (trunk centreline at `trunk_top − 2.0 m`), it solves the
+Given a docking point (trunk centreline at the docking height), it solves the
 closed-form boom inverse kinematics from the active URDF:
 
 ```
@@ -61,7 +61,7 @@ python3 -m harvester_boom_plan.boom_docking_demo --execute
 
 ## Run (with the full Gazebo + RViz scene)
 
-The combined launch includes this stack by default:
+The combined launch includes this stack by default (`boom_plan:=true`):
 
 ```bash
 ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
@@ -69,6 +69,17 @@ ros2 launch oil_palm_harvester_description gazebo_harvester_and_tree.launch.py \
 ```
 
 Disable it with `boom_plan:=false`.
+
+> **Two docking modes (mutually exclusive at launch time).**  This `boom_plan`
+> stack is the **read-only advisor** (computes and *displays* θ_b, extension,
+> distance; does not auto-actuate).  The newer
+> [`harvester_dock`](../harvester_dock/README.md) orchestrator is the **autonomous**
+> flow (sweep → estimate → dock → undock) and *does* auto-actuate.  Running both
+> at once makes them fight over `/harvester/joint_commands`, so:
+> - **Autonomous dock experiment:** launch with `boom_plan:=false` (and
+>   `joint_gui:=false`), then run `python3 -m harvester_dock.dock_orchestrator`.
+> - **Read-only advisor mode:** keep `boom_plan:=true` and do **not** start the
+>   orchestrator.
 
 ## Safety boundary
 
@@ -86,7 +97,13 @@ PYTHONPATH=src/harvester_boom_plan python3 -m pytest src/harvester_boom_plan/tes
 ## Docking reference point
 
 - **Tree side:** trunk centreline at the docking height
-  `H_dock = trunk_top − 2.0 m = 10.0 m` (reference tree trunk top is 12.0 m).
+  `H_dock = crown_base − 2.0 m ≈ 7.2 m` (reference tree crown base is 9.2 m).
+  > The autonomous dock (`harvester_dock`) measures the crown base (trunk-end)
+  > from the live LiDAR sweep and docks `crown_base − 2.0 m`.  `trunk_top − 2.0
+  > = 10.0 m` is **inside the frond/FFB zone** and must not be used — that
+  > mistake caused the platform to crash into the canopy.  This read-only
+  > `boom_plan` package accepts the docking height as input; the crown-base
+  > decision lives in `harvester_dock`.
 - **Platform side:** `c_channel_reference`, whose +X points through the C-opening
   toward the tree.  The IK goal places `c_channel_reference` exactly at the
   trunk-centre docking point.

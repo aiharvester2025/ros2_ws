@@ -163,6 +163,9 @@ class TelemetryGateway(Node):
         self.create_subscription(
             String, '/harvester/docking/calibration_status', self.on_calibration_status,
             QoSProfile(depth=10))
+        self.create_subscription(
+            String, '/harvester/dock/status', self.on_dock_status,
+            QoSProfile(depth=10))
 
         self.create_timer(0.002, self.flush_one_packet)
         self.create_timer(0.05, self.handle_status_request)
@@ -461,6 +464,32 @@ class TelemetryGateway(Node):
             'transform_freshness_s': None,
         }
         self._enqueue('v1/calibration/status', header, json.dumps(payload, separators=(',', ':')).encode('utf-8'))
+
+    def on_dock_status(self, message):
+        """Forward the docking plan/status (observation only) to the dashboard.
+
+        ``/harvester/dock/status`` is published by the dock orchestrator; this
+        is observation (height, distance, boom plan, FSM state), never a motion
+        command, so it is allowed on the canonical PUB endpoint.
+        """
+        try:
+            payload = json.loads(message.data)
+        except json.JSONDecodeError:
+            payload = {'state': 'UNPARSEABLE', 'raw': message.data}
+        header = {
+            'schema_version': 1,
+            'source_mode': 'simulation',
+            'source_id': self.source_id,
+            'sequence': 0,
+            'frame_id': 'world',
+            'acquisition_timestamp_ns': time.time_ns(),
+            'clock_domain': 'utc_host',
+            'gateway_monotonic_ns': time.monotonic_ns(),
+            'calibration_id': 'none',
+            'codec': 'json',
+            'capabilities': dict(self.capabilities),
+        }
+        self._enqueue('v1/docking/plan', header, json.dumps(payload, separators=(',', ':')).encode('utf-8'))
 
     def flush_one_packet(self):
         for channel in sorted(self.queues):

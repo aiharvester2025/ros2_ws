@@ -1,0 +1,80 @@
+# harvester_dock orchestration configuration (simulation only).
+
+mode: simulation_only
+deployment_allowed: false
+
+# --- Command channel ---------------------------------------------------------
+# Out-of-contract ZMQ SUB endpoint the orchestrator listens on for DOCK presses.
+# This is deliberately NOT the canonical 5590/5600 telemetry endpoints (which
+# never carry motion commands).  Mirrors the dashboard's annotation PUB (5592).
+command_endpoint: "tcp://127.0.0.1:5593"
+
+# --- LiDAR sweep (cutting_arm_lift_joint only) -------------------------------
+sweep:
+  joint: "cutting_arm_lift_joint"
+  # The trunk (world x=8.5, top z=12, base z=0) subtends ~-22..+55 deg elevation
+  # from the LiDAR (world ~1.9, ~2.67).  The LiDAR vertical FOV is -7..+52 deg,
+  # so a SMALL nod about ~+0.1 rad keeps the trunk fully in view.  The old
+  # -0.35..+1.05 rad full sweep overshot far above/below the trunk, producing
+  # almost no trunk points.  A single, correctly-aimed nod (3-5 steps) is
+  # sufficient; more steps add no density because the trunk is already spanned.
+  lift_min: -0.25          # rad (trunk base just below FOV bottom)
+  lift_max: 0.05           # rad (trunk top just above FOV top)
+  steps: 5
+  step_wait_s: 2.0         # let the rate-limited bridge move
+  lidar_wait_s: 3.0        # dwell to accumulate MANY scans (density stabilizes the top max)
+  final_step_dwell_s: 8.0  # EXTRA dwell on the LAST (canopy-reaching) step: the
+                           # crown base / frond / FFB / trunk-end transition is
+                           # where the density jump is measured, and the real
+                           # Mid-360 densifies with dwell (non-repetitive scan),
+                           # so hold longer there to sharpen the crown-base bin.
+  home: 0.0                # lift-joint home value to return to on undock
+
+# --- Docking geometry --------------------------------------------------------
+# The docking height is derived from the CROWN BASE (the trunk-end where fronds/
+# FFBs first appear), NOT from the tree top.  The tree top (~12 m) is well inside
+# the canopy; ``tree_top - offset`` lands in the frond/FFB zone (fronds ~9.45 m,
+# FFBs ~9.55 m) and is exactly why the platform crashed into them.
+#
+# Preferred: docking_height = crown_base - docking_offset_below_trunk_top_m.
+#   For the reference tree (crown base ~9.2 m) this gives ~7.2 m, clean trunk.
+docking_offset_below_trunk_top_m: 2.0   # offset BELOW crown base (and legacy tree-top fallback)
+
+# --- Crown-base density threshold -------------------------------------------
+# The crown base is detected from the canopy-annulus point density jump (see
+# live_height_estimator.crown_base_from_density).  The threshold MUST be matched
+# to the live sweep density.  The offline 40-step sweep (tree_scan_002) yields
+# ~28k points in the crown-base bin, but the live 5-step nod (sweep.steps: 5)
+# yields only ~100-150 per bin.  A threshold of ~50 cleanly separates the bare
+# trunk (0-15 pts/bin) from the crown (~130+ pts/bin) for a 5-step sweep.
+crown_density_threshold: 50
+# Lower bound (world z) for the crown-base density scan.  Must be ABOVE the
+# harvester self-clutter (~2-3 m) and BELOW the true crown base (~9 m) so the
+# real density transition is found (NOT clipped).  A value tied to the trunk
+# top (e.g. top-3.5) biases the crown base low.
+crown_z_min_m: 5.0
+
+# --- Reachability ------------------------------------------------------------
+# If the platform->trunk horizontal distance cannot be reached by the boom,
+# advise the operator to move the prime mover and reset to SWEEP.
+reachability_margin_m: 0.2
+
+# --- Home pose (all joints) for undock --------------------------------------
+home:
+  boom_elevation_joint: 0.0
+  platform_level_joint: 0.0
+  boom_extension_1_joint: 0.0
+  boom_extension_2_joint: 0.0
+  boom_extension_3_joint: 0.0
+  boom_extension_4_joint: 0.0
+  cutting_arm_lift_joint: 0.0   # return the sweep joint to neutral too
+
+# --- Safety (reuse harvester_boom_plan.safety) --------------------------------
+safety:
+  extend_safe_m: 0.6
+  extend_stop_m: 0.4
+  align_skew_m: 0.08
+  docking_gap_m: 0.18
+  emergency_m: 0.05
+  stale_receipt_timeout_s: 0.30
+  centering_tolerance_m: 0.10

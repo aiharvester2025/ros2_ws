@@ -16,6 +16,8 @@ class DashboardConfig:
     status_endpoint: str = 'tcp://127.0.0.1:5600'
     # Empty string disables the optional annotation forwarder (default off).
     annotation_endpoint: str = ''
+    # Empty string disables the optional docking command forwarder (default off).
+    dock_endpoint: str = ''
     stale_after_s: float = 2.0
     status_interval_s: float = 5.0
     queue_depth: int = 4
@@ -32,6 +34,10 @@ class DashboardConfig:
     def annotation_enabled(self) -> bool:
         return bool(self.annotation_endpoint)
 
+    @property
+    def dock_enabled(self) -> bool:
+        return bool(self.dock_endpoint)
+
     @classmethod
     def from_args(cls, args=None) -> 'DashboardConfig':
         parser = argparse.ArgumentParser(
@@ -43,6 +49,8 @@ class DashboardConfig:
                             help='read-only status REP endpoint; empty string disables')
         parser.add_argument('--annotation-pub', default='',
                             help='optional annotation forward PUB endpoint (default disabled)')
+        parser.add_argument('--dock-pub', default='',
+                            help='optional docking command PUB endpoint (default disabled)')
         parser.add_argument('--stale-after-s', type=float, default=2.0,
                             help='mark a stream stale after this many silent seconds')
         parser.add_argument('--status-interval-s', type=float, default=5.0,
@@ -58,6 +66,7 @@ class DashboardConfig:
             pub_endpoint=known.pub,
             status_endpoint=known.status,
             annotation_endpoint=known.annotation_pub,
+            dock_endpoint=known.dock_pub,
             stale_after_s=known.stale_after_s,
             status_interval_s=known.status_interval_s,
             queue_depth=max(1, min(4, known.queue_depth)),

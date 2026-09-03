@@ -74,6 +74,37 @@ Item {
             }
         }
 
+        // DOCK button — three presses: SWEEP (amber) -> DOCK (green) -> UNDOCK (red).
+        Rectangle {
+            Layout.preferredWidth: 110
+            Layout.fillHeight: true
+            radius: 6
+            color: dock_touch.pressed ? "#3a4a5a" : "#22303f"
+            border.color: {
+                if (bridge.dockState === "SWEEP") return "#f0a030";
+                if (bridge.dockState === "DOCK") return "#40c040";
+                if (bridge.dockState === "UNDOCK") return "#e23c3c";
+                return "#2a3a4a";
+            }
+            border.width: 2
+            Text {
+                anchors.centerIn: parent
+                text: {
+                    if (bridge.dockState === "SWEEP") return "DOCK (sweep)";
+                    if (bridge.dockState === "DOCK") return "DOCK";
+                    if (bridge.dockState === "UNDOCK") return "UNDOCK";
+                    return "DOCK";
+                }
+                color: "#e8eef4"
+                font.pixelSize: 13
+            }
+            MouseArea {
+                id: dock_touch
+                anchors.fill: parent
+                onClicked: bridge.dock_pressed()
+            }
+        }
+
         Text {
             Layout.fillWidth: true
             text: "  " + bridge.sourceBadge + "   " + bridge.statusLine
