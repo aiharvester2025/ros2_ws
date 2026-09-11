@@ -1,0 +1,5 @@
+interface:
+  display_name: "Tree Height & Crown-Base Estimation"
+  short_description: "Estimate oil-palm tree height, trunk-end (crown base), and trunk axis from arm-mounted LiDAR scans."
+policy:
+  allow_implicit_invocation: true

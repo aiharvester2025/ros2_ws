@@ -1,0 +1,5 @@
+interface:
+  display_name: "Operator Dashboard (Qt Quick/QML)"
+  short_description: "Build, run, or extend the source-agnostic Qt Quick/QML dashboard consuming canonical ZeroMQ v1 telemetry."
+policy:
+  allow_implicit_invocation: true

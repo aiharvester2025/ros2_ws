@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sensor Calibration (Range + Camera/LiDAR)"
+  short_description: "Implement or modify the docking range-sensor and cutter camera/LiDAR calibration and projection contracts."
+policy:
+  allow_implicit_invocation: true

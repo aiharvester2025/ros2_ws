@@ -1,0 +1,5 @@
+interface:
+  display_name: "Canonical Telemetry Gateway & Protocol"
+  short_description: "Build, run, or extend the canonical ZeroMQ v1 telemetry gateway and protocol contract."
+policy:
+  allow_implicit_invocation: true

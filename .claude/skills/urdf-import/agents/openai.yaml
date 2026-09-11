@@ -1,0 +1,5 @@
+interface:
+  display_name: "URDF Import & Real-Model Simulation"
+  short_description: "Import and simulate a real, detailed harvester URDF into Gazebo/RViz, replacing the estimated placeholder model."
+policy:
+  allow_implicit_invocation: true

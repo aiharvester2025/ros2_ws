@@ -1,0 +1,5 @@
+interface:
+  display_name: "Boom Docking IK & Estimation"
+  short_description: "Closed-form boom IK, docking safety FSM, crown-base height estimation, and Gazebo joint-command execution for the oil-palm harvester."
+policy:
+  allow_implicit_invocation: true

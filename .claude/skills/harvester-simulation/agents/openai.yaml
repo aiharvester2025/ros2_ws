@@ -1,0 +1,5 @@
+interface:
+  display_name: "Harvester Simulation (ROS2 + URDF + Gazebo + RViz)"
+  short_description: "Build, run, or modify the ROS2 Foxy/Gazebo/RViz oil-palm harvester simulation: kinematic URDF, combined launch, Gazebo bridge plugin, and TF/description graph."
+policy:
+  allow_implicit_invocation: true

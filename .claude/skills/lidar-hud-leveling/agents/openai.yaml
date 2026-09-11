@@ -1,0 +1,5 @@
+interface:
+  display_name: "LiDAR HUD Leveling & Frame Correctness"
+  short_description: "Diagnose and fix LiDAR point-cloud frame/orientation issues (tree leaning/bending) in the harvester HUD."
+policy:
+  allow_implicit_invocation: true
