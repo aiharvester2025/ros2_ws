@@ -1,0 +1,6 @@
+---
+interface:
+  display_name: "Docking Safety-Guidance HUD"
+  short_description: "Operator-facing docking approach safety HUD: stopping-distance + TTC model, speed/gap states, config thresholds, and Qt Quick guidance panel (no simulation harness)."
+policy:
+  allow_implicit_invocation: true

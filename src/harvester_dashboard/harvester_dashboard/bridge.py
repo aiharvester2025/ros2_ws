@@ -11,7 +11,8 @@ endpoint is defined).
 from __future__ import annotations
 
 import time
-from typing import Any, Dict, List, Optional
+from collections import deque
+from typing import Any, Deque, Dict, List, Optional, Tuple
 
 try:
     from PySide2.QtCore import Property, QObject, QTimer, Signal, Slot
@@ -23,6 +24,9 @@ except ImportError:  # pragma: no cover - headless pure-python tests
 from .config import DashboardConfig
 from .model.telemetry_model import TelemetryModel
 from .model.target_model import AnnotationState
+from .safety_guidance import (
+    DANGER, NO_DATA, Guidance, SafetyConfig, default_config_path, evaluate,
+    state_message)
 from .status_client import StatusClient
 
 
@@ -49,6 +53,8 @@ if _QT_AVAILABLE:
         frame_tick = Signal()
         dock_state_changed = Signal()
         dock_plan_changed = Signal()
+        dock_speed_changed = Signal()
+        dock_safety_changed = Signal()
 
         STATUS_TIMEOUT_MS = 600
 
@@ -79,6 +85,25 @@ if _QT_AVAILABLE:
             self._lidar_points: List[List[float]] = []
             self._dock_state = 'SWEEP'
             self._dock_plan: Dict[str, Any] = {}
+            # Rolling (timestamp_ns, distance_m) samples of the center range
+            # sensor, used to estimate approach speed toward the trunk.
+            self._center_range_samples: Deque[Tuple[int, float]] = deque()
+            self._dock_speed_cm_s: Optional[float] = None
+            self._dock_center_distance_m: Optional[float] = None
+            # Monotonic receipt time of the latest valid center-range record,
+            # used to flag the range stream as stale (NO_DATA) in the HUD.
+            self._center_range_recv_monotonic: Optional[float] = None
+            # Smoothed closing speed (EMA) + safety-guidance state.
+            self._dock_speed_smoothed: Optional[float] = None
+            self._safety_config = SafetyConfig.load(default_config_path())
+            self._guidance: Guidance = Guidance(
+                'no_data', None, 0.0, None, None, None, None,
+                'approach: awaiting center range')
+            # Hysteresis debounce: track the last guidance state and the
+            # monotonic time it was first entered so a boundary crossing must
+            # persist for ``debounce_s`` before the HUD changes colour.
+            self._guidance_state = 'no_data'
+            self._guidance_state_since = 0.0
             self._refresh = QTimer(self)
             self._refresh.timeout.connect(self.refresh)
             self._refresh.start(200)
@@ -300,6 +325,210 @@ if _QT_AVAILABLE:
             return self.annotation.pixel[1]
 
         # =================================================================
+        # Docking approach speed (center range derivative)
+        # =================================================================
+        # Max sample age (seconds): samples older than this are dropped from the
+        # slope estimate, so a stale speed reading never lingers on screen.
+        _SPEED_MAX_SAMPLE_AGE_S = 1.5
+
+        def _update_dock_speed(self) -> None:
+            """Estimate approach speed (cm/s) from the center range sensor.
+
+            Speed = -d(distance)/dt: a *decreasing* center range means the
+            platform is closing on the trunk, reported as a positive value.
+            Uses a least-squares slope over the last ~1 s of samples so a
+            single noisy reading doesn't thrash the readout.  Returns ``None``
+            (no measurement) when there aren't enough fresh valid samples.
+            """
+            records, _cutter = self.model.snapshot_ranges()
+            center = None
+            for record in (records or []):
+                if isinstance(record, dict) and \
+                        record.get('telemetry_key') == 'center_line':
+                    center = record
+                    break
+            if center is None or not center.get('valid'):
+                # No (or invalid) center range: keep the last value briefly,
+                # but age it out so stale speed doesn't linger.
+                self._prune_center_samples()
+                if not self._center_range_samples:
+                    self._set_dock_speed(None)
+                    self._set_dock_center_distance(None)
+                return
+
+            ts_ns = center.get('acquisition_timestamp_ns')
+            distance_m = float(center['distance_m'])
+            self._set_dock_center_distance(distance_m)
+            self._center_range_recv_monotonic = time.monotonic()
+            if ts_ns is None:
+                self._set_dock_speed(None)
+                return
+
+            # Drop samples with timestamps that move backwards or repeat.
+            if not self._center_range_samples or \
+                    ts_ns > self._center_range_samples[-1][0]:
+                self._center_range_samples.append((int(ts_ns), distance_m))
+            self._prune_center_samples()
+
+            if len(self._center_range_samples) < 2:
+                self._set_dock_speed(None)
+                return
+
+            # Least-squares slope of distance (m) vs time (s) over the window.
+            first_ts = self._center_range_samples[0][0]
+            n = len(self._center_range_samples)
+            sum_t = 0.0
+            sum_d = 0.0
+            sum_tt = 0.0
+            sum_td = 0.0
+            for ts, d in self._center_range_samples:
+                t = (ts - first_ts) * 1e-9
+                sum_t += t
+                sum_d += d
+                sum_tt += t * t
+                sum_td += t * d
+            denom = (n * sum_tt) - (sum_t * sum_t)
+            if denom <= 0.0:
+                self._set_dock_speed(None)
+                return
+            slope_m_per_s = ((n * sum_td) - (sum_t * sum_d)) / denom
+
+            # Closing on trunk (distance shrinking) => positive speed.
+            self._set_dock_speed(-slope_m_per_s * 100.0)
+
+        def _prune_center_samples(self) -> None:
+            """Drop center-range samples older than the tracking window."""
+            if not self._center_range_samples:
+                return
+            newest_ns = self._center_range_samples[-1][0]
+            cutoff_ns = newest_ns - int(self._SPEED_MAX_SAMPLE_AGE_S * 1e9)
+            while self._center_range_samples and \
+                    self._center_range_samples[0][0] < cutoff_ns:
+                self._center_range_samples.popleft()
+
+        def _set_dock_speed(self, value: Optional[float]) -> None:
+            changed = value != self._dock_speed_cm_s
+            self._dock_speed_cm_s = value
+            if changed:
+                self.dock_speed_changed.emit()
+
+        def _get_dock_speed(self) -> float:
+            # QML needs a number; return NaN when there is no measurement so
+            # the view can render an explicit "—".
+            if self._dock_speed_cm_s is None:
+                return float('nan')
+            return self._dock_speed_cm_s
+
+        def _set_dock_center_distance(self, value: Optional[float]) -> None:
+            changed = value != self._dock_center_distance_m
+            self._dock_center_distance_m = value
+            if changed:
+                self.dock_speed_changed.emit()
+
+        def _get_dock_center_distance(self) -> float:
+            if self._dock_center_distance_m is None:
+                return float('nan')
+            return self._dock_center_distance_m
+
+        # =================================================================
+        # Safety guidance (stopping-distance + TTC — see safety_guidance.py)
+        # =================================================================
+        def _recompute_safety_guidance(self) -> None:
+            """EMA-smooth the raw speed, then map (speed, distance) -> state.
+
+            Staleness (range older than ``stale_s``) and hysteresis debounce are
+            applied here: the raw evaluation is stateless, but the *displayed*
+            state only changes after a candidate state has persisted for
+            ``debounce_s`` (anti-flicker), and falls back to NO_DATA when the
+            range stream is absent or stale.
+            """
+            raw = self._dock_speed_cm_s
+            if raw is None:
+                self._dock_speed_smoothed = None
+            elif self._dock_speed_smoothed is None:
+                self._dock_speed_smoothed = raw
+            else:
+                alpha = self._safety_config.speed_ema_alpha
+                self._dock_speed_smoothed = (
+                    alpha * raw + (1.0 - alpha) * self._dock_speed_smoothed)
+
+            stale = False
+            if self._center_range_recv_monotonic is not None:
+                stale = (time.monotonic() - self._center_range_recv_monotonic
+                         ) > self._safety_config.stale_s
+            elif self._dock_center_distance_m is not None:
+                stale = True
+
+            candidate = evaluate(
+                self._dock_speed_smoothed,
+                self._dock_center_distance_m,
+                self._safety_config,
+                stale=stale)
+
+            # Hysteresis: only adopt a *new* state after it has persisted for
+            # ``debounce_s``; NO_DATA / DANGER are adopted immediately (a loss
+            # of telemetry or a collision warning must never be delayed).
+            now = time.monotonic()
+            if candidate.state != self._guidance_state:
+                if (candidate.state in (NO_DATA, DANGER)
+                        or now - self._guidance_state_since
+                        >= self._safety_config.debounce_s):
+                    self._guidance_state = candidate.state
+                    self._guidance_state_since = now
+            # Recompute the displayed guidance from the (possibly held) state
+            # and the candidate's measurements.  When the state is held (still
+            # debouncing toward a new state), the message must match the held
+            # state, not the candidate's, so the HUD text and colour never
+            # disagree.
+            message = candidate.message
+            if candidate.state != self._guidance_state:
+                message = state_message(self._guidance_state, candidate)
+            guidance = Guidance(
+                self._guidance_state,
+                candidate.ttc_s,
+                candidate.speed_cm_s,
+                candidate.distance_m,
+                candidate.stop_distance_m,
+                candidate.max_speed_cm_s,
+                candidate.recommended_speed_cm_s,
+                message)
+            changed = guidance != self._guidance
+            self._guidance = guidance
+            if changed:
+                self.dock_safety_changed.emit()
+
+        def _get_dock_safety_state(self) -> str:
+            return self._guidance.state
+
+        def _get_dock_guidance_text(self) -> str:
+            return self._guidance.message
+
+        def _get_dock_recommended_speed(self) -> float:
+            if self._guidance.recommended_speed_cm_s is None:
+                return float('nan')
+            return self._guidance.recommended_speed_cm_s
+
+        def _get_dock_max_speed(self) -> float:
+            if self._guidance.max_speed_cm_s is None:
+                return float('nan')
+            return self._guidance.max_speed_cm_s
+
+        def _get_dock_stop_distance(self) -> float:
+            if self._guidance.stop_distance_m is None:
+                return float('nan')
+            return self._guidance.stop_distance_m
+
+        def _get_dock_ttc(self) -> float:
+            if self._guidance.ttc_s is None:
+                return float('nan')
+            return self._guidance.ttc_s
+
+        def _get_dock_speed_smoothed(self) -> float:
+            if self._dock_speed_smoothed is None:
+                return float('nan')
+            return self._dock_speed_smoothed
+
+        # =================================================================
         # Periodic refresh — recompute derived display state
         # =================================================================
         @Slot()
@@ -311,6 +540,8 @@ if _QT_AVAILABLE:
             self.stream_rows_changed.emit()
             self.status_summary_changed.emit()
             self.frame_tick.emit()
+            self._update_dock_speed()
+            self._recompute_safety_guidance()
             if self._toast and time.monotonic() > self._toast_until:
                 self._toast = ''
                 self.toast_changed.emit()
@@ -559,6 +790,24 @@ if _QT_AVAILABLE:
             str, _get_dock_state, notify=dock_state_changed)
         dockPlanLine = Property(
             str, _get_dock_plan_line, notify=dock_plan_changed)
+        dockSpeedCmS = Property(
+            float, _get_dock_speed, notify=dock_speed_changed)
+        dockCenterDistanceM = Property(
+            float, _get_dock_center_distance, notify=dock_speed_changed)
+        dockSafetyState = Property(
+            str, _get_dock_safety_state, notify=dock_safety_changed)
+        dockGuidanceText = Property(
+            str, _get_dock_guidance_text, notify=dock_safety_changed)
+        dockRecommendedSpeedCmS = Property(
+            float, _get_dock_recommended_speed, notify=dock_safety_changed)
+        dockMaxSpeedCmS = Property(
+            float, _get_dock_max_speed, notify=dock_safety_changed)
+        dockStopDistanceM = Property(
+            float, _get_dock_stop_distance, notify=dock_safety_changed)
+        dockTtcS = Property(
+            float, _get_dock_ttc, notify=dock_safety_changed)
+        dockSpeedSmoothedCmS = Property(
+            float, _get_dock_speed_smoothed, notify=dock_safety_changed)
 
 
 __all__ = ['DashboardBridge', '_QT_AVAILABLE']

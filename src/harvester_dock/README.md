@@ -25,6 +25,7 @@ harness**.
 | `dock_orchestrator.py` | 4-state FSM (SWEEP → PLAN → DOCK → UNDOCK). ZMQ SUB on `tcp://127.0.0.1:5593` (DOCK presses); subscribes `/harvester/lidar/points` (zero-stamped, levels per scan during the dwell phase); publishes `/harvester/joint_commands` and `/harvester/dock/status`. |
 | `live_height_estimator.py` | ROS-free port of the offline tree-height estimator, with the half-cylinder axis correction, `max` top envelope, and crown-base (trunk-end) density detection. |
 | `distance_estimator.py` | Platform→trunk horizontal distance + reachability advisory. |
+| `approach_driver.py` | **Simulation-only** validation harness: drives the c-channel platform toward the trunk at a controllable closing speed (ramps the boom extension) and logs the forward gap, derived closing speed, and safety-guidance state. Run it exclusively (slider GUI + orchestrator both off). |
 | `config/dock.yaml` | Sweep band (short nod), crown-base density threshold, docking offset (2.0 m below crown base), home pose, safety thresholds. |
 
 The IK and safety logic are imported from `harvester_boom_plan` (not duplicated).

@@ -129,6 +129,53 @@ block).  Only `EMERGENCY_STOP` and `INFEASIBLE_DOCK_HEIGHT` hard-block.
 pass the trunk and report "no return".  The centre sensor alone confirms final
 contact; the side pair matters during **approach**.
 
+## Operator safety-guidance model (speed + gap HUD)
+
+Complementary to the five-range centering/skew watchdog above is a **continuous
+approach envelope** shown to the operator on the dashboard HUD
+(`harvester_dashboard/harvester_dashboard/safety_guidance.py` + `qml/HudOverlay.qml`).
+It is **advisory/operator-facing only** (the dashboard never commands joints);
+`emergency_m`/`extend_stop_m` here remain the hard-contact authority.
+
+The model fuses the **forward gap** (`center_range`) with the **platform closing
+speed** (`-d(center_range)/dt`, EMA-smoothed in `bridge.py`) into three states:
+
+| State | Trigger |
+|---|---|
+| 🟢 SAFE | moving away, or gap + TTC + speed all clear |
+| 🟠 WARN | `gap ≤ warn_distance` **or** `TTC ≤ warn_ttc` **or** `v > warn_margin·v_max(gap)` |
+| 🔴 DANGER | `gap ≤ d_stop(v)` **or** `gap ≤ danger_distance` |
+| ⬜ NO DATA | range absent or stale (never a false green) |
+
+The authoritative speed bound is the **stopping distance**:
+
+```
+d_stop(v) = v·t_latency + v²/(2·a_max)
+v_max(d)  = -a_max·t_latency + sqrt((a_max·t_latency)² + 2·a_max·d)
+```
+
+`v_max(d)` is the distance-aware "slow to X cm/s" figure — it honours the
+platform's actual deceleration capability `a_max` and reaction/actuation latency
+`t_latency`, unlike a `d/warn_ttc_s` heuristic.  Thresholds live in
+`config/safety_guidance.json` (`a_max_m_s2`, `latency_s`, `warn_margin`,
+`warn_ttc_s`, `danger_ttc_s`, `warn_distance_m`, `danger_distance_m`,
+`stale_s`, `debounce_s`) and are **validated in simulation** by
+`harvester_dock/approach_driver.py` (a simulation-only harness that drives the
+platform toward the trunk at a controllable closing speed).  Hysteresis
+(`debounce_s`) suppresses flicker at state boundaries; `NO_DATA`/`DANGER` are
+adopted immediately (a loss of telemetry or a collision warning is never delayed).
+
+**Research finding (2026-09-21):** the raw per-sample closing-speed derivative is
+noisy (±5 cm/s) under the 20 Hz / σ=3 mm `center_range` sensor, so the EMA
+smoothing in the bridge is essential, not cosmetic.
+
+**Tuned constants (2026-09-21):** `a_max_m_s2 = 0.10` (very gentle hydraulic
+deceleration) and `latency_s = 0.30` (operator reaction + actuation), confirmed
+with the operator.  With these, the physical speed limit at a 1.0 m gap is
+~42 cm/s and WARN fires at `warn_margin = 0.7` of that (~29 cm/s).  The config
+loader sanitizes out-of-range values (e.g. `a_max ≤ 0` clamps to `1e-3`) so a bad
+tuning file cannot crash the HUD.
+
 ## Topic surface
 
 | Topic | Type | Direction |

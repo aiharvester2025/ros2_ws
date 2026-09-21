@@ -21,6 +21,32 @@ ROS imports** and runs under the system `/usr/bin/python3`.
 - Annotations are camera-relative only in Phase 1; `tree_base_xyz` stays
   `null` and the UI never claims a world-fixed target.
 
+## Docking safety-guidance HUD
+
+On the **docking** view, a colour-coded guidance panel advises the operator
+whether the platform's closing approach to the trunk is safe, and at what
+speed to close.  It is **advisory/operator-facing only** — like the rest of the
+dashboard it never commands motion.  The hard-contact authority remains
+`harvester_boom_plan/safety.py` (`emergency_m` / `extend_stop_m`).
+
+- **Inputs:** the forward gap (`v1/range/docking` → `center_line`) and the
+  platform closing speed, derived in `bridge.py` as `-d(gap)/dt` (least-squares
+  slope over ~1.5 s, EMA-smoothed).
+- **Model** (`harvester_dashboard/safety_guidance.py`, pure Python): a
+  **stopping-distance** bound `d_stop(v) = v·t_latency + v²/(2·a_max)` plus an
+  advisory TTC.  Four states — `safe` / `warn` / `danger` / `no_data` — with
+  hysteresis debounce (`debounce_s`) and a distinct grey `no_data` state for a
+  missing/stale range (never a false green).
+- **Recommendation:** `v_max(d) = -a·t + √((a·t)² + 2·a·d)` is the
+  distance-aware, deceleration-aware "slow to X cm/s" figure.
+- **Config** (`config/safety_guidance.json`): `a_max_m_s2`, `latency_s`,
+  `warn_margin`, `warn_ttc_s`, `danger_ttc_s`, `warn_distance_m`,
+  `danger_distance_m`, `stale_s`, `debounce_s`, `speed_ema_alpha`.  Values are
+  sanitized on load so a bad tuning file cannot crash the HUD.
+- **HUD** (`qml/HudOverlay.qml`): a state banner, a **stop-bar** (current gap vs
+  required stopping distance), and a metrics row (speed · gap · TTC · max-safe
+  speed).  See `docs/BOOM_DOCK_PLAN.md` §"Operator safety-guidance model".
+
 ## Environment
 
 Ubuntu 20.04 arm64 (Xavier), PySide2 5.14 (no QtQuickControls2 — QML uses
