@@ -28,7 +28,7 @@ from .protocol_shim import ensure_contract_importable
 
 ensure_contract_importable()
 
-from PySide2.QtCore import QUrl, Qt
+from PySide2.QtCore import QSize, QUrl, Qt
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQuick import QQuickView
 
@@ -79,6 +79,15 @@ def main(argv=None) -> int:
             return 3
     view.setTitle('Harvester Telemetry Dashboard')
     view.setColor('#101418')
+    # Make the root Item follow the window size.  The root is a plain Item
+    # (width 1280 x height 800) rather than a Window, so by default QQuickView
+    # sizes the *window* to the root item and the UI never grows when the user
+    # maximizes.  SizeRootObjectToView inverts that: the root item (and every
+    # anchored child — camera view, LiDAR inset, HUD) stretches to fill the
+    # window.
+    view.setResizeMode(QQuickView.SizeRootObjectToView)
+    view.setMinimumSize(QSize(640, 480))
+    view.resize(1280, 800)
     view.show()
 
     source.start()

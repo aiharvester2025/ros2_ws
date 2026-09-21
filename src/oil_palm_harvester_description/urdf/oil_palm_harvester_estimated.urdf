@@ -1099,7 +1099,7 @@
         </scan>
         <range>
           <min>0.05</min>
-          <max>3.0</max>
+          <max>10.0</max>
           <resolution>0.002</resolution>
         </range>
         <noise>
@@ -1136,7 +1136,7 @@
         </scan>
         <range>
           <min>0.05</min>
-          <max>3.0</max>
+          <max>10.0</max>
           <resolution>0.002</resolution>
         </range>
         <noise>
@@ -1173,7 +1173,7 @@
         </scan>
         <range>
           <min>0.05</min>
-          <max>3.0</max>
+          <max>10.0</max>
           <resolution>0.002</resolution>
         </range>
         <noise>

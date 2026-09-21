@@ -37,7 +37,7 @@
       "range_scale": 1.0,
       "range_bias_m": 0.0,
       "standard_deviation_m": 0.003,
-      "valid_range_m": [0.05, 3.0]
+      "valid_range_m": [0.05, 10.0]
     },
     "left_45": {
       "telemetry_key": "diagonal_left_45deg",
@@ -51,7 +51,7 @@
       "range_scale": 1.0,
       "range_bias_m": 0.0,
       "standard_deviation_m": 0.003,
-      "valid_range_m": [0.05, 3.0]
+      "valid_range_m": [0.05, 10.0]
     },
     "right_45": {
       "telemetry_key": "diagonal_right_45deg",
@@ -65,7 +65,7 @@
       "range_scale": 1.0,
       "range_bias_m": 0.0,
       "standard_deviation_m": 0.003,
-      "valid_range_m": [0.05, 3.0]
+      "valid_range_m": [0.05, 10.0]
     },
     "left_side": {
       "telemetry_key": "c_channel_left",
