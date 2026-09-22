@@ -47,6 +47,34 @@ dashboard it never commands motion.  The hard-contact authority remains
   required stopping distance), and a metrics row (speed · gap · TTC · max-safe
   speed).  See `docs/BOOM_DOCK_PLAN.md` §"Operator safety-guidance model".
 
+## Cutter safety-guide HUD
+
+On the **cutter** view, a companion panel guides the cutting arm's approach to
+the cutting object (trunk / FFB / frond) and the cut sequence.  It is also
+**advisory/operator-facing only**.
+
+- **Input:** the **single** forward range sensor (`v1/range/cutter`, telemetry
+  key `cutter_forward`).  The depth camera and LiDAR are mounted on
+  `cutting_arm_base_link` and do **not** follow the cutter extension, so they
+  cannot measure the tip clearance — **there is no fusion input**.
+- **Offset:** the sensor sits behind the cutter tip, so the raw range overstates
+  the true clearance.  The model applies `tip_clearance = range −
+  sensor_to_tip_offset_m` (URDF-derived, ~0.19 m).
+- **Model** (`cutter_safety_guidance.py`, pure Python): the same
+  stopping-distance scheme as docking (TTC is computed and shown as an advisory
+  number only, not a state trigger) with four states
+  (safe/warn/danger/no_data), plus a **cut-sequence phase machine**:
+  `approach → align (STOP, ready to cut) → open → advance → cut`.  The measured
+  step (approach→align) is automatic but gated on **both** clearance in the ready
+  band **and** the tip being settled and not warn-speed (so "ready to cut" never
+  appears while the operator is still told to slow/stop).  The open/advance/cut
+  steps are operator actions with no sensors, advanced by the **CONFIRM STEP**
+  button — which is **blocked while the state is DANGER or NO_DATA**.
+- **Config** (`config/cutter_safety_guidance.json`): `sensor_to_tip_offset_m`,
+  `a_max_m_s2`, `latency_s`, `warn_margin`, `warn_clearance_m`,
+  `danger_clearance_m`, `ready_standoff_m`, `advance_distance_m`,
+  `align_tolerance_m`, `stale_s`, `debounce_s`, `speed_ema_alpha`.
+
 ## Environment
 
 Ubuntu 20.04 arm64 (Xavier), PySide2 5.14 (no QtQuickControls2 — QML uses

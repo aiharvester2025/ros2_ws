@@ -74,6 +74,10 @@ specific dashboard implementation.
 
 ## Related skills
 
+- `docking-safety-guidance` — the docking-view operator safety HUD (stopping-distance + TTC) built
+  inside this dashboard.
+- `cutter-safety-guidance` — the cutter-view operator safety HUD (cutter tip clearance + cut
+  sequence) built inside this dashboard.
 - `telemetry-gateway` — produces the canonical ZeroMQ v1 packets this dashboard consumes; owns the
   `5590`/`5600` endpoints and the wire format.
 - `harvester-simulation` — the simulation source whose raw sensor topics feed the gateway.

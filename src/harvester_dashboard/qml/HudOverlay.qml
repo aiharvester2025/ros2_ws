@@ -208,6 +208,165 @@ Item {
         }
     }
 
+    // Center-bottom: cutter safety-guidance HUD (cutter camera view only).
+    // Mirrors the docking guidance panel but for the cutting arm: a colour-coded
+    // clearance alert plus the cut-sequence prompt (approach -> stop/ready ->
+    // open scissors -> advance -> cut).  Advisory/operator-facing only.
+    Rectangle {
+        id: cutter_guidance_hud
+        visible: bridge.view === "cutter"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: errors_panel.top
+        anchors.bottomMargin: 10
+        width: Math.max(cutter_bar.width,
+                        Math.max(cutter_phase_text.width,
+                                 cutter_metrics_text.width)) + 32
+        height: cutter_phase_text.height + cutter_guidance_text.height
+                + cutter_bar.height + cutter_metrics_text.height + 44
+        radius: 8
+
+        property string stateColor: bridge.cutterSafetyState === "danger" ? "#e23c3c"
+                                  : bridge.cutterSafetyState === "warn"   ? "#f0a030"
+                                  : bridge.cutterSafetyState === "no_data" ? "#9fb4c7"
+                                  :                                          "#40c040"
+        property color bgCol: bridge.cutterSafetyState === "danger" ? "#3a1414"
+                            : bridge.cutterSafetyState === "warn"   ? "#3a2a10"
+                            : bridge.cutterSafetyState === "no_data" ? "#1a1f24"
+                            :                                          "#102a18"
+
+        color: bgCol
+        border.color: cutter_guidance_hud.stateColor
+        border.width: bridge.cutterSafetyState === "danger" ? 3 : 2
+        opacity: panel_opacity
+
+        NumberAnimation on opacity {
+            id: cutter_pulse
+            running: bridge.cutterSafetyState === "danger"
+            loops: Animation.Infinite
+            from: 1.0
+            to: 0.55
+            duration: 500
+            easing.type: Easing.InOutSine
+        }
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 5
+
+            // Cut-sequence phase banner (the operator prompt).
+            Text {
+                id: cutter_phase_text
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: bridge.cutterPhaseText
+                color: "#ffffff"
+                font.pixelSize: 15
+                font.bold: true
+            }
+
+            // Clearance alert line (safe/warn/danger).
+            Text {
+                id: cutter_guidance_text
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: bridge.cutterGuidanceText
+                color: cutter_guidance_hud.stateColor
+                font.pixelSize: 13
+            }
+
+            // Clearance stop-bar: tip clearance (fill) vs required stopping
+            // distance (white marker).  Red when the marker meets the fill.
+            Rectangle {
+                id: cutter_bar
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 220
+                height: 14
+                radius: 4
+                color: "#2a3a4a"
+
+                property real bar_range_m: 1.0
+                property real clear_m: isFinite(bridge.cutterClearanceM)
+                    ? Math.max(0.0, Math.min(1.0, bridge.cutterClearanceM / bar_range_m))
+                    : 0.0
+                property real stop_m: isFinite(bridge.cutterStopDistanceM)
+                    ? Math.max(0.0, Math.min(1.0, bridge.cutterStopDistanceM / bar_range_m))
+                    : 0.0
+                property bool stopping: isFinite(bridge.cutterStopDistanceM)
+                    && isFinite(bridge.cutterClearanceM)
+                    && bridge.cutterStopDistanceM >= bridge.cutterClearanceM
+
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    width: parent.width * cutter_bar.clear_m
+                    radius: 4
+                    color: cutter_bar.stopping ? "#e23c3c"
+                                               : cutter_guidance_hud.stateColor
+                }
+
+                Rectangle {
+                    visible: isFinite(bridge.cutterStopDistanceM)
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    x: parent.width * cutter_bar.stop_m - 2
+                    width: 4
+                    color: "#ffffff"
+                }
+            }
+
+            // Metrics: tip clearance · closing speed · max safe speed.
+            Text {
+                id: cutter_metrics_text
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "tip "
+                      + (isFinite(bridge.cutterClearanceM)
+                          ? bridge.cutterClearanceM.toFixed(2) + " m" : "—")
+                      + "  ·  "
+                      + (isFinite(bridge.cutterSpeedSmoothedCmS)
+                          ? bridge.cutterSpeedSmoothedCmS.toFixed(1) + " cm/s" : "—")
+                      + "  ·  max "
+                      + (isFinite(bridge.cutterMaxSpeedCmS)
+                          ? bridge.cutterMaxSpeedCmS.toFixed(0) + " cm/s" : "—")
+                color: "#cfe3f5"
+                font.pixelSize: 12
+            }
+
+            // Operator confirmation: advance the cut sequence one step
+            // (open / advance / cut have no sensors, so they are confirmed here).
+            // Disabled while DANGER/NO_DATA — the cut sequence must not advance
+            // with the tip too close or with no range.
+            Rectangle {
+                id: confirm_button
+                property bool blocked: bridge.cutterSafetyState === "danger"
+                                       || bridge.cutterSafetyState === "no_data"
+                visible: bridge.cutterPhase !== "idle"
+                         && bridge.cutterPhase !== "approach"
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: confirm_text.width + 24
+                height: 24
+                radius: 5
+                color: !enabled ? "#1a2028"
+                               : (confirm_touch.pressed ? "#3a4a5a" : "#22303f")
+                border.color: enabled ? "#4fc3f7" : "#5a6470"
+                border.width: 1
+                enabled: !blocked
+                Text {
+                    id: confirm_text
+                    anchors.centerIn: parent
+                    text: confirm_button.blocked ? "WAIT — tip too close"
+                                                 : "CONFIRM STEP"
+                    color: confirm_button.blocked ? "#8a94a0" : "#e8eef4"
+                    font.pixelSize: 12
+                }
+                MouseArea {
+                    id: confirm_touch
+                    anchors.fill: parent
+                    enabled: confirm_button.enabled
+                    onClicked: bridge.cutter_confirm_phase()
+                }
+            }
+        }
+    }
+
     // Bottom: stream errors panel (collapsible rows per channel).
     Rectangle {
         id: errors_panel

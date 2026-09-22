@@ -118,3 +118,5 @@ After a change, confirm the observable result, not just that tests pass:
   package actuates through (`/harvester/joint_commands`, `joint_gui:=false`).
 - `tree-height-estimation` — the crown-base/trunk-axis estimation that feeds `_docking_height`.
 - `telemetry-gateway` — publishes `/harvester/dock/status` as `v1/docking/plan` (observation only).
+- `cutter-safety-guidance` — the operator-facing cutter tip-clearance HUD and cut-sequence guidance
+  for the cutting arm (advisory only; the hard FSM above still wins).

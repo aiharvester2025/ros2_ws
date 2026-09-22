@@ -127,6 +127,8 @@ floor (too close to linger), never by stopping distance (no motion).
 
 ## Related skills
 
+- `cutter-safety-guidance` — the **sibling** operator safety HUD for the cutting arm (cutter tip
+  clearance + cut sequence), which reuses this skill's stopping-distance + TTC scheme.
 - `boom-dock-ik` — the five-range centering/skew watchdog and hard-contact authority
   (`emergency_m` / `extend_stop_m`) this guidance *advises around*, and the boom geometry.
 - `harvester-dashboard` — the Qt Quick/QML dashboard, interpreter split, and view-only boundary

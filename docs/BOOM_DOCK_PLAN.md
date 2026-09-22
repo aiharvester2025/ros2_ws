@@ -176,6 +176,20 @@ with the operator.  With these, the physical speed limit at a 1.0 m gap is
 loader sanitizes out-of-range values (e.g. `a_max ≤ 0` clamps to `1e-3`) so a bad
 tuning file cannot crash the HUD.
 
+### Cutter safety-guide HUD (companion)
+
+The **cutting arm** has its own operator safety-guide, shown only on the **cutter**
+dashboard view.  It reuses this stopping-distance scheme but governs the **cutter
+tip's** clearance to the cutting object, using the **single** forward range sensor
+(`cutting_tool_left_range`; the depth camera and LiDAR are on
+`cutting_arm_base_link` and do **not** follow the cutter extension, so there is no
+fusion input).  A **sensor-to-tip offset** (~0.19 m) is applied, since the sensor
+sits behind the tip.  On top of the clearance state runs a cut-sequence phase
+machine: `approach → align (STOP, ready to cut) → open → advance → cut`.  See
+`harvester_dashboard/harvester_dashboard/cutter_safety_guidance.py`,
+`config/cutter_safety_guidance.json`, and the `cutter-safety-guidance` agent skill.
+Validated in simulation by `harvester_dock/cutter_approach_driver.py`.
+
 ## Topic surface
 
 | Topic | Type | Direction |

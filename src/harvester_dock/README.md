@@ -26,6 +26,7 @@ harness**.
 | `live_height_estimator.py` | ROS-free port of the offline tree-height estimator, with the half-cylinder axis correction, `max` top envelope, and crown-base (trunk-end) density detection. |
 | `distance_estimator.py` | Platform→trunk horizontal distance + reachability advisory. |
 | `approach_driver.py` | **Simulation-only** validation harness: drives the c-channel platform toward the trunk at a controllable closing speed (ramps the boom extension) and logs the forward gap, derived closing speed, and safety-guidance state. Run it exclusively (slider GUI + orchestrator both off). |
+| `cutter_approach_driver.py` | **Simulation-only** validation harness for the **cutter** safety guide: ramps `cutting_arm_extension_joint` to close the cutter tip on an object at a controllable speed and logs the raw range, offset-corrected tip clearance, and the cutter guidance state/phase. Run it exclusively. |
 | `config/dock.yaml` | Sweep band (short nod), crown-base density threshold, docking offset (2.0 m below crown base), home pose, safety thresholds. |
 
 The IK and safety logic are imported from `harvester_boom_plan` (not duplicated).

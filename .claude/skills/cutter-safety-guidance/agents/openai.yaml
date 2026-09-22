@@ -1,0 +1,6 @@
+---
+interface:
+  display_name: "Cutter Safety-Guide HUD"
+  short_description: "Operator-facing cutter safety HUD: cutting-arm tip-clearance model (sensor-to-tip offset), stopping-distance + TTC states, cut-sequence phases, and Qt Quick guidance panel (no simulation harness)."
+policy:
+  allow_implicit_invocation: true

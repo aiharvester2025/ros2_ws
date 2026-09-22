@@ -27,6 +27,11 @@ from .model.target_model import AnnotationState
 from .safety_guidance import (
     DANGER, NO_DATA, Guidance, SafetyConfig, default_config_path, evaluate,
     state_message)
+from .cutter_safety_guidance import (
+    CutterConfig, CutterGuidance, advance_phase,
+    default_config_path as cutter_default_config_path, evaluate as cutter_evaluate,
+    next_phase, state_message as cutter_state_message,
+    tip_clearance_m)
 from .status_client import StatusClient
 
 
@@ -55,6 +60,7 @@ if _QT_AVAILABLE:
         dock_plan_changed = Signal()
         dock_speed_changed = Signal()
         dock_safety_changed = Signal()
+        cutter_safety_changed = Signal()
 
         STATUS_TIMEOUT_MS = 600
 
@@ -104,6 +110,21 @@ if _QT_AVAILABLE:
             # persist for ``debounce_s`` before the HUD changes colour.
             self._guidance_state = 'no_data'
             self._guidance_state_since = 0.0
+            # --- Cutter safety guidance (cutting arm) ---------------------
+            # The cutter has ONE forward range sensor.  Rolling samples of the
+            # RAW range (the tip offset is applied in the model) for speed.
+            self._cutter_range_samples: Deque[Tuple[int, float]] = deque()
+            self._cutter_raw_range_m: Optional[float] = None
+            self._cutter_range_recv_monotonic: Optional[float] = None
+            self._cutter_speed_cm_s: Optional[float] = None
+            self._cutter_speed_smoothed: Optional[float] = None
+            self._cutter_config = CutterConfig.load(cutter_default_config_path())
+            self._cutter_guidance: CutterGuidance = CutterGuidance(
+                'no_data', 'idle', None, 0.0, None, None, None, None,
+                'cutter: awaiting range', 'cut guidance idle')
+            self._cutter_state = 'no_data'
+            self._cutter_state_since = 0.0
+            self._cutter_phase = 'idle'
             self._refresh = QTimer(self)
             self._refresh.timeout.connect(self.refresh)
             self._refresh.start(200)
@@ -529,6 +550,189 @@ if _QT_AVAILABLE:
             return self._dock_speed_smoothed
 
         # =================================================================
+        # Cutter safety guidance (cutting arm — see cutter_safety_guidance.py)
+        # =================================================================
+        _CUTTER_SPEED_MAX_SAMPLE_AGE_S = 1.5
+
+        def _update_cutter_speed(self) -> None:
+            """Estimate cutter tip closing speed (cm/s) from the cutter range.
+
+            The cutter has one forward range sensor (``v1/range/cutter``,
+            telemetry_key ``cutter_forward``).  Closing speed =
+            -d(raw_range)/dt (the tip offset is a constant, so it cancels in the
+            derivative).  Least-squares slope over the last ~1.5 s, EMA-smoothed
+            by the caller.
+            """
+            _records, cutter = self.model.snapshot_ranges()
+            if not cutter or not cutter.get('valid'):
+                self._prune_cutter_samples()
+                if not self._cutter_range_samples:
+                    self._set_cutter_speed(None)
+                    self._set_cutter_raw_range(None)
+                return
+
+            ts_ns = cutter.get('acquisition_timestamp_ns')
+            raw_range = float(cutter['distance_m'])
+            self._set_cutter_raw_range(raw_range)
+            self._cutter_range_recv_monotonic = time.monotonic()
+            if ts_ns is None:
+                self._set_cutter_speed(None)
+                return
+
+            if not self._cutter_range_samples or \
+                    ts_ns > self._cutter_range_samples[-1][0]:
+                self._cutter_range_samples.append((int(ts_ns), raw_range))
+            self._prune_cutter_samples()
+            if len(self._cutter_range_samples) < 2:
+                self._set_cutter_speed(None)
+                return
+
+            first_ts = self._cutter_range_samples[0][0]
+            n = len(self._cutter_range_samples)
+            sum_t = sum_d = sum_tt = sum_td = 0.0
+            for ts, d in self._cutter_range_samples:
+                t = (ts - first_ts) * 1e-9
+                sum_t += t
+                sum_d += d
+                sum_tt += t * t
+                sum_td += t * d
+            denom = (n * sum_tt) - (sum_t * sum_t)
+            if denom <= 0.0:
+                self._set_cutter_speed(None)
+                return
+            slope = ((n * sum_td) - (sum_t * sum_d)) / denom
+            self._set_cutter_speed(-slope * 100.0)
+
+        def _prune_cutter_samples(self) -> None:
+            if not self._cutter_range_samples:
+                return
+            newest_ns = self._cutter_range_samples[-1][0]
+            cutoff_ns = newest_ns - int(
+                self._CUTTER_SPEED_MAX_SAMPLE_AGE_S * 1e9)
+            while self._cutter_range_samples and \
+                    self._cutter_range_samples[0][0] < cutoff_ns:
+                self._cutter_range_samples.popleft()
+
+        def _set_cutter_speed(self, value: Optional[float]) -> None:
+            changed = value != self._cutter_speed_cm_s
+            self._cutter_speed_cm_s = value
+            if changed:
+                self.cutter_safety_changed.emit()
+
+        def _set_cutter_raw_range(self, value: Optional[float]) -> None:
+            changed = value != self._cutter_raw_range_m
+            self._cutter_raw_range_m = value
+            if changed:
+                self.cutter_safety_changed.emit()
+
+        def _recompute_cutter_guidance(self) -> None:
+            """EMA-smooth the cutter speed, advance the phase, map to a state."""
+            raw = self._cutter_speed_cm_s
+            if raw is None:
+                self._cutter_speed_smoothed = None
+            elif self._cutter_speed_smoothed is None:
+                self._cutter_speed_smoothed = raw
+            else:
+                alpha = self._cutter_config.speed_ema_alpha
+                self._cutter_speed_smoothed = (
+                    alpha * raw + (1.0 - alpha) * self._cutter_speed_smoothed)
+
+            raw_range = self._cutter_raw_range_m
+            clearance = (tip_clearance_m(raw_range, self._cutter_config)
+                         if raw_range is not None else None)
+
+            stale = False
+            if self._cutter_range_recv_monotonic is not None:
+                stale = (time.monotonic() - self._cutter_range_recv_monotonic
+                         ) > self._cutter_config.stale_s
+            elif raw_range is not None:
+                stale = True
+
+            # Advance the cut-sequence phase from the observation (the measured
+            # APPROACH->ALIGN step; later phases are operator-confirmed).
+            self._cutter_phase = next_phase(
+                self._cutter_phase, clearance,
+                self._cutter_speed_smoothed or 0.0, self._cutter_config,
+                stale=stale)
+
+            candidate = cutter_evaluate(
+                self._cutter_speed_smoothed, clearance, self._cutter_config,
+                stale=stale, phase=self._cutter_phase)
+
+            now = time.monotonic()
+            if candidate.state != self._cutter_state:
+                if (candidate.state in (NO_DATA, DANGER)
+                        or now - self._cutter_state_since
+                        >= self._cutter_config.debounce_s):
+                    self._cutter_state = candidate.state
+                    self._cutter_state_since = now
+            message = candidate.message
+            if candidate.state != self._cutter_state:
+                message = cutter_state_message(self._cutter_state, candidate)
+            guidance = CutterGuidance(
+                self._cutter_state, candidate.phase, candidate.clearance_m,
+                candidate.speed_cm_s, candidate.ttc_s, candidate.stop_distance_m,
+                candidate.max_speed_cm_s, candidate.recommended_speed_cm_s,
+                message, candidate.phase_message)
+            changed = guidance != self._cutter_guidance
+            self._cutter_guidance = guidance
+            if changed:
+                self.cutter_safety_changed.emit()
+
+        @Slot()
+        def cutter_confirm_phase(self) -> None:
+            """Operator confirmation: advance the cut sequence one step.
+
+            The OPEN / ADVANCE / CUT actions are hydraulic operator actions with
+            no simulated joints, so the HUD cannot sense them; the operator
+            confirms on the dashboard to advance the prompt.  Confirmation is
+            ignored while the clearance state is DANGER or NO_DATA, so the cut
+            sequence cannot be advanced with the tip too close (or with no
+            range).
+            """
+            if self._cutter_state in (DANGER, NO_DATA):
+                return
+            self._cutter_phase = advance_phase(self._cutter_phase)
+            self._recompute_cutter_guidance()
+
+        def _get_cutter_state(self) -> str:
+            return self._cutter_state
+
+        def _get_cutter_phase(self) -> str:
+            return self._cutter_guidance.phase
+
+        def _get_cutter_guidance_text(self) -> str:
+            return self._cutter_guidance.message
+
+        def _get_cutter_phase_text(self) -> str:
+            return self._cutter_guidance.phase_message
+
+        def _get_cutter_clearance(self) -> float:
+            if self._cutter_guidance.clearance_m is None:
+                return float('nan')
+            return self._cutter_guidance.clearance_m
+
+        def _get_cutter_raw_range(self) -> float:
+            if self._cutter_raw_range_m is None:
+                return float('nan')
+            return self._cutter_raw_range_m
+
+        def _get_cutter_max_speed(self) -> float:
+            if self._cutter_guidance.max_speed_cm_s is None:
+                return float('nan')
+            return self._cutter_guidance.max_speed_cm_s
+
+        def _get_cutter_stop_distance(self) -> float:
+            if self._cutter_guidance.stop_distance_m is None:
+                return float('nan')
+            return self._cutter_guidance.stop_distance_m
+
+        def _get_cutter_speed_smoothed(self) -> float:
+            if self._cutter_speed_smoothed is None:
+                return float('nan')
+            return self._cutter_speed_smoothed
+
+        # =================================================================
         # Periodic refresh — recompute derived display state
         # =================================================================
         @Slot()
@@ -542,6 +746,8 @@ if _QT_AVAILABLE:
             self.frame_tick.emit()
             self._update_dock_speed()
             self._recompute_safety_guidance()
+            self._update_cutter_speed()
+            self._recompute_cutter_guidance()
             if self._toast and time.monotonic() > self._toast_until:
                 self._toast = ''
                 self.toast_changed.emit()
@@ -808,6 +1014,24 @@ if _QT_AVAILABLE:
             float, _get_dock_ttc, notify=dock_safety_changed)
         dockSpeedSmoothedCmS = Property(
             float, _get_dock_speed_smoothed, notify=dock_safety_changed)
+        cutterSafetyState = Property(
+            str, _get_cutter_state, notify=cutter_safety_changed)
+        cutterPhase = Property(
+            str, _get_cutter_phase, notify=cutter_safety_changed)
+        cutterGuidanceText = Property(
+            str, _get_cutter_guidance_text, notify=cutter_safety_changed)
+        cutterPhaseText = Property(
+            str, _get_cutter_phase_text, notify=cutter_safety_changed)
+        cutterClearanceM = Property(
+            float, _get_cutter_clearance, notify=cutter_safety_changed)
+        cutterRawRangeM = Property(
+            float, _get_cutter_raw_range, notify=cutter_safety_changed)
+        cutterMaxSpeedCmS = Property(
+            float, _get_cutter_max_speed, notify=cutter_safety_changed)
+        cutterStopDistanceM = Property(
+            float, _get_cutter_stop_distance, notify=cutter_safety_changed)
+        cutterSpeedSmoothedCmS = Property(
+            float, _get_cutter_speed_smoothed, notify=cutter_safety_changed)
 
 
 __all__ = ['DashboardBridge', '_QT_AVAILABLE']
