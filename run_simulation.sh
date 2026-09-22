@@ -29,8 +29,28 @@ set -euo pipefail
 # Configuration
 # ---------------------------------------------------------------------------
 ROS2_WS="${ROS2_WS:-$HOME/ros2_ws}"
-DISPLAY_NUM="${DISPLAY_NUM:-:10}"          # xrdp session display
 LOG_DIR="${LOG_DIR:-$HOME/ros2_ws/.sim_logs}"
+
+# Pick a working X display for the dashboard + RViz.  Prefer an explicit
+# DISPLAY_NUM override, then the inherited $DISPLAY, then :0.  A display is
+# considered usable only if its X socket exists, so a stale xrdp value (e.g.
+# the old :10) does not make the dashboard fail to start.
+_display_is_live() {
+    [ -n "$1" ] || return 1
+    local n="${1#:}"                                  # strip leading ':'
+    n="${n%%.*}"                                      # strip trailing '.screen'
+    [ -S "/tmp/.X11-unix/X$n" ] || [ -S "/tmp/.X11-unix/X${n#*:}" ]
+}
+_resolve_display() {
+    if [ -n "${DISPLAY_NUM:-}" ] && _display_is_live "$DISPLAY_NUM"; then
+        printf '%s' "$DISPLAY_NUM"; return
+    fi
+    if _display_is_live "${DISPLAY:-}"; then
+        printf '%s' "$DISPLAY"; return
+    fi
+    printf ':0'
+}
+DISPLAY_NUM="${DISPLAY_NUM:-$(_resolve_display)}"
 
 # Control mode: "auto" (autonomous dock) or "manual" (slider GUI).
 # Accepts the first positional argument or the MODE env var.
